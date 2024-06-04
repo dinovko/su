@@ -1,0 +1,7 @@
+export * from './main-page'
+export * from './index-page'
+export * from './forms-page'
+export * from './error-page'
+export * from './login-page'
+export * from './admin-page'
+export * from './report-page'

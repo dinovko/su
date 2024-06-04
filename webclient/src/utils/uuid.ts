@@ -1,0 +1,1 @@
+export const generateGUID: any = () => crypto.randomUUID();
