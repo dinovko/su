@@ -45,17 +45,17 @@ namespace WebServer.Reposotory
             _dbSetForm4 = _context.Set<Supply_City_Form4>();
             _dbSetForm5 = _context.Set<Supply_City_Form5>();
 
-            _dbSetFormVill1 = _context.Set<Supply_Village_Form1>();
-            _dbSetFormVill2 = _context.Set<Supply_Village_Form2>();
-            _dbSetFormVill3 = _context.Set<Supply_Village_Form3>();
+            //_dbSetFormVill1 = _context.Set<Supply_Village_Form1>();
+            //_dbSetFormVill2 = _context.Set<Supply_Village_Form2>();
+            //_dbSetFormVill3 = _context.Set<Supply_Village_Form3>();
 
 
             _dbSetWForm1 = _context.Set<Waste_City_Form1>();
             _dbSetWForm2 = _context.Set<Waste_City_Form2>();
             _dbSetWForm3 = _context.Set<Waste_City_Form3>();
 
-            _dbSetWFormVill1 = _context.Set<Waste_Village_Form1>();
-            _dbSetWFormVill2 = _context.Set<Waste_Village_Form2>();
+            //_dbSetWFormVill1 = _context.Set<Waste_Village_Form1>();
+            //_dbSetWFormVill2 = _context.Set<Waste_Village_Form2>();
 
 
             _dbSetRefStreet = _context.Set<Ref_Street>();
@@ -122,7 +122,7 @@ namespace WebServer.Reposotory
                 RefStatusId = 1,
                 SupplierId = row.SupplierId,
                 ReportYearId = row.ReportYearId,
-                ReportMonthId = row.ReportMonthId,
+                ReportMonthId = row.ReportMonthId                
             });
 
             await _context.SaveChangesAsync();
@@ -240,7 +240,7 @@ namespace WebServer.Reposotory
                         IsDel = false,
                         RefBuildingId = entity.RefBuildingId.Value,
                         RefStreetId = entity.RefStreetId.Value,
-                        FormId = entity.FormId,
+                        FormId = entity.FormId                        
                     });
                 }
                 await _context.SaveChangesAsync();
@@ -308,7 +308,7 @@ namespace WebServer.Reposotory
 
                 if (curForm == null)
                 {
-                    result.Add(new SupplyVillageForm2TableDto()
+                    result.Add(new SupplyCityForm2TableDto()
                     {
                         FormId = id,
                         KatoId = form.RefKatoId,
@@ -320,9 +320,9 @@ namespace WebServer.Reposotory
                     });
                     return result;
                 }
-                return new List<SupplyVillageForm2TableDto>()
+                return new List<SupplyCityForm2TableDto>()
                 {
-                    new SupplyVillageForm2TableDto()
+                    new SupplyCityForm2TableDto()
                     {
                         FormId = curForm.FormId,
                         KatoId = form.RefKatoId,
@@ -388,6 +388,7 @@ namespace WebServer.Reposotory
                         RefBuildingId = entity.RefBuildingId.Value,
                         RefStreetId = entity.RefStreetId.Value,
                         FormId = entity.FormId,
+                        //Form = new Report_Form() { RefKato = new Ref_Kato(), RefStatus = new Ref_Status() },
                     });
                 }
                 await _context.SaveChangesAsync();
@@ -692,7 +693,7 @@ namespace WebServer.Reposotory
             {
                 var result = new List<SupplyCityForm1TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
                 var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
-                var curForm = await _dbSetFormVill1.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);
+                var curForm = await _dbSetForm1.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false); //_dbSetFormVill1.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);
 
                 if (form == null) throw new Exception("Форма не найдена");
 
@@ -730,7 +731,7 @@ namespace WebServer.Reposotory
 
             foreach (var entity in list)
             {
-                var row = await _dbSetFormVill1.FindAsync(entity.Id);
+                var row = await _dbSetForm1.FindAsync(entity.Id);
                 if (row != null)
                 {
                     row.Volume = entity.Volume;
@@ -739,7 +740,7 @@ namespace WebServer.Reposotory
                 }
                 else
                 {
-                    await _dbSetFormVill1.AddAsync(new Supply_Village_Form1()
+                    await _dbSetForm1.AddAsync(new Supply_City_Form1()
                     {
                         Id = entity.Id,
                         Volume = entity.Volume,
@@ -757,15 +758,15 @@ namespace WebServer.Reposotory
             PageQueryDto query = new PageQueryDto();
             try
             {
-                var result = new List<SupplyVillageForm2TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
+                var result = new List<SupplyCityForm2TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц SupplyVillageForm2TableDto
                 var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
-                var curForm = await _dbSetFormVill2.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);
+                var curForm = await _dbSetForm2.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);//_dbSetFormVill2
 
                 if (form == null) throw new Exception("Форма не найдена");
 
                 if (curForm == null)
                 {
-                    result.Add(new SupplyVillageForm2TableDto()
+                    result.Add(new SupplyCityForm2TableDto()//SupplyVillageForm2TableDto
                     {
                         FormId = id,
                         KatoId = form.RefKatoId,
@@ -777,9 +778,9 @@ namespace WebServer.Reposotory
                     });
                     return result;
                 }
-                return new List<SupplyVillageForm2TableDto>()
+                return new List<SupplyCityForm2TableDto>()//SupplyVillageForm2TableDto
                 {
-                    new SupplyVillageForm2TableDto()
+                    new SupplyCityForm2TableDto()
                     {
                         FormId = curForm.FormId,
                         KatoId = form.RefKatoId,
@@ -795,17 +796,17 @@ namespace WebServer.Reposotory
             catch (Exception)
             {
                 //return new PageResultDto<Form1TableDto>(0, [], query.PageNumber, query.PageSize, query.Filter);
-                return new List<SupplyVillageForm2TableDto>();
+                return new List<SupplyCityForm2TableDto>();
             }
         }
-        public async Task<List<SupplyVillageForm2TableDto>> SupplyVillageUpdateForm2(List<SupplyVillageForm2TableDto> list, Guid id)
+        public async Task<List<SupplyCityForm2TableDto>> SupplyVillageUpdateForm2(List<SupplyCityForm2TableDto> list, Guid id)
         {
             if (list == null || list.Count == 0) throw new Exception("Данные не могут быть пустыми");
             if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");
 
             foreach (var entity in list)
             {
-                var row = await _dbSetFormVill2.FindAsync(entity.Id);
+                var row = await _dbSetForm2.FindAsync(entity.Id);//_dbSetFormVill2
                 if (row != null)
                 {
                     row.RuralPopulation = entity.RuralPopulation;
@@ -817,7 +818,7 @@ namespace WebServer.Reposotory
                 }
                 else
                 {
-                    await _dbSetFormVill2.AddAsync(new Supply_Village_Form2()
+                    await _dbSetForm2.AddAsync(new Supply_City_Form2()//Supply_Village_Form2
                     {
                         Id = Guid.NewGuid(),
                         RuralPopulation = entity.RuralPopulation,
@@ -833,20 +834,20 @@ namespace WebServer.Reposotory
             }
             return list;
         }
-        public async Task<List<SupplyVillageForm3TableDto>> SupplyVillageGetForm3(Guid id)
+        public async Task<List<SupplyCityForm3TableDto>> SupplyVillageGetForm3(Guid id)//SupplyVillageForm3TableDto
         {
             PageQueryDto query = new PageQueryDto();
             try
             {
-                var result = new List<SupplyVillageForm3TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
+                var result = new List<SupplyCityForm3TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
                 var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
-                var curForm = await _dbSetFormVill3.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);
+                var curForm = await _dbSetForm3.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);//_dbSetFormVill3
 
                 if (form == null) throw new Exception("Форма не найдена");
 
                 if (curForm == null)
                 {
-                    result.Add(new SupplyVillageForm3TableDto()
+                    result.Add(new SupplyCityForm3TableDto()
                     {
                         FormId = id,
                         KatoId = form.RefKatoId,
@@ -864,23 +865,23 @@ namespace WebServer.Reposotory
                 }
                 else
                 {
-                    return new List<SupplyVillageForm3TableDto>()
-                {
-                    new SupplyVillageForm3TableDto()
+                    return new List<SupplyCityForm3TableDto>()
                     {
-                        Id = curForm.Id,
-                        FormId = curForm.FormId,
-                        KatoId = form.RefKatoId,
-                        RuralPopulation = curForm.RuralPopulation,
-                        RuralSettlementsCount = curForm.RuralSettlementsCount,
-                        PopulationWithKBM = curForm.PopulationWithKBM,
-                        PopulationWithPRV = curForm.PopulationWithPRV,
-                        PopulationUsingDeliveredWater = curForm.PopulationUsingDeliveredWater,
-                        PopulationUsingWellsAndBoreholes = curForm.PopulationUsingWellsAndBoreholes,
-                        RuralSettlementsWithConstructionRefusalProtocols = curForm.RuralSettlementsWithConstructionRefusalProtocols,
-                        PopulationWithConstructionRefusalProtocols = curForm.PopulationWithConstructionRefusalProtocols,
-                    }
-                };
+                        new SupplyCityForm3TableDto()
+                        {
+                            Id = curForm.Id,
+                            FormId = curForm.FormId,
+                            KatoId = form.RefKatoId,
+                            RuralPopulation = curForm.RuralPopulation,
+                            RuralSettlementsCount = curForm.RuralSettlementsCount,
+                            PopulationWithKBM = curForm.PopulationWithKBM,
+                            PopulationWithPRV = curForm.PopulationWithPRV,
+                            PopulationUsingDeliveredWater = curForm.PopulationUsingDeliveredWater,
+                            PopulationUsingWellsAndBoreholes = curForm.PopulationUsingWellsAndBoreholes,
+                            RuralSettlementsWithConstructionRefusalProtocols = curForm.RuralSettlementsWithConstructionRefusalProtocols,
+                            PopulationWithConstructionRefusalProtocols = curForm.PopulationWithConstructionRefusalProtocols,
+                        }
+                    };
 
                 }
 
@@ -888,17 +889,17 @@ namespace WebServer.Reposotory
             catch (Exception)
             {
                 //return new PageResultDto<Form1TableDto>(0, [], query.PageNumber, query.PageSize, query.Filter);
-                return new List<SupplyVillageForm3TableDto>();
+                return new List<SupplyCityForm3TableDto>();
             }
         }
-        public async Task<List<SupplyVillageForm3TableDto>> SupplyVillageUpdateForm3(List<SupplyVillageForm3TableDto> list, Guid id)
+        public async Task<List<SupplyCityForm3TableDto>> SupplyVillageUpdateForm3(List<SupplyCityForm3TableDto> list, Guid id)
         {
             if (list == null || list.Count == 0) throw new Exception("Данные не могут быть пустыми");
             if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");
 
             foreach (var entity in list)
             {
-                var row = await _dbSetFormVill3.FindAsync(entity.Id);
+                var row = await _dbSetForm3.FindAsync(entity.Id);//_dbSetFormVill3
                 if (row != null)
                 {
                     row.RuralPopulation = entity.RuralPopulation;
@@ -914,7 +915,7 @@ namespace WebServer.Reposotory
                 }
                 else
                 {
-                    await _dbSetFormVill3.AddAsync(new Supply_Village_Form3()
+                    await _dbSetForm3.AddAsync(new Supply_City_Form3()//Supply_Village_Form3
                     {
                         Id = Guid.NewGuid(),
                         RuralPopulation = entity.RuralPopulation,
@@ -1230,20 +1231,20 @@ namespace WebServer.Reposotory
         #endregion
         #region Село 1
         #region Форма 1
-        public async Task<List<WasteVillageForm1TableDto>> WasteVillageGetForm1(Guid id)
+        public async Task<List<WasteCityForm1TableDto>> WasteVillageGetForm1(Guid id)//WasteVillageForm1TableDto
         {
             PageQueryDto query = new PageQueryDto();
             try
             {
-                var result = new List<WasteVillageForm1TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
+                var result = new List<WasteCityForm1TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
                 var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
-                var curForm = await _dbSetWFormVill1.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);
+                var curForm = await _dbSetWForm1.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);//_dbSetWFormVill1
 
                 if (form == null) throw new Exception("Форма не найдена");
 
                 if (curForm == null)
                 {
-                    result.Add(new WasteVillageForm1TableDto()
+                    result.Add(new WasteCityForm1TableDto()
                     {
                         Id = Guid.NewGuid(),
                         FormId = id,
@@ -1252,9 +1253,9 @@ namespace WebServer.Reposotory
                     });
                     return result;
                 }
-                return new List<WasteVillageForm1TableDto>()
+                return new List<WasteCityForm1TableDto>()
                 {
-                    new WasteVillageForm1TableDto()
+                    new WasteCityForm1TableDto()
                     {
                         Id = curForm.Id,
                         FormId = curForm.FormId,
@@ -1267,17 +1268,17 @@ namespace WebServer.Reposotory
             catch (Exception)
             {
                 //return new PageResultDto<Form1TableDto>(0, [], query.PageNumber, query.PageSize, query.Filter);
-                return new List<WasteVillageForm1TableDto>();
+                return new List<WasteCityForm1TableDto>();
             }
         }
-        public async Task<List<WasteVillageForm1TableDto>> WasteVillageUpdateForm1(List<WasteVillageForm1TableDto> list, Guid id)
+        public async Task<List<WasteCityForm1TableDto>> WasteVillageUpdateForm1(List<WasteCityForm1TableDto> list, Guid id)
         {
             if (list == null || list.Count == 0) throw new Exception("Данные не могут быть пустыми");
             if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");
 
             foreach (var entity in list)
             {
-                var row = await _dbSetWFormVill1.FindAsync(entity.Id);
+                var row = await _dbSetWForm1.FindAsync(entity.Id);//_dbSetWFormVill1
                 if (row != null)
                 {
                     row.WaterVolume = entity.WaterVolume;
@@ -1286,10 +1287,10 @@ namespace WebServer.Reposotory
                 }
                 else
                 {
-                    await _dbSetWFormVill1.AddAsync(new Waste_Village_Form1()
+                    await _dbSetWForm1.AddAsync(new Waste_City_Form1()//Waste_Village_Form1
                     {
                         Id = Guid.NewGuid(),
-                        FormId = entity.FormId,
+                        FormId = entity.FormId ?? Guid.NewGuid(), //Need? Guid.NewGuid()
                         WaterVolume = entity.WaterVolume,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
@@ -1301,20 +1302,20 @@ namespace WebServer.Reposotory
         }
         #endregion
         #region Форма 2
-        public async Task<List<WasteVillageForm2TableDto>> WasteVillageGetForm2(Guid id)
+        public async Task<List<WasteCityForm2TableDto>> WasteVillageGetForm2(Guid id)//WasteVillageForm2TableDto
         {
             PageQueryDto query = new PageQueryDto();
             try
             {
-                var result = new List<WasteVillageForm2TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
+                var result = new List<WasteCityForm2TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
                 var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
-                var curForm = await _dbSetWFormVill2.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);
+                var curForm = await _dbSetWForm2.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);//_dbSetWFormVill2
 
                 if (form == null) throw new Exception("Форма не найдена");
 
                 if (curForm == null)
                 {
-                    result.Add(new WasteVillageForm2TableDto()
+                    result.Add(new WasteCityForm2TableDto()
                     {
                         Id = Guid.NewGuid(),
                         FormId = id,
@@ -1337,7 +1338,7 @@ namespace WebServer.Reposotory
                 }
                 else
                 {
-                    result.Add(new WasteVillageForm2TableDto()
+                    result.Add(new WasteCityForm2TableDto()
                     {
                         Id = Guid.NewGuid(),
                         FormId = id,
@@ -1365,17 +1366,17 @@ namespace WebServer.Reposotory
             catch (Exception)
             {
                 //return new PageResultDto<Form1TableDto>(0, [], query.PageNumber, query.PageSize, query.Filter);
-                return new List<WasteVillageForm2TableDto>();
+                return new List<WasteCityForm2TableDto>();
             }
         }
-        public async Task<List<WasteVillageForm2TableDto>> WasteVillageUpdateForm2(List<WasteVillageForm2TableDto> list, Guid id)
+        public async Task<List<WasteCityForm2TableDto>> WasteVillageUpdateForm2(List<WasteCityForm2TableDto> list, Guid id)
         {
             if (list == null || list.Count == 0) throw new Exception("Данные не могут быть пустыми");
             if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");
 
             foreach (var entity in list)
             {
-                var row = await _dbSetWFormVill2.FindAsync(entity.Id);
+                var row = await _dbSetWForm2.FindAsync(entity.Id);//_dbSetWFormVill2
                 if (row != null)
                 {
                     row.RuralSettlementsWithCentralizedWastewater = entity.RuralSettlementsWithCentralizedWastewater;
@@ -1397,10 +1398,10 @@ namespace WebServer.Reposotory
                 }
                 else
                 {
-                    await _dbSetWFormVill2.AddAsync(new Waste_Village_Form2()
+                    await _dbSetWForm2.AddAsync(new Waste_City_Form2()//Waste_Village_Form2
                     {
                         Id = Guid.NewGuid(),
-                        FormId = entity.FormId,
+                        FormId = entity.FormId ?? Guid.NewGuid(),
                         RuralSettlementsWithCentralizedWastewater = entity.RuralSettlementsWithCentralizedWastewater,
                         PopulationInRuralSettlements = entity.PopulationInRuralSettlements,
                         SubscribersInRuralSettlements = entity.SubscribersInRuralSettlements,

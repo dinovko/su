@@ -204,88 +204,89 @@ namespace WebServer.Controllers
         }
         #endregion
         #region form 1 водоснабжение село
-        [HttpGet("supply/village/form1/list")]
-        public async Task<IActionResult> SupplyVillageGetForm1([FromQuery] Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.SupplyVillageGetForm1(id));
-                //HttpContext.FromQuery(),
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet("supply/village/form1/list")]
+        //public async Task<IActionResult> SupplyVillageGetForm1([FromQuery] Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.SupplyVillageGetForm1(id));
+        //        //HttpContext.FromQuery(),
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpPost("supply/village/form1/list/update")]
-        public async Task<IActionResult> SupplyVillageUpdateForm1([FromBody] List<SupplyCityForm1TableDto> list, Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.SupplyVillageUpdateForm1(list, id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpPost("supply/village/form1/list/update")]
+        //public async Task<IActionResult> SupplyVillageUpdateForm1([FromBody] List<SupplyCityForm1TableDto> list, Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.SupplyVillageUpdateForm1(list, id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
         #endregion
         #region form 2 водоснабжение село
-        [HttpGet("supply/village/form2/list")]
-        public async Task<IActionResult> SupplyVillageGetForm2([FromQuery] Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.SupplyVillageGetForm2(id));
-                //HttpContext.FromQuery(),
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet("supply/village/form2/list")]
+        //public async Task<IActionResult> SupplyVillageGetForm2([FromQuery] Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.SupplyCityGetForm2(id));
+        //        //return Ok(await _repository.SupplyVillageGetForm2(id));
+        //        //HttpContext.FromQuery(),
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpPost("supply/village/form2/list/update")]
-        public async Task<IActionResult> SupplyVillageUpdateForm2([FromBody] List<SupplyVillageForm2TableDto> list, Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.SupplyVillageUpdateForm2(list, id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpPost("supply/village/form2/list/update")]
+        //public async Task<IActionResult> SupplyVillageUpdateForm2([FromBody] List<SupplyVillageForm2TableDto> list, Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.SupplyVillageUpdateForm2(list, id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
         #endregion
         #region form 3 водоснабжение село
-        [HttpGet("supply/village/form3/list")]
-        public async Task<IActionResult> SupplyVillageGetForm3([FromQuery] Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.SupplyVillageGetForm3(id));
-                //HttpContext.FromQuery(),
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet("supply/village/form3/list")]
+        //public async Task<IActionResult> SupplyVillageGetForm3([FromQuery] Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.SupplyVillageGetForm3(id));
+        //        //HttpContext.FromQuery(),
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpPost("supply/village/form3/list/update")]
-        public async Task<IActionResult> SupplyVillageUpdateForm3([FromBody] List<SupplyVillageForm3TableDto> list, Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.SupplyVillageUpdateForm3(list, id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpPost("supply/village/form3/list/update")]
+        //public async Task<IActionResult> SupplyVillageUpdateForm3([FromBody] List<SupplyVillageForm3TableDto> list, Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.SupplyVillageUpdateForm3(list, id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
         #endregion
         #region form 1 водоотведение город
         [HttpGet("waste/city/form1/list")]
@@ -372,60 +373,60 @@ namespace WebServer.Controllers
         }
         #endregion
         #region form 1 водоотведение село
-        [HttpGet("waste/village/form1/list")]
-        public async Task<IActionResult> WasteVillageGetForm1([FromQuery] Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.WasteVillageGetForm1(id));
-                //HttpContext.FromQuery(),
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet("waste/village/form1/list")]
+        //public async Task<IActionResult> WasteVillageGetForm1([FromQuery] Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.WasteVillageGetForm1(id));
+        //        //HttpContext.FromQuery(),
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpPost("waste/village/form1/list/update")]
-        public async Task<IActionResult> WasteVillageUpdateForm1([FromBody] List<WasteVillageForm1TableDto> list, Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.WasteVillageUpdateForm1(list, id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpPost("waste/village/form1/list/update")]
+        //public async Task<IActionResult> WasteVillageUpdateForm1([FromBody] List<WasteVillageForm1TableDto> list, Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.WasteVillageUpdateForm1(list, id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
         #endregion
         #region form 2 водоотведение село
-        [HttpGet("waste/village/form2/list")]
-        public async Task<IActionResult> WasteVillageGetForm2([FromQuery] Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.WasteVillageGetForm2(id));
-                //HttpContext.FromQuery(),
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet("waste/village/form2/list")]
+        //public async Task<IActionResult> WasteVillageGetForm2([FromQuery] Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.WasteVillageGetForm2(id));
+        //        //HttpContext.FromQuery(),
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpPost("waste/village/form2/list/update")]
-        public async Task<IActionResult> WasteVillageUpdateForm2([FromBody] List<WasteVillageForm2TableDto> list, Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.WasteVillageUpdateForm2(list, id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpPost("waste/village/form2/list/update")]
+        //public async Task<IActionResult> WasteVillageUpdateForm2([FromBody] List<WasteVillageForm2TableDto> list, Guid id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repository.WasteVillageUpdateForm2(list, id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
         #endregion
     }
 }

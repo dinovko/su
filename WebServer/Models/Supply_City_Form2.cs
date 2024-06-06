@@ -5,7 +5,7 @@ namespace WebServer.Models
     public class Supply_City_Form2 : Base
     {
         public Guid FormId { get; set; }
-        public virtual required Report_Form Form { get; set; }
+        public virtual Report_Form? Form { get; set; }
 
         [Comment("Признак если True-Село, Flase-Город")]
         public bool IsVillage { get; set; } = false;
