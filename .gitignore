@@ -1,0 +1,12 @@
+﻿################################################################################
+# Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/WebServer/.vs
+/WebServer/obj
+/WebServer/bin
+/WebServer/obj/project.assets.json
+/WebServer/obj/project.nuget.cache
+/WebServer/obj/WebServer.csproj.nuget.dgspec.json
+/WebServer/obj/WebServer.csproj.nuget.g.props
