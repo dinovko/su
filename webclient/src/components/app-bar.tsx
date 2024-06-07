@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/storeHook';
 import { logout, selectAccount } from 'features/account/accountSlice';
 import { IMenu } from 'types';
 import { useNavigate } from 'react-router-dom';
+import { Profile } from 'features';
 
 const pages: IMenu[] = [
     { title: 'Пользователи', navUrl: '/users' },
@@ -37,54 +38,34 @@ export const MainBar = () => {
         setAnchorElRefs(null);
     }
 
-    const handleNavigate = (page:IMenu) => {
+    const handleNavigate = (page: IMenu) => {
         navigate(page.navUrl!)
+    }
+
+    const handleLogout = () => {
+        dispatch(logout(true))
+        setTimeout(() => {
+            navigate("/");
+        }, 1000);
     }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="static" sx={{backgroundColor:'#1b4672'}}>
                 <Toolbar>
-                    {/* <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton> */}
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         [Заголовок сайта]
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ flexGrow: 1, display: 'flex' }}>
                         {pages.map((page) => (
                             <Button
                                 key={page.navUrl}
-                                onClick={()=>handleNavigate(page)}
+                                onClick={() => handleNavigate(page)}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page.title}
                             </Button>
                         ))}
-                        {/* {pages && (<Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElRefs}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElRefs)}
-                            onClose={handleCloseMenu}
-                        >
-                            <MenuItem onClick={handleCloseMenu}>Като</MenuItem>
-                            <MenuItem onClick={handleCloseMenu}>Адреса</MenuItem>
-                        </Menu>)} */}
                     </Box>
                     {acc.isAuth && (
                         <div>
@@ -113,8 +94,8 @@ export const MainBar = () => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={() => dispatch(logout(true))}>Выход</MenuItem>
+                                <MenuItem onClick={handleClose}><Profile/></MenuItem>
+                                <MenuItem onClick={handleLogout}>Выход</MenuItem>
                             </Menu>
                         </div>
                     )}

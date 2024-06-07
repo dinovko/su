@@ -28,6 +28,7 @@ export { KatoTreeView } from './refs/kato-tree-view'
 // export { SupplyPreview } from './supply/supply-preview'
 export { accountReducer } from './account/accountSlice'
 export { Login } from './account/login';
+export { Profile } from './account/profile';
 export { setLoading, loadingReducer } from './loading/loadingSlice';
 export { ToggleButtons } from './forms/toggle'
 export { WasteTabs } from './forms/tab-waste-city'
