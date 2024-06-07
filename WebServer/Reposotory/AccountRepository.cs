@@ -42,7 +42,6 @@ namespace WebServer.Reposotory
                 {
                     throw new Exception("Неверный логин или пароль");
                 }
-                var result = new AccountSignInResponseDto();
                 var secretKey = _configuration.GetSection("tokenParams").GetSection("symKey").Value;
                 var validIssuer = _configuration.GetSection("tokenParams").GetSection("validIssuer").Value;
                 var validAudience = _configuration.GetSection("tokenParams").GetSection("validAudience").Value;
@@ -54,9 +53,14 @@ namespace WebServer.Reposotory
                     claims.Add(new Claim("bin", usr.Bin.ToString()));
                 }
 
-                var pwd = new TokenHelper().GenerateToken(secretKey, validIssuer, validAudience, 540, []);
+                var token = new TokenHelper().GenerateToken(secretKey, validIssuer, validAudience, 540, claims.ToArray());
 
-                return result;
+                return new AccountSignInResponseDto()
+                {
+                    token = token,
+                    rem = request.rem,
+                    login = usr.Login
+                };
 
             }
             catch (Exception)
