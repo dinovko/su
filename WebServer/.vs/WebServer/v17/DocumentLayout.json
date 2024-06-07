@@ -1,13 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\su\\su\\WebServer\\",
+  "WorkspaceRootPath": "C:\\su\\WebServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|c:\\su\\su\\webserver\\models\\supply_city_form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|solutionrelative:models\\supply_city_form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|c:\\su\\webserver\\reposotory\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|solutionrelative:reposotory\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|c:\\su\\su\\webserver\\reposotory\\formsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|c:\\su\\webserver\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|c:\\su\\webserver\\reposotory\\formsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|solutionrelative:reposotory\\formsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -18,21 +22,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Supply_City_Form1.cs",
-              "DocumentMoniker": "C:\\su\\su\\WebServer\\Models\\Supply_City_Form1.cs",
-              "RelativeDocumentMoniker": "Models\\Supply_City_Form1.cs",
-              "ToolTip": "C:\\su\\su\\WebServer\\Models\\Supply_City_Form1.cs",
-              "RelativeToolTip": "Models\\Supply_City_Form1.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAUAAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-05T11:09:24.349Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -63,13 +54,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccountRepository.cs",
+              "DocumentMoniker": "C:\\su\\WebServer\\Reposotory\\AccountRepository.cs",
+              "RelativeDocumentMoniker": "Reposotory\\AccountRepository.cs",
+              "ToolTip": "C:\\su\\WebServer\\Reposotory\\AccountRepository.cs",
+              "RelativeToolTip": "Reposotory\\AccountRepository.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAhwD0AAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:05:29.44Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\su\\WebServer\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "C:\\su\\WebServer\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-07T05:05:21.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "FormsRepository.cs",
-              "DocumentMoniker": "C:\\su\\su\\WebServer\\Reposotory\\FormsRepository.cs",
+              "DocumentMoniker": "C:\\su\\WebServer\\Reposotory\\FormsRepository.cs",
               "RelativeDocumentMoniker": "Reposotory\\FormsRepository.cs",
-              "ToolTip": "C:\\su\\su\\WebServer\\Reposotory\\FormsRepository.cs",
+              "ToolTip": "C:\\su\\WebServer\\Reposotory\\FormsRepository.cs",
               "RelativeToolTip": "Reposotory\\FormsRepository.cs",
-              "ViewState": "AQIAANwAAAAAAAAAAAAswOoAAAAVAAAA",
+              "ViewState": "AQIAAGUAAAAAAAAAAAAUwIwAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-05T11:05:23.872Z",
               "EditorCaption": ""

@@ -20,6 +20,15 @@ namespace WebServer.Interfaces
         public Task<List<SupplyCityForm5TableDto>> SupplyCityGetForm5(Guid id);
         public Task<List<SupplyCityForm5TableDto>> SupplyCityUpdateForm5(List<SupplyCityForm5TableDto> list, Guid id);
         #endregion
+        #region село
+        Task<List<SupplyCityForm1TableDto>> SupplyVillageGetForm1(Guid id);
+        Task<List<SupplyCityForm1TableDto>> SupplyVillageUpdateForm1(List<SupplyCityForm1TableDto> list, Guid id);
+        Task<List<SupplyCityForm2TableDto>> SupplyVillageGetForm2(Guid id);
+        Task<List<SupplyCityForm2TableDto>> SupplyVillageUpdateForm2(List<SupplyCityForm2TableDto> list, Guid id);
+        Task<List<SupplyCityForm3TableDto>> SupplyVillageGetForm3(Guid id);
+        Task<List<SupplyCityForm3TableDto>> SupplyVillageUpdateForm3(List<SupplyCityForm3TableDto> list, Guid id);
+
+        #endregion
         #endregion
 
         #region Водоотведение
@@ -31,6 +40,14 @@ namespace WebServer.Interfaces
         public Task<List<WasteCityForm3TableDto>> WasteCityGetForm3(Guid id);
         public Task<List<WasteCityForm3TableDto>> WasteCityUpdateForm3(List<WasteCityForm3TableDto> list, Guid id);
         #endregion
+
+        #region Село
+        Task<List<WasteCityForm1TableDto>> WasteVillageGetForm1(Guid id);
+        Task<List<WasteCityForm1TableDto>> WasteVillageUpdateForm1(List<WasteCityForm1TableDto> list, Guid id);
+        Task<List<WasteCityForm2TableDto>> WasteVillageGetForm2(Guid id);
+        Task<List<WasteCityForm2TableDto>> WasteVillageUpdateForm2(List<WasteCityForm2TableDto> list, Guid id);
+        #endregion
+
         #endregion
 
         //public Task<PageResultDto<FormTableDto>> GetFormStreets(PageQueryDto query, int k);

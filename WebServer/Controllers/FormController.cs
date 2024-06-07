@@ -236,7 +236,7 @@ namespace WebServer.Controllers
         public async Task<IActionResult> SupplyVillageGetForm2([FromQuery] Guid id)
         {
             try
-            {
+            {                
                 return Ok(await _repository.SupplyVillageGetForm2(id));
                 //HttpContext.FromQuery(),
             }
@@ -247,7 +247,7 @@ namespace WebServer.Controllers
         }
 
         [HttpPost("supply/village/form2/list/update")]
-        public async Task<IActionResult> SupplyVillageUpdateForm2([FromBody] List<SupplyVillageForm2TableDto> list, Guid id)
+        public async Task<IActionResult> SupplyVillageUpdateForm2([FromBody] List<SupplyCityForm2TableDto> list, Guid id)
         {
             try
             {
@@ -275,7 +275,7 @@ namespace WebServer.Controllers
         }
 
         [HttpPost("supply/village/form3/list/update")]
-        public async Task<IActionResult> SupplyVillageUpdateForm3([FromBody] List<SupplyVillageForm3TableDto> list, Guid id)
+        public async Task<IActionResult> SupplyVillageUpdateForm3([FromBody] List<SupplyCityForm3TableDto> list, Guid id)
         {
             try
             {
@@ -387,7 +387,7 @@ namespace WebServer.Controllers
         }
 
         [HttpPost("waste/village/form1/list/update")]
-        public async Task<IActionResult> WasteVillageUpdateForm1([FromBody] List<WasteVillageForm1TableDto> list, Guid id)
+        public async Task<IActionResult> WasteVillageUpdateForm1([FromBody] List<WasteCityForm1TableDto> list, Guid id)
         {
             try
             {
@@ -415,7 +415,7 @@ namespace WebServer.Controllers
         }
 
         [HttpPost("waste/village/form2/list/update")]
-        public async Task<IActionResult> WasteVillageUpdateForm2([FromBody] List<WasteVillageForm2TableDto> list, Guid id)
+        public async Task<IActionResult> WasteVillageUpdateForm2([FromBody] List<WasteCityForm2TableDto> list, Guid id)
         {
             try
             {
