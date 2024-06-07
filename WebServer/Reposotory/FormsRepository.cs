@@ -385,8 +385,8 @@ namespace WebServer.Reposotory
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
-                        RefBuildingId = entity.RefBuildingId.Value,
-                        RefStreetId = entity.RefStreetId.Value,
+                        RefBuildingId = entity.RefBuildingId,
+                        RefStreetId = entity.RefStreetId,
                         FormId = entity.FormId,
                         //Form = new Report_Form() { RefKato = new Ref_Kato(), RefStatus = new Ref_Status() },
                     });

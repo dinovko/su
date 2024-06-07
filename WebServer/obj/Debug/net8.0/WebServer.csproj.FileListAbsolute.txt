@@ -112,6 +112,7 @@ C:\su\WebServer\obj\Debug\net8.0\refint\WebServer.dll
 C:\su\WebServer\obj\Debug\net8.0\WebServer.pdb
 C:\su\WebServer\obj\Debug\net8.0\WebServer.genruntimeconfig.cache
 C:\su\WebServer\obj\Debug\net8.0\ref\WebServer.dll
+C:\su\WebServer\obj\Debug\net8.0\WebServer.sourcelink.json
 D:\Projects\Su\WebServer\bin\Debug\net8.0\appsettings.Development.json
 D:\Projects\Su\WebServer\bin\Debug\net8.0\appsettings.json
 D:\Projects\Su\WebServer\bin\Debug\net8.0\WebServer.exe
@@ -227,4 +228,3 @@ D:\Projects\Su\WebServer\obj\Debug\net8.0\refint\WebServer.dll
 D:\Projects\Su\WebServer\obj\Debug\net8.0\WebServer.pdb
 D:\Projects\Su\WebServer\obj\Debug\net8.0\WebServer.genruntimeconfig.cache
 D:\Projects\Su\WebServer\obj\Debug\net8.0\ref\WebServer.dll
-C:\su\WebServer\obj\Debug\net8.0\WebServer.sourcelink.json

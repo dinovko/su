@@ -78,7 +78,7 @@ namespace WebServer.Helpers
             await connection.OpenAsync();
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_name='Account'";
+                command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_name='Accounts'";
                 var result = await command.ExecuteScalarAsync();
                 return result != null;
             }
