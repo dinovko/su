@@ -31,6 +31,7 @@ export { Login } from './account/login';
 export { setLoading, loadingReducer } from './loading/loadingSlice';
 export { ToggleButtons } from './forms/toggle'
 export { WasteTabs } from './forms/tab-waste-city'
+export { MapComponent } from './map/MapComponent';
 
 /**водоотведение */
-export { wasteCityForm1Reducer, selectWasteCityForm1, selectWasteCityForm1Saved,fetchWasteCityForm1,updateWasteCityForm1 } from './forms/waste/city/form-1/wasteForm1Slice'
+export { wasteCityForm1Reducer, selectWasteCityForm1, selectWasteCityForm1Saved, fetchWasteCityForm1, updateWasteCityForm1 } from './forms/waste/city/form-1/wasteForm1Slice'

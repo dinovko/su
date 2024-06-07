@@ -1,0 +1,74 @@
+{
+  "layers": [
+    {
+      "zoom": 1,
+      "name": "Костанайская область",
+      "coordinates": {
+        "latitude": 53.214444,
+        "longitude": 63.624722
+      },
+      "population": 500000,
+      "water_supply": 80
+    },
+    {
+      "zoom": 2,
+      "name": "Аулиеколский район",
+      "coordinates": {
+        "latitude": 52.368611,
+        "longitude": 64.131111
+      },
+      "population": 5000,
+      "water_supply": 90
+    },
+    {
+      "zoom": 2,
+      "name": "Амангельдинский район",
+      "coordinates": {
+        "latitude": 50.181111,
+        "longitude": 65.188611
+      },
+      "population": 3000,
+      "water_supply": 80
+    },
+    {
+      "zoom": 3,
+      "name": "Село Аулиеколь",
+      "coordinates": {
+        "latitude": 52.368611,
+        "longitude": 64.131111
+      },
+      "population": 2000,
+      "water_supply": 95
+    },
+    {
+      "zoom": 3,
+      "name": "Село Кушмурун",
+      "coordinates": {
+        "latitude": 52.449167,
+        "longitude": 64.618889
+      },
+      "population": 1000,
+      "water_supply": 75
+    },
+    {
+      "zoom": 3,
+      "name": "Село Амангельды",
+      "coordinates": {
+        "latitude": 50.181111,
+        "longitude": 65.188611
+      },
+      "population": 1000,
+      "water_supply": 80
+    },
+    {
+      "zoom": 3,
+      "name": "Село Тасты",
+      "coordinates": {
+        "latitude": 50.464124,
+        "longitude": 65.974008
+      },
+      "population": 500,
+      "water_supply": 60
+    }
+  ]
+}

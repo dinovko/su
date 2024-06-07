@@ -1,0 +1,140 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\su\\su\\WebServer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|c:\\su\\su\\webserver\\models\\supply_city_form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|solutionrelative:models\\supply_city_form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|c:\\su\\su\\webserver\\reposotory\\formsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29DDFBE8-FEE0-4304-8350-896D71EF9A47}|WebServer.csproj|solutionrelative:reposotory\\formsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Supply_City_Form1.cs",
+              "DocumentMoniker": "C:\\su\\su\\WebServer\\Models\\Supply_City_Form1.cs",
+              "RelativeDocumentMoniker": "Models\\Supply_City_Form1.cs",
+              "ToolTip": "C:\\su\\su\\WebServer\\Models\\Supply_City_Form1.cs",
+              "RelativeToolTip": "Models\\Supply_City_Form1.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAUAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-05T11:09:24.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormsRepository.cs",
+              "DocumentMoniker": "C:\\su\\su\\WebServer\\Reposotory\\FormsRepository.cs",
+              "RelativeDocumentMoniker": "Reposotory\\FormsRepository.cs",
+              "ToolTip": "C:\\su\\su\\WebServer\\Reposotory\\FormsRepository.cs",
+              "RelativeToolTip": "Reposotory\\FormsRepository.cs",
+              "ViewState": "AQIAANwAAAAAAAAAAAAswOoAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-05T11:05:23.872Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1541,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{2e7065be-2911-5d06-9444-328203e57925}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6a22fc8f-6c1e-5388-aa3d-9dc8ddb2d262}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 67,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1489,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{28836128-fc2c-11d2-a433-00c04f72d18a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

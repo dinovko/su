@@ -1,0 +1,10 @@
+.map-container {
+    height: 200px;
+    width: 300px;
+    overflow: hidden; /* Предотвращает прокрутку содержимого карты */
+    border-radius: 8px;
+  }
+
+  .leaflet-control-attribution {
+    display: none;
+  }

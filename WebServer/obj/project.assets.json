@@ -7594,11 +7594,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\su\\WebServer\\WebServer.csproj",
+      "projectUniqueName": "C:\\su\\su\\WebServer\\WebServer.csproj",
       "projectName": "WebServer",
-      "projectPath": "C:\\su\\WebServer\\WebServer.csproj",
+      "projectPath": "C:\\su\\su\\WebServer\\WebServer.csproj",
       "packagesPath": "C:\\Users\\daniyar\\.nuget\\packages\\",
-      "outputPath": "C:\\su\\WebServer\\obj\\",
+      "outputPath": "C:\\su\\su\\WebServer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

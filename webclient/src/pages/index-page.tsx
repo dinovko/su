@@ -1,5 +1,6 @@
 import { CssBaseline, AppBar, Toolbar, Typography, Button, Container, createTheme, ThemeProvider, Box } from '@mui/material';
-import React from 'react';
+import { MapComponent } from 'features';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import AppBar from '@material-ui/core/AppBar';
 // import Toolbar from '@material-ui/core/Toolbar';
@@ -9,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 // import Box from '@material-ui/core/Box';
 // import CssBaseline from '@material-ui/core/CssBaseline';
 // import { makeStyles } from '@material-ui/core/styles';
-// import 'main-page.css'
+import './index-page.css'
 
 const theme = createTheme({
   typography: {
@@ -27,15 +28,24 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#1b4672'
+        },
+      },
+    },
     MuiToolbar: {
       styleOverrides: {
         root: {
           flexDirection: 'column',
           '@media (min-width:600px)': {
             flexDirection: 'row',
+            minHeight: '50px',
           },
-          justifyContent:'space-evenly',
-          alignItems:'center'
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          minHeight: '50px',
         },
       },
     },
@@ -55,6 +65,8 @@ const theme = createTheme({
 
 export const IndexPage = () => {
   const history = useNavigate();
+  const mapContainerRef = useRef(null);
+  const [showFullScreenBtn, setsetshowFullScreenBtn] = useState(false)
 
   let goToForms = () => history('/login')
 
@@ -64,42 +76,49 @@ export const IndexPage = () => {
       <CssBaseline />
       <div>
         <AppBar position="static">
-          <Toolbar sx={{display:'flex',justifyContent:'space-around'}}>
+          <Toolbar sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', height: '50px' }}>
             <Typography variant="h6" style={{ flexGrow: 1 }}>
               Мой Сайт
             </Typography>
             <Button color="inherit" onClick={goToForms} >Вход</Button>
-            <Button color="inherit" onClick={goToForms} >Вход</Button>
           </Toolbar>
         </AppBar>
         <main>
-          <Box
-            component="div"
-            sx={{ padding: theme.spacing(8, 0, 6), textAlign: 'center' }}
-          >
-            <Container maxWidth="sm">
-              <Typography component="h1" variant="h2" color="textPrimary" gutterBottom>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px' }}>
+            {/* <Typography component="h1" variant="h2" color="textPrimary" gutterBottom>
                 Главная Страница
-              </Typography>
-              <Typography variant="h5" color="textSecondary" paragraph>
+              </Typography> */}
+            {/* <Typography variant="h5" color="textSecondary" paragraph>
                 Описание деятельности компании или сайта.
-              </Typography>
-              <div>
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                  <li style={{ padding: theme.spacing(1, 0) }}>Пункт 1</li>
-                  <li style={{ padding: theme.spacing(1, 0) }}>Пункт 2</li>
-                  <li style={{ padding: theme.spacing(1, 0) }}>Пункт 3</li>
-                  <li style={{ padding: theme.spacing(1, 0) }}>Пункт 4</li>
-                  <li style={{ padding: theme.spacing(1, 0) }}>Пункт 5</li>
-                </ul>
+              </Typography> */}
+            <div>
+              <span>Информация о потреблении воды</span>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <div className={`open-map-fullscreen-btn ${showFullScreenBtn ? 'show' : 'hidden'}`}>
+                <div className={`${showFullScreenBtn ? 'show' : 'hidden'}`}>Раскрыть карту</div>
               </div>
-            </Container>
-          </Box>
+              <div
+                className="map-container"
+                onMouseEnter={() => setsetshowFullScreenBtn(true)}
+                onMouseLeave={() => setsetshowFullScreenBtn(false)}
+                ref={mapContainerRef}
+                style={{ minWidth: '100px', minHeight: '100px', border: '8px' }}
+              >
+                <MapComponent />
+              </div>
+            </div>
+          </div>
         </main>
         <footer
           style={{
-            padding: theme.spacing(6),
+            padding: theme.spacing(2),
             textAlign: 'center',
+            backgroundColor: '#1b4672',
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+            height: '50px',
           }}
         >
           <Container maxWidth="sm">
