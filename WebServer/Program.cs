@@ -103,7 +103,7 @@ namespace WebServer
                 helper.InitializeDefaultUsers(dbCtx, environment); //пользователи
             }
             #endregion
-            if (app.Environment.IsDevelopment())
+            if (!app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
 
