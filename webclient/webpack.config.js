@@ -1,3 +1,6 @@
+const path = require('path');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
 module.exports = {
   module: {
     rules: [
@@ -33,6 +36,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias:{
+      '@src':path.resolve(__dirname,'src')
+    }
   },
   output: {
     filename: 'bundle.js',

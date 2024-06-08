@@ -22,7 +22,6 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
-      "@": ["src/*"],
     },
     "typeRoots": ["node_modules/@types","src/types"]
   },

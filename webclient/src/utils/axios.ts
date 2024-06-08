@@ -3,7 +3,7 @@ import store from "store/store";
 import { setLoading } from "features/loading/loadingSlice"
 
 let getNetworkURL = () => {
-    /// #if PRODUCTION === true
+    /// #if production === true
     return 'http://85.159.27.162:81/api';
     /// #else
     return 'http://localhost:5145/api';
