@@ -1,14 +1,7 @@
 import axios from "axios";
 import store from "store/store";
-import { setLoading } from "features/loading/loadingSlice"
+import {setLoading} from "features/loading/loadingSlice"
 
-let getNetworkURL = () => {
-    /// #if production === true
-    return 'http://85.159.27.162:81/api';
-    /// #else
-    return 'http://localhost:5145/api';
-    /// #endif
-}
 const axiosInstance = axios.create({
     // baseURL: 'http://localhost:5145/api', 
     baseURL: 'http://85.159.27.162:81/api', 
@@ -18,7 +11,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-    (config) => {
+    (config)=>{
         store.dispatch(setLoading(true));
         return config;
     },
@@ -35,7 +28,7 @@ axiosInstance.interceptors.response.use(
     },
     error => {
         store.dispatch(setLoading(false));
-        if (error?.response?.status == 401) {
+        if(error?.response?.status == 401) {
             sessionStorage.clear();
             window.location.pathname = '/login'
         } else {
