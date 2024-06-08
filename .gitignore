@@ -19,3 +19,6 @@
 /WebServer/.vs/WebServer/v17/.suo
 /WebServer/.vs/WebServer/v17/DocumentLayout.json
 /webclient/package-lock.json
+/WebServerTests/obj
+/WebServerTests/bin
+/WebServerTests/.vs
