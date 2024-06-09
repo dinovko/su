@@ -33,7 +33,7 @@ export interface IModal {
 }
 //#endregion
 
-export interface IWaterSupplyForm extends IKatoDTO {
+export interface IWaterSupplyForm {
     id?: string;
     authorId?: number;
     supplierId?: number;
@@ -178,6 +178,23 @@ export interface IWaterSupplyPreview {
     ScadaSupplyNetworks: number;
 }
 
+export interface IPipeline {
+    id?: string;
+    formId: string;
+    rperiodId: number;
+    totalPipelineLength: number;
+    wornPipelineLength: number;
+    totalSewerNetworkLength: number;
+    wornSewerNetworkLength: number;
+    newWaterSupplyNetworkLength: number;
+    newWastewaterNetworkLength: number;
+    reconstructedNetworkLength: number;
+    reconstructedWastewaterNetworkLength: number;
+    repairedWaterSupplyNetworkLength: number;
+    repairedWastewaterNetworkLength: number;
+    totalPopulation: number;
+}
+
 export interface IAccount {
     bin: string;
     fullName: string;
@@ -198,34 +215,17 @@ export interface IToken {
 
 //#region DTO
 export interface IKatoDTO {
-    katoId: number;
-    /**
-     * область
-     */
-    level1Name?: string;
-    level1Id?: number;
-    /**
-     * район, ГА
-     */
-    level2Name?: string;
-    level2Id?: number;
-    /**
-     * город, населенный пункт, сельский округ
-     */
-    level3Name?: string;
-    level3Id?: number;
-    /**
-     * село
-     */
-    level4Name?: string;
-    level4Id?: number;
-    /**
-     * село в селе
-     */
-    level5Name?: string;
-    level5Id?: number;
-    street: string;
-    houseAddress: string;
+    code: number;
+    description: string | null;
+    id: number;
+    isDel: boolean;
+    isReportable: boolean;
+    latitude: number | null;
+    longitude: number | null;
+    name: string | null;
+    parentId: number;
+    userId: number | string | null;
+    children: IKatoDTO[] | [];
 }
 
 export interface IKeyValDTO {
@@ -270,7 +270,7 @@ export interface IKatoTreeViewDto {
     userId: string | null;
     label: string;
     id: number;
-    nameRu: string;
+    name: string;
     nameKk: string | null;
     isDel: boolean,
     description: string | null;

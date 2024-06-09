@@ -19,13 +19,6 @@ export { refStreetReducer, fetchStreet, fetchStreetAdd } from './refs/streetSlic
 export { ReportsList } from './reports/reports-list'
 export { refKatoReducer, fetchKato, selectRefKatoTree } from './refs/katoSlice'
 export { KatoTreeView } from './refs/kato-tree-view'
-// export { RPeriodReducer } from './refs/reportingPeriodSlice'
-// export { SupplyForm } from './supply/supply-form'
-// export { SupplyForm1 } from './forms/supply/form-1/supply-form-1'
-// export { KatoForm } from './refs/kato-form'
-// export { KatoSelect } from './refs/kato-select'
-// export { RPeriod } from './refs/reporting-period'
-// export { SupplyPreview } from './supply/supply-preview'
 export { accountReducer } from './account/accountSlice'
 export { Login } from './account/login';
 export { Profile } from './account/profile';
@@ -36,3 +29,6 @@ export { MapComponent } from './map/MapComponent';
 
 /**водоотведение */
 export { wasteCityForm1Reducer, selectWasteCityForm1, selectWasteCityForm1Saved, fetchWasteCityForm1, updateWasteCityForm1 } from './forms/waste/city/form-1/wasteForm1Slice'
+
+// водопровод
+export { pipelineReducer, selectPipeline, selectPipelineSaved, updatePipelinePropByName, fetchPipline, updatePipline } from './forms/pipeline/pipelineSlice'

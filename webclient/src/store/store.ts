@@ -24,6 +24,8 @@ import {
     loadingReducer,
     /**водоотведение */
     wasteCityForm1Reducer,
+    // водопровод
+    pipelineReducer,
 } from '../features/index';
 
 const rootReducer = combineReducers({
@@ -41,6 +43,8 @@ const rootReducer = combineReducers({
     acc: accountReducer,
     /**водоотведение */
     wasteForm1: wasteCityForm1Reducer,
+    // водопровод
+    pipe: pipelineReducer,
 });
 
 const persistConfig = {
