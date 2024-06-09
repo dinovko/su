@@ -302,37 +302,37 @@ namespace WebServer.Reposotory
                 }
 
                 //var result = new List<SupplyVillageForm2TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
-                var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
+                //var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
 
-                if (form == null) throw new Exception("Форма не найдена");
+                //if (form == null) throw new Exception("Форма не найдена");
 
-                if (curForm == null)
-                {
-                    result.Add(new SupplyCityForm2TableDto()
-                    {
-                        FormId = id,
-                        KatoId = form.RefKatoId,
-                        RuralPopulation = 0,
-                        CentralWaterSupplySubscribers = 0,
-                        IndividualWaterMetersInstalled = 0,
-                        RemoteDataTransmissionMeters = 0,
-                        Id = Guid.NewGuid(),
-                    });
-                    return result;
-                }
-                return new List<SupplyCityForm2TableDto>()
-                {
-                    new SupplyCityForm2TableDto()
-                    {
-                        FormId = curForm.FormId,
-                        KatoId = form.RefKatoId,
-                        RuralPopulation = curForm.RuralPopulation,
-                        CentralWaterSupplySubscribers = curForm.CentralWaterSupplySubscribers,
-                        IndividualWaterMetersInstalled = curForm.IndividualWaterMetersInstalled,
-                        RemoteDataTransmissionMeters = curForm.RemoteDataTransmissionMeters,
-                        Id = curForm.Id,
-                    }
-                };
+                //if (curForm == null)
+                //{
+                //    result.Add(new SupplyCityForm2TableDto()
+                //    {
+                //        FormId = id,
+                //        KatoId = form.RefKatoId,
+                //        RuralPopulation = 0,
+                //        CentralWaterSupplySubscribers = 0,
+                //        IndividualWaterMetersInstalled = 0,
+                //        RemoteDataTransmissionMeters = 0,
+                //        Id = Guid.NewGuid(),
+                //    });
+                //    return result;
+                //}
+                //return new List<SupplyCityForm2TableDto>()
+                //{
+                //    new SupplyCityForm2TableDto()
+                //    {
+                //        FormId = curForm.FormId,
+                //        KatoId = form.RefKatoId,
+                //        RuralPopulation = curForm.RuralPopulation,
+                //        CentralWaterSupplySubscribers = curForm.CentralWaterSupplySubscribers,
+                //        IndividualWaterMetersInstalled = curForm.IndividualWaterMetersInstalled,
+                //        RemoteDataTransmissionMeters = curForm.RemoteDataTransmissionMeters,
+                //        Id = curForm.Id,
+                //    }
+                //};
                 //var culture = new CultureInfo("ru-RU");
                 //var list = await _dbSetForm1
                 //    .Include(x => x.RefBuilding)

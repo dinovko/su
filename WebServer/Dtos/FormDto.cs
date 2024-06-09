@@ -8,5 +8,6 @@
         public string MonthName { get; set; }
         public string Status { get; set; }
         public string? LinkToForm { get; set; }
+        public bool HasReports { get; set; }
     }
 }
