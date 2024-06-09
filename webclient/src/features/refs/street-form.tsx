@@ -96,11 +96,11 @@ export const StreetForm: React.FC<StreetFormProps> = ({ katoId }) => {
                 </Grid>
                 <Grid item xs={6}>
                     улицы
-                    <VirtualizedList key={'streets-list'} items={streetsList || []} onSelectItem={setstreetId} />
+                    <VirtualizedList key={'streets-list'} items={streetsList || []} onSelectItem={setstreetId} streetName={null} />
                 </Grid>
                 <Grid item xs={6}>
                     адреса
-                    <VirtualizedList key={'addresses-list'} items={addressesList || []} onSelectItem={() => { }} />
+                    <VirtualizedList key={'addresses-list'} items={addressesList || []} onSelectItem={() => { }} streetName={streetsList.find(x => x.id == streetId)?.nameRu} />
                 </Grid>
             </Grid>
         </Box>

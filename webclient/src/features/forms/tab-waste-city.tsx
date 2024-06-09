@@ -64,8 +64,6 @@ export const WasteTabs = () => {
           <Tab label="Форма 3" {...a11yProps(2)} />
           {/* <Tab label="Форма 4" {...a11yProps(3)} /> */}
           {/* <Tab label="Форма 5" {...a11yProps(4)} /> */}
-          <Tab label="Предпросмотр" {...a11yProps(5)} sx={{ backgroundColor: '#ccc' }} />
-          <Tab label="Справочник улиц" {...a11yProps(6)} />
         </Tabs>
       </Box>
       <CustomTabPanel key={'waste-form-1'} value={value} index={0}>
@@ -83,12 +81,11 @@ export const WasteTabs = () => {
       <CustomTabPanel key={'waste-form-5'} value={value} index={4}>
         <SupplyForm5 key={'waste-form-5'} />
       </CustomTabPanel>
-      <CustomTabPanel key={'pewview'} value={value} index={5}>
-        {/* <ZoomContent /> */}
+      {/* <CustomTabPanel key={'pewview'} value={value} index={5}>
       </CustomTabPanel>
       <CustomTabPanel key={'kato-street'} value={value} index={6}>
         <StreetForm katoId={kato} />
-      </CustomTabPanel>
+      </CustomTabPanel> */}
     </Box>
   );
 }

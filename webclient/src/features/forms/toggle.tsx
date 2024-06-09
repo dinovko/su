@@ -36,6 +36,12 @@ export const ToggleButtons: React.FC<ToggleButtonsProps> = ({ onClick }) => {
             <ToggleButton value="pipe" aria-label="right aligned" disabled={true}>
                 Водопровод
             </ToggleButton>
+            <ToggleButton value="preview" aria-label="right aligned">
+                Предпросмотр
+            </ToggleButton>
+            <ToggleButton value="ref_street" aria-label="right aligned">
+                Справочник улиц
+            </ToggleButton>
         </ToggleButtonGroup>
     );
 }
