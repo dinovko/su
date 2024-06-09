@@ -46,9 +46,6 @@ export const SupplyForm1 = () => {
         return (
             <TableRow
                 key={row.id}>
-                {/* <TableCell component="th" scope="row">
-                    {row.no}
-                </TableCell> */}
                 <TableCell component="th" scope="row">
                     {row.street}
                 </TableCell>

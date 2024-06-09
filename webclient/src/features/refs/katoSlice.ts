@@ -71,7 +71,7 @@ const refKatoSlice = createSlice({
                     action.payload.map((item: IKatoTreeViewDto) => {
                         tree_.push({
                             id: item.id.toString(),
-                            label: item.nameRu,
+                            label: item.name,
                             children: [],
                         });
                     });
