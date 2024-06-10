@@ -12,8 +12,8 @@ using WebServer.Data;
 namespace WebServer.Migrations
 {
     [DbContext(typeof(WaterDbContext))]
-    [Migration("20240610085651_initCreate")]
-    partial class initCreate
+    [Migration("20240610100026_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

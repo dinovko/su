@@ -277,8 +277,8 @@ namespace WebServer.Reposotory
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
-                        RefBuildingId = entity.RefBuildingId.HasValue ? entity.RefBuildingId.Value : null,
-                        RefStreetId = entity.RefStreetId.HasValue ? entity.RefStreetId.Value : null,
+                        RefBuildingId = entity.RefBuildingId.HasValue ? entity.RefBuildingId.Value : 0,
+                        RefStreetId = entity.RefStreetId.HasValue ? entity.RefStreetId.Value : 0,
                         FormId = entity.FormId                        
                     });
                 }
