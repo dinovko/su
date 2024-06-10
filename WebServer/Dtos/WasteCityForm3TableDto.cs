@@ -15,5 +15,7 @@ namespace WebServer.Dtos
 
         [Comment("Канализационно-очистные сооружения (0 или 1)")]
         public bool HasSewageTreatmentPlants { get; set; }
+        public bool HasStreets { get; set; }
+
     }
 }

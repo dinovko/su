@@ -9,5 +9,7 @@
         public bool ScadaWaterTreatment { get; set; } = false;
         public bool ScadaStations { get; set; } = false;
         public bool ScadaSupplyNetworks { get; set; } = false;
+        public bool HasStreets { get; set; }
+
     }
 }

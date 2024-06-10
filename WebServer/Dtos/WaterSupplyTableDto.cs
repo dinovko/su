@@ -11,5 +11,7 @@
         public string MonthName { get; set; }
         public int StatusId { get; set; }
         public string StatusName { get; set; }
+        public bool HasStreets { get; set; }
+
     }
 }

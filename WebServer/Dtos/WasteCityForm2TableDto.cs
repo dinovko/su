@@ -22,6 +22,8 @@ namespace WebServer.Dtos
 
         [Comment("Численность населения, охваченного централизованным водоотведением, (человек)")]
         public int? PopulationCoveredByCentralizedWastewater { get; set; } = 0;
+        public bool HasStreets { get; set; }
+
         #region Село
         [Comment("Кол-во сельских населенных пунктов (единиц)")]
         public int? RuralSettlementsWithCentralizedWastewater { get; set; } = 0;

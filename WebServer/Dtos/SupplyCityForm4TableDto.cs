@@ -11,5 +11,7 @@ namespace WebServer.Dtos
         public int CoverageHouseholdInstalledBuildings { get; set; } = 0;
         public int CoverageHouseholdInstalledCount { get; set; } = 0;
         public int CoverageHouseholdRemoteData { get; set; } = 0;
+        public bool HasStreets { get; set; }
+
     }
 }

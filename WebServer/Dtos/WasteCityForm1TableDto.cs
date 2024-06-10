@@ -10,5 +10,7 @@ namespace WebServer.Dtos
 
         [Comment("Объем воды в тысячах кубических метров.")]
         public double WaterVolume { get; set; }
+        public bool HasStreets { get; set; }
+
     }
 }

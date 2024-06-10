@@ -7,6 +7,7 @@ namespace WebServer.Dtos
         public Guid FormId { get; set; }
         public int? RefStreetId { get; set; }
         public int? RefBuildingId { get; set; }
+        public bool HasStreets { get; set; }
 
 
         #region City
