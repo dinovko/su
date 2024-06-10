@@ -16105,5 +16105,5 @@ VALUES (1,0,'область Абай',false,100000000,false),
 (16104,16100,'Каратауский район',false,791710000,false),
 (16105,16100,'район Тұран',false,791910000,false);
 
-update public."Ref_Katos" set "IsReportable"=true where "NameRu" like 'г.%';
-update public."Ref_Katos" set "IsReportable"=true where "NameRu" like 'с.%';
+update public."Ref_Katos" set "IsReportable"=true, "KatoLevel"=1 where "NameRu" like 'г.%';
+update public."Ref_Katos" set "IsReportable"=true, "KatoLevel"=2 where "NameRu" like 'с.%';

@@ -9,6 +9,7 @@ namespace WebServer.Dtos
         public int? RefBuildingId { get; set; }
         public bool HasStreets { get; set; }
 
+        public bool IsVillage { get; set; } = false;
 
         #region City
         /// <summary>

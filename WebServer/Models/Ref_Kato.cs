@@ -1,4 +1,6 @@
-﻿namespace WebServer.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace WebServer.Models
 {
     public class Ref_Kato : Ref_Base
     {
@@ -26,7 +28,7 @@
         /// Возможность создания отчета для данного н.п.
         /// </summary>
         public bool IsReportable { get; set; } = false;
-        
-
+        [Comment("Категории населенных пунктов. 1-городские(города республиканского, областного и районного значения,поселки), 2-сельские(все остальные)")]
+        public int? KatoLevel { get; set; }
     }
 }

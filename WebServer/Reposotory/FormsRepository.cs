@@ -87,11 +87,13 @@ namespace WebServer.Reposotory
             return false;
         }
 
-        private async Task<int> GetKatoIDByFormID(Guid FormID)
+        private async Task<bool> IsVillage(Guid FormID)
         {
-            var form = await _dbSetForm.FirstOrDefaultAsync(x=>x.Id == FormID);
-            if (form == null) return 0;
-            return form.RefKatoId;
+            var form = await _dbSetForm.Include(x=>x.RefKato).FirstOrDefaultAsync(x => x.Id == FormID);
+            if (form == null) return false;
+            if (form.RefKato == null || !form.RefKato.KatoLevel.HasValue) return false;
+
+            return form.RefKato.KatoLevel.Value  == 1 ? false : true;
         }
 
         public async Task<List<FormDto>> GetFormsByKatoId(int id)
@@ -137,7 +139,7 @@ namespace WebServer.Reposotory
                 RefStatusId = 1,
                 SupplierId = row.SupplierId,
                 ReportYearId = row.ReportYearId,
-                ReportMonthId = row.ReportMonthId                
+                ReportMonthId = row.ReportMonthId
             });
 
             await _context.SaveChangesAsync();
@@ -162,7 +164,7 @@ namespace WebServer.Reposotory
             {
                 var result = new List<SupplyCityForm1TableDto>();
 
-                if(await IsStreetLevel() == true)
+                if (await IsStreetLevel() == true)
                 {
                     var StreetBuildinsList = await GetStreetBuildingByFormId(id);
 
@@ -223,7 +225,7 @@ namespace WebServer.Reposotory
                             RefStreetId = null,
                             RefBuildingId = null,
                             HomeAddress = string.Empty,
-                            KatoId = await GetKatoIDByFormID(row.FormId),
+                            KatoId = 0,
                             Street = string.Empty,
                             Volume = row.Volume,
                             HasStreets = false,
@@ -236,7 +238,7 @@ namespace WebServer.Reposotory
                             Id = Guid.NewGuid(),
                             FormId = id,
                             RefStreetId = null,
-                            RefBuildingId =null,
+                            RefBuildingId = null,
                             HomeAddress = string.Empty,
                             KatoId = 0, //katoid добавить на фронте
                             Street = string.Empty,
@@ -279,7 +281,7 @@ namespace WebServer.Reposotory
                         IsDel = false,
                         RefBuildingId = entity.RefBuildingId.HasValue ? entity.RefBuildingId.Value : 0,
                         RefStreetId = entity.RefStreetId.HasValue ? entity.RefStreetId.Value : 0,
-                        FormId = entity.FormId                        
+                        FormId = entity.FormId
                     });
                 }
                 await _context.SaveChangesAsync();
@@ -291,36 +293,94 @@ namespace WebServer.Reposotory
             PageQueryDto query = new PageQueryDto();
             try
             {
+                var isVill = await IsVillage(id);
                 var result = new List<SupplyCityForm2TableDto>();
-                var curForm = await _dbSetForm2.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);
-                if(curForm != null && curForm.IsVillage == true) //Село
+                if (await IsStreetLevel() == true)
                 {
+                    var StreetBuildinsList = await GetStreetBuildingByFormId(id);
+                    foreach (var item in StreetBuildinsList)
+                    {
+                        var row = await _dbSetForm2
+                            .Include(x => x.RefBuilding)
+                            .Include(x => x.RefStreet)
+                            .FirstOrDefaultAsync(
+                                x => x.FormId == id &&
+                                x.RefStreetId == item.RefStreetId &&
+                                x.RefBuildingId == item.Id &&
+                                x.IsDel == false);
+                        if (row != null)
+                        {
 
+                            result.Add(new SupplyCityForm2TableDto()
+                            {
+                                Id = row.Id,
+                                FormId = row.FormId,
+                                RefStreetId = row.RefStreetId,
+                                RefBuildingId = row.RefBuildingId,
+                                HomeAddress = row.RefBuilding.NameRu,
+                                KatoId = row.RefStreet.RefKatoId,
+                                Street = row.RefStreet.NameRu,
+                                IsVillage = isVill,
+                                //city
+                                CoverageWater = !isVill ? row.CoverageWater : null,
+                                CentralizedWaterNumber = !isVill ? row.CentralizedWaterNumber : null,
+                                //village
+                                RuralPopulation = isVill ? row.RuralPopulation : null,
+                                CentralWaterSupplySubscribers = isVill ? row.CentralWaterSupplySubscribers : null,
+                                IndividualWaterMetersInstalled = isVill ? row.IndividualWaterMetersInstalled : null,
+                                RemoteDataTransmissionMeters = isVill ? row.RemoteDataTransmissionMeters : null,
+                            });
+                        }
+                        else
+                        {
+                            result.Add(new SupplyCityForm2TableDto()
+                            {
+                                Id = Guid.NewGuid(),
+                                FormId = id,
+                                RefStreetId = item.RefStreetId,
+                                RefBuildingId = item.Id,
+                                HomeAddress = item.NameRu,
+                                KatoId = item.RefStreet.RefKatoId,
+                                Street = item.RefStreet.NameRu,
+                                IsVillage = isVill,
+                                //city
+                                CoverageWater = !isVill ? false : null,
+                                CentralizedWaterNumber = !isVill ? 0 : null,
+                                //village
+                                RuralPopulation = isVill ? 0 : null,
+                                CentralWaterSupplySubscribers = isVill ? 0 : null,
+                                IndividualWaterMetersInstalled = isVill ? 0 : null,
+                                RemoteDataTransmissionMeters = isVill ? 0 : null,
+                            });
+                        }
+                    }
                 }
-                var StreetBuildinsList = await GetStreetBuildingByFormId(id);
-                foreach (var item in StreetBuildinsList)
+                else
                 {
                     var row = await _dbSetForm2
-                        .Include(x => x.RefBuilding)
-                        .Include(x => x.RefStreet)
-                        .FirstOrDefaultAsync(
-                            x => x.FormId == id &&
-                            x.RefStreetId == item.RefStreetId &&
-                            x.RefBuildingId == item.Id &&
-                            x.IsDel == false);
+                            .FirstOrDefaultAsync(
+                                x => x.FormId == id &&
+                                x.IsDel == false);
                     if (row != null)
                     {
                         result.Add(new SupplyCityForm2TableDto()
                         {
                             Id = row.Id,
                             FormId = row.FormId,
-                            RefStreetId = row.RefStreetId,
-                            RefBuildingId = row.RefBuildingId,
-                            HomeAddress = row.RefBuilding.NameRu,
-                            KatoId = row.RefStreet.RefKatoId,
-                            Street = row.RefStreet.NameRu,
-                            CoverageWater = row.CoverageWater,
-                            CentralizedWaterNumber = row.CentralizedWaterNumber,
+                            RefStreetId = null,
+                            RefBuildingId = null,
+                            HomeAddress = string.Empty,
+                            KatoId = 0,
+                            Street = string.Empty,
+                            IsVillage = isVill,
+                            //city
+                            CoverageWater = !isVill ? row.CoverageWater : null,
+                            CentralizedWaterNumber = !isVill ? row.CentralizedWaterNumber : null,
+                            //village
+                            RuralPopulation = isVill ? row.RuralPopulation : null,
+                            CentralWaterSupplySubscribers = isVill ? row.CentralWaterSupplySubscribers : null,
+                            IndividualWaterMetersInstalled = isVill ? row.IndividualWaterMetersInstalled : null,
+                            RemoteDataTransmissionMeters = isVill ? row.RemoteDataTransmissionMeters : null,
                         });
                     }
                     else
@@ -329,73 +389,28 @@ namespace WebServer.Reposotory
                         {
                             Id = Guid.NewGuid(),
                             FormId = id,
-                            RefStreetId = item.RefStreetId,
-                            RefBuildingId = item.Id,
-                            HomeAddress = item.NameRu,
-                            KatoId = item.RefStreet.RefKatoId,
-                            Street = item.RefStreet.NameRu,
-                            CoverageWater = false,
-                            CentralizedWaterNumber = 0,
+                            RefStreetId = null,
+                            RefBuildingId = null,
+                            HomeAddress = string.Empty,
+                            KatoId = 0,
+                            Street = string.Empty,
+                            IsVillage = isVill,
+                            //city
+                            CoverageWater = !isVill ? false : null,
+                            CentralizedWaterNumber = !isVill ? 0 : null,
+                            //village
+                            RuralPopulation = isVill ? 0 : null,
+                            CentralWaterSupplySubscribers = isVill ? 0 : null,
+                            IndividualWaterMetersInstalled = isVill ? 0 : null,
+                            RemoteDataTransmissionMeters = isVill ? 0 : null,
                         });
                     }
                 }
 
-                //var result = new List<SupplyVillageForm2TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
-                var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
-
-                if (form == null) throw new Exception("Форма не найдена");
-
-                if (curForm == null)
-                {
-                    result.Add(new SupplyCityForm2TableDto()
-                    {
-                        FormId = id,
-                        KatoId = form.RefKatoId,
-                        RuralPopulation = 0,
-                        CentralWaterSupplySubscribers = 0,
-                        IndividualWaterMetersInstalled = 0,
-                        RemoteDataTransmissionMeters = 0,
-                        Id = Guid.NewGuid(),
-                    });
-                    return result;
-                }
-                return new List<SupplyCityForm2TableDto>()
-                {
-                    new SupplyCityForm2TableDto()
-                    {
-                        FormId = curForm.FormId,
-                        KatoId = form.RefKatoId,
-                        RuralPopulation = curForm.RuralPopulation,
-                        CentralWaterSupplySubscribers = curForm.CentralWaterSupplySubscribers,
-                        IndividualWaterMetersInstalled = curForm.IndividualWaterMetersInstalled,
-                        RemoteDataTransmissionMeters = curForm.RemoteDataTransmissionMeters,
-                        Id = curForm.Id,
-                    }
-                };
-                //var culture = new CultureInfo("ru-RU");
-                //var list = await _dbSetForm1
-                //    .Include(x => x.RefBuilding)
-                //    .Include(x => x.RefStreet)
-                //    .Where(x => x.FormId == id)
-                //    .OrderBy(x => x.RefStreet.NameRu)
-                //    .OrderBy(x => x.RefBuilding.NameRu)
-                //    .Skip((query.PageNumber - 1) * query.PageSize)
-                //    .Take(query.PageSize)
-                //    .Select(x => new Form1TableDto()
-                //    {
-                //        Id = x.Id,
-                //        HomeAddress = x.RefBuilding.NameRu,
-                //        Street = x.RefStreet.NameRu,
-                //        KatoId = 0,
-                //        Volume = x.Volume,
-                //    })
-                //    .ToListAsync();
-                //return new PageResultDto<Form1TableDto>(result.Count, result, query.PageNumber, query.PageSize, query.Filter);
                 return result;
             }
             catch (Exception)
             {
-                //return new PageResultDto<Form1TableDto>(0, [], query.PageNumber, query.PageSize, query.Filter);
                 return new List<SupplyCityForm2TableDto>();
             }
         }

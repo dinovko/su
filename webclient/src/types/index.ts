@@ -67,9 +67,14 @@ export interface IWaterSupplyForm2 {
     id?: string;
     homeAddress: string;
     street: string;
-    coverageWater: number;
-    centralizedWaterNumber: number;
-    centralizedWaterPercent: number;
+    isVillage: boolean | null;
+    coverageWater: boolean | null;
+    centralizedWaterNumber: number | null;
+    // village
+    ruralPopulation: number | null;
+    centralWaterSupplySubscribers: number | null;
+    individualWaterMetersInstalled: number | null;
+    remoteDataTransmissionMeters: number | null;
 }
 
 export interface IWaterSupplyForm3 {
@@ -275,6 +280,7 @@ export interface IKatoTreeViewDto {
     isDel: boolean,
     description: string | null;
     children: IKatoTreeViewDto[]
+    katoLevel: number | null;
 }
 
 export interface ISimpleTreeView {

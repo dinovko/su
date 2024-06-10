@@ -11,6 +11,8 @@ interface thisSliceState {
     activeRow?: any,
     data: IWaterSupplyForm2[],
     isSaved: boolean,
+    isStreetLevel: boolean,
+    isVillage: boolean;
 }
 
 const initialState: thisSliceState = {
@@ -19,6 +21,8 @@ const initialState: thisSliceState = {
     error: '',
     data: [],
     isSaved: true,
+    isStreetLevel: false,
+    isVillage: false,
 }
 
 export const fetchForm2 = createAsyncThunk(
@@ -48,23 +52,23 @@ const supplyForm2Slice = createSlice({
     initialState: initialState,
     reducers: {
         updateForm2PropByName: (state: thisSliceState, action: PayloadAction<IKeyValDTO>) => {
-            const { id, key, val } = action.payload;
+            // const { id, key, val } = action.payload;
 
-            let index = state.data.findIndex(x => x.id == id);
-            // console.table({ index, formId, id, key, val });
-            if (index == -1) return;
+            // let index = state.data.findIndex(x => x.id == id);
+            // // console.table({ index, formId, id, key, val });
+            // if (index == -1) return;
 
-            switch (key) {
-                case 'coverageWater':
-                    state.data[index].coverageWater = Number.parseInt(val);
-                    break;
-                case 'centralizedWaterNumber':
-                    state.data[index].centralizedWaterNumber = Number.parseInt(val);
-                    break;
+            // switch (key) {
+            //     case 'coverageWater':
+            //         state.data[index].coverageWater = Number.parseInt(val);
+            //         break;
+            //     case 'centralizedWaterNumber':
+            //         state.data[index].centralizedWaterNumber = Number.parseInt(val);
+            //         break;
 
-                default:
-                    break;
-            }
+            //     default:
+            //         break;
+            // }
 
             state.isSaved = false;
         }
@@ -73,6 +77,11 @@ const supplyForm2Slice = createSlice({
         builder.addCase(fetchForm2.fulfilled, (state: thisSliceState, action: PayloadAction<IWaterSupplyForm2[]>) => {
             state.data = action.payload;
             state.isSaved = true;
+            if (action.payload.length > 0 && action.payload[0].isVillage != null) {
+                state.isVillage = action.payload[0].isVillage
+            } else {
+                state.isVillage = false;
+            }
         })
         builder.addCase(updateForm2.fulfilled, (state: thisSliceState, action: PayloadAction<IWaterSupplyForm2[]>) => {
             state.data = action.payload;
@@ -88,3 +97,5 @@ export const { updateForm2PropByName } = supplyForm2Slice.actions;
 // selector
 export const selectSupplyForm2 = (state: RootState) => state.supplyForm2.data;
 export const selectSupplyForm2Saved = (state: RootState) => state.supplyForm2.isSaved;
+export const selectSupplyForm2StreetLevel = (state: RootState) => state.supplyForm2.isStreetLevel;
+export const selectSupplyForm2Village = (state: RootState) => state.supplyForm2.isVillage;

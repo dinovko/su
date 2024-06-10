@@ -8,13 +8,15 @@ interface thisSliceState {
     isError: boolean,
     error: string,
     data: FormDto[],
+    isVillage: boolean;
 }
 
 const initialState: thisSliceState = {
     isLoading: false,
     isError: false,
     error: '',
-    data: []
+    data: [],
+    isVillage: false,
 }
 export const reportsGetAll = createAsyncThunk(
     'supply/form/bykato', async (payload: number, thunkAPI) => {
@@ -45,6 +47,13 @@ const reportsSlice = createSlice({
     reducers: {
         setReports: (state: thisSliceState, action: PayloadAction<FormDto[]>) => {
             state.data = action.payload;
+        },
+        setVillage: (state: thisSliceState, action: PayloadAction<number | null>) => {
+            if (action.payload == null) {
+                state.isVillage = false;
+            } else {
+                state.isVillage = action.payload == 1 ? false : true;
+            }
         }
     },
     extraReducers: (builder) => {
@@ -57,6 +66,6 @@ const reportsSlice = createSlice({
 // reducer
 export const reportsReducer = reportsSlice.reducer;
 // action
-export const { setReports } = reportsSlice.actions;
+export const { setReports, setVillage } = reportsSlice.actions;
 // selector
 export const selectReports = (state: RootState) => state.reports.data;

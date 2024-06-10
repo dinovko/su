@@ -263,6 +263,10 @@ namespace WebServer.Migrations
                     b.Property<bool>("IsReportable")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("KatoLevel")
+                        .HasColumnType("integer")
+                        .HasComment("Категории населенных пунктов. 1-городские(города республиканского, областного и районного значения,поселки), 2-сельские(все остальные)");
+
                     b.Property<decimal?>("Latitude")
                         .HasColumnType("numeric");
 
@@ -835,10 +839,10 @@ namespace WebServer.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("RefBuildingId")
+                    b.Property<int?>("RefBuildingId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RefStreetId")
+                    b.Property<int?>("RefStreetId")
                         .HasColumnType("integer");
 
                     b.Property<double>("WaterVolume")
@@ -1259,15 +1263,11 @@ namespace WebServer.Migrations
 
                     b.HasOne("WebServer.Models.Ref_Building", "RefBuilding")
                         .WithMany()
-                        .HasForeignKey("RefBuildingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RefBuildingId");
 
                     b.HasOne("WebServer.Models.Ref_Street", "RefStreet")
                         .WithMany()
-                        .HasForeignKey("RefStreetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RefStreetId");
 
                     b.Navigation("Form");
 

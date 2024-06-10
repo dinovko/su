@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebServer.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class initCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,6 +49,7 @@ namespace WebServer.Migrations
                     Longitude = table.Column<decimal>(type: "numeric", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: true),
                     IsReportable = table.Column<bool>(type: "boolean", nullable: false),
+                    KatoLevel = table.Column<int>(type: "integer", nullable: true, comment: "Категории населенных пунктов. 1-городские(города республиканского, областного и районного значения,поселки), 2-сельские(все остальные)"),
                     NameRu = table.Column<string>(type: "text", nullable: false),
                     NameKk = table.Column<string>(type: "text", nullable: true),
                     IsDel = table.Column<bool>(type: "boolean", nullable: false),
@@ -542,8 +543,8 @@ namespace WebServer.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FormId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RefStreetId = table.Column<int>(type: "integer", nullable: false),
-                    RefBuildingId = table.Column<int>(type: "integer", nullable: false),
+                    RefStreetId = table.Column<int>(type: "integer", nullable: true),
+                    RefBuildingId = table.Column<int>(type: "integer", nullable: true),
                     WaterVolume = table.Column<double>(type: "double precision", nullable: false, comment: "Объем воды в тысячах кубических метров."),
                     AuthorId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -558,14 +559,12 @@ namespace WebServer.Migrations
                         name: "FK_Waste_City_Form1_Ref_Buildings_RefBuildingId",
                         column: x => x.RefBuildingId,
                         principalTable: "Ref_Buildings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Waste_City_Form1_Ref_Streets_RefStreetId",
                         column: x => x.RefStreetId,
                         principalTable: "Ref_Streets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Waste_City_Form1_Report_Forms_FormId",
                         column: x => x.FormId,

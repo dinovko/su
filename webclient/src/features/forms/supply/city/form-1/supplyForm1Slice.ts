@@ -1,7 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IFormUpdateDto, IKeyValDTO, IPageResultDto, IWaterSupplyForm1 } from "../../../../../types";
-import { RootState } from '../../../../../store/store';
-import { generateGUID } from "utils/uuid";
+import { IFormUpdateDto, IKeyValDTO, IWaterSupplyForm1 } from "types";
+import { RootState } from 'store/store';
 import ax from 'utils/axios';
 
 interface thisSliceState {

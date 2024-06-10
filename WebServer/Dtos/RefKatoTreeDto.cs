@@ -26,6 +26,7 @@ namespace WebServer.Dtos
         /// Возможность создания отчета для данного н.п.
         /// </summary>
         public bool IsReportable { get; set; } = false;
+        public int? KatoLevel { get; set; }
 
         public string? Description { get; set; }
         public virtual List<RefKatoTreeDto> Children { get; set; } = new List<RefKatoTreeDto>();
