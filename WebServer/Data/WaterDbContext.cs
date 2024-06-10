@@ -28,5 +28,6 @@ namespace WebServer.Data
         public DbSet<Waste_City_Form1> Waste_City_Form1 { get; set; }
         public DbSet<Waste_City_Form2> Waste_City_Form2 { get; set; }
         public DbSet<Waste_City_Form3> Waste_City_Form3 { get; set; }
+        public DbSet<SettingsValue> SettingsValues { get; set; }
     }
 }

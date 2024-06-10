@@ -1,10 +1,11 @@
-﻿using WebServer.Models;
+﻿using WebServer.Dtos;
+using WebServer.Models;
 
 namespace WebServer.Interfaces
 {
     public interface IRefKato
     {
-        public Task<List<Ref_Kato>> GetRefKatoAsync(int parentId);
+        public Task<List<RefKatoTreeDto>> GetRefKatoAsync(int parentId, bool? getNested);
         public Task<List<Ref_Street>> GetRefStreetByKatoId(int id);
         public Task<List<Ref_Building>> GetRefBuildingByStreetId(int id);
         public Task<Ref_Street> AddStreet(Ref_Street row);

@@ -12,8 +12,8 @@ using WebServer.Data;
 namespace WebServer.Migrations
 {
     [DbContext(typeof(WaterDbContext))]
-    [Migration("20240608075927_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240610085651_initCreate")]
+    partial class initCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -403,6 +403,27 @@ namespace WebServer.Migrations
                     b.ToTable("Report_Forms");
                 });
 
+            modelBuilder.Entity("WebServer.Models.SettingsValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SettingsValues");
+                });
+
             modelBuilder.Entity("WebServer.Models.Supplier", b =>
                 {
                     b.Property<Guid>("Id")
@@ -448,10 +469,10 @@ namespace WebServer.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("RefBuildingId")
+                    b.Property<int?>("RefBuildingId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RefStreetId")
+                    b.Property<int?>("RefStreetId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Volume")
@@ -1107,15 +1128,11 @@ namespace WebServer.Migrations
 
                     b.HasOne("WebServer.Models.Ref_Building", "RefBuilding")
                         .WithMany()
-                        .HasForeignKey("RefBuildingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RefBuildingId");
 
                     b.HasOne("WebServer.Models.Ref_Street", "RefStreet")
                         .WithMany()
-                        .HasForeignKey("RefStreetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RefStreetId");
 
                     b.Navigation("Form");
 

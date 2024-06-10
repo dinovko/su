@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebServer.Data;
+using WebServer.Dtos;
 using WebServer.Interfaces;
 using WebServer.Models;
 
@@ -20,16 +21,77 @@ namespace WebServer.Reposotory
             _dbSetBuilding = _context.Set<Ref_Building>();
         }
 
-        public async Task<List<Ref_Kato>> GetRefKatoAsync(int parentId)
+        public async Task<List<RefKatoTreeDto>> GetRefKatoAsync(int parentId, bool? getNested)
         {
             try
             {
-                return await _dbSet.Where(x => x.ParentId == parentId).ToListAsync();
+                if (!getNested.HasValue || getNested.Value == false)
+                {
+                    return await _dbSet.Where(x => x.ParentId == parentId).Select(x => new RefKatoTreeDto()
+                    {
+                        Id = x.Id,
+                        ParentId = x.ParentId,
+                        Code = x.Code,
+                        Description = x.Description,
+                        IsReportable = x.IsReportable,
+                        Latitude = x.Latitude,
+                        Longitude = x.Longitude,
+                        Name = x.NameRu,
+                        Children = new List<RefKatoTreeDto>(),
+                    }).ToListAsync();
+                }
+                else
+                {
+                    var rootList = await _dbSet.Where(x => x.ParentId == parentId).Select(x => new RefKatoTreeDto()
+                    {
+                        Id = x.Id,
+                        ParentId = x.ParentId,
+                        Code = x.Code,
+                        Description = x.Description,
+                        IsReportable = x.IsReportable,
+                        Latitude = x.Latitude,
+                        Longitude = x.Longitude,
+                        Name = x.NameRu,
+                        Children = new List<RefKatoTreeDto>(),
+                    }).ToListAsync();
+
+                    if (rootList != null && rootList.Count > 0)
+                    {
+                        foreach (var root in rootList)
+                        {
+                            root.Children = await GetChildren(root.Id);
+
+                        }
+                        return rootList;
+                    }
+                }
+                return new List<RefKatoTreeDto>();
             }
             catch (Exception ex)
             {
-                return new List<Ref_Kato>();
+                return new List<RefKatoTreeDto>();
             }
+        }
+
+        private async Task<List<RefKatoTreeDto>> GetChildren(int parentId)
+        {
+            var children = await _dbSet.Where(x => x.ParentId == parentId).Select(x => new RefKatoTreeDto()
+            {
+                Id = x.Id,
+                ParentId = x.ParentId,
+                Code = x.Code,
+                Description = x.Description,
+                IsReportable = x.IsReportable,
+                Latitude = x.Latitude,
+                Longitude = x.Longitude,
+                Name = x.NameRu,
+                Children = new List<RefKatoTreeDto>(),
+            }).ToListAsync();
+            foreach (var child in children)
+            {
+                child.Children = await GetChildren(child.Id);
+            }
+            return children;
         }
 
         public async Task<List<Ref_Street>> GetRefStreetByKatoId(int id)

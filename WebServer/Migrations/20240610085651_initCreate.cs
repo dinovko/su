@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebServer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,6 +73,20 @@ namespace WebServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ref_Statuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SettingsValues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Key = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SettingsValues", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,8 +336,8 @@ namespace WebServer.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FormId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RefStreetId = table.Column<int>(type: "integer", nullable: false),
-                    RefBuildingId = table.Column<int>(type: "integer", nullable: false),
+                    RefStreetId = table.Column<int>(type: "integer", nullable: true),
+                    RefBuildingId = table.Column<int>(type: "integer", nullable: true),
                     Volume = table.Column<decimal>(type: "numeric", nullable: false),
                     AuthorId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -338,14 +352,12 @@ namespace WebServer.Migrations
                         name: "FK_Supply_City_Form1_Ref_Buildings_RefBuildingId",
                         column: x => x.RefBuildingId,
                         principalTable: "Ref_Buildings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Supply_City_Form1_Ref_Streets_RefStreetId",
                         column: x => x.RefStreetId,
                         principalTable: "Ref_Streets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Supply_City_Form1_Report_Forms_FormId",
                         column: x => x.FormId,
@@ -794,6 +806,9 @@ namespace WebServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pipelines");
+
+            migrationBuilder.DropTable(
+                name: "SettingsValues");
 
             migrationBuilder.DropTable(
                 name: "Supply_City_Form1");

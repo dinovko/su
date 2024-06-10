@@ -11,6 +11,7 @@ interface thisSliceState {
     activeRow?: any,
     data: IWaterSupplyForm1[],
     isSaved:boolean,
+    isStreetLevel:boolean,
 }
 
 const initialState: thisSliceState = {
@@ -19,6 +20,7 @@ const initialState: thisSliceState = {
     error: '',
     data: [],
     isSaved:true,
+    isStreetLevel:false,
 }
 
 export const fetchForm1 = createAsyncThunk(
@@ -48,26 +50,8 @@ const supplyForm1Slice = createSlice({
     initialState: initialState,
     reducers: {
         addForm1: (state: thisSliceState, action: PayloadAction<IWaterSupplyForm1>) => {
-            // let newId = generateGUID();
-            // const { formId, volume, rperiodId } = action.payload;
-            // console.info('supplyForm1Slice', action.payload)
-            // state.data.push({
-            //     id: newId,
-            //     formId: formId,
-            //     volume: volume,
-            //     rperiodId: rperiodId,
-            // });
-            // state.activeRow = { id: newId, ...action.payload };
         },
         addForm1Template: (state: thisSliceState, action: PayloadAction<string>) => {
-            // let arr: IWaterSupplyForm1[] = [];
-            // let newId = action.payload;
-
-            // for (let i = 0; i < 12; i++) {
-            //     arr.push({ id: generateGUID(), formId: newId, rperiodId: i + 1, volume: 0 })
-            // }
-
-            // state.data = [...state.data, ...arr];
         },
         delForm1ByFormId: (state: thisSliceState, action: PayloadAction<string>) => {
             const idToDel = action.payload;
@@ -78,22 +62,19 @@ const supplyForm1Slice = createSlice({
             const { formId, id, key, val } = action.payload;
 
             let index = state.data.findIndex(x => x.id == id);
-            // console.table({ index, formId, id, key, val });
             if (index == -1) return;
 
             state.data[index].volume = Number.parseInt(val);
             state.isSaved = false;
-
-            // let oldData = state.data[index];
-            // state.data[index] = {
-            //     ...oldData, [key]: val
-            // }
         }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchForm1.fulfilled, (state: thisSliceState, action: PayloadAction<IWaterSupplyForm1[]>) => {
             state.data = action.payload;
             state.isSaved = true;
+            if(action.payload.length>0) {
+                state.isStreetLevel = action.payload[0].hasStreets;
+            }
         })
         builder.addCase(updateForm1.fulfilled, (state: thisSliceState, action: PayloadAction<IWaterSupplyForm1[]>) => {
             state.data = action.payload;
@@ -109,3 +90,4 @@ export const { addForm1, addForm1Template, delForm1ByFormId, updateForm1PropByNa
 // selector
 export const selectSupplyForm1 = (state: RootState) => state.supplyForm1.data;
 export const selectSupplyForm1Saved = (state: RootState) => state.supplyForm1.isSaved;
+export const selectSupplyForm1StreetLevel = (state: RootState) => state.supplyForm1.isStreetLevel;

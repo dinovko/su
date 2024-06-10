@@ -51,7 +51,7 @@ export interface IWaterSupplyForm1 {
     street: string;
     rperiodId: number;
     volume: number;
-    no?: number;
+    hasStreets: boolean;
 }
 
 export interface IWaterWasteForm1 {

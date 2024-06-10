@@ -29,6 +29,7 @@ namespace WebServer.Reposotory
 
         private readonly DbSet<Ref_Street> _dbSetRefStreet;
         private readonly DbSet<Ref_Building> _dbSetRefBuilding;
+        private readonly DbSet<SettingsValue> _dbSetSettings;
         private readonly IHttpContextAccessor _httpContext;
 
         public FormsRepository(WaterDbContext context
@@ -45,21 +46,13 @@ namespace WebServer.Reposotory
             _dbSetForm4 = _context.Set<Supply_City_Form4>();
             _dbSetForm5 = _context.Set<Supply_City_Form5>();
 
-            //_dbSetFormVill1 = _context.Set<Supply_Village_Form1>();
-            //_dbSetFormVill2 = _context.Set<Supply_Village_Form2>();
-            //_dbSetFormVill3 = _context.Set<Supply_Village_Form3>();
-
-
             _dbSetWForm1 = _context.Set<Waste_City_Form1>();
             _dbSetWForm2 = _context.Set<Waste_City_Form2>();
             _dbSetWForm3 = _context.Set<Waste_City_Form3>();
 
-            //_dbSetWFormVill1 = _context.Set<Waste_Village_Form1>();
-            //_dbSetWFormVill2 = _context.Set<Waste_Village_Form2>();
-
-
             _dbSetRefStreet = _context.Set<Ref_Street>();
             _dbSetRefBuilding = _context.Set<Ref_Building>();
+            _dbSetSettings = _context.Set<SettingsValue>();
             _httpContext = httpContext;
         }
 
@@ -77,6 +70,28 @@ namespace WebServer.Reposotory
             }
             var result = new List<SupplyCityForm1TableDto>();
             return await _dbSetRefBuilding.Include(x => x.RefStreet).Where(x => x.IsDel == false && x.RefStreet.RefKatoId == form.RefKatoId).ToListAsync();
+        }
+
+        /// <summary>
+        /// включать улицы и дома в отчет
+        /// </summary>
+        /// <returns>false:не включать/true:включать</returns>
+        private async Task<Boolean> IsStreetLevel()
+        {
+            var isStreetLevel = await _dbSetSettings.FirstOrDefaultAsync(x => x.Key.ToUpper().Contains("IsStreetLevel".ToUpper()));
+            if (isStreetLevel != null)
+            {
+                Boolean.TryParse(isStreetLevel.Value, out var _isStreetLevel);
+                return _isStreetLevel;
+            }
+            return false;
+        }
+
+        private async Task<int> GetKatoIDByFormID(Guid FormID)
+        {
+            var form = await _dbSetForm.FirstOrDefaultAsync(x=>x.Id == FormID);
+            if (form == null) return 0;
+            return form.RefKatoId;
         }
 
         public async Task<List<FormDto>> GetFormsByKatoId(int id)
@@ -147,30 +162,71 @@ namespace WebServer.Reposotory
             {
                 var result = new List<SupplyCityForm1TableDto>();
 
-                var StreetBuildinsList = await GetStreetBuildingByFormId(id);
+                if(await IsStreetLevel() == true)
+                {
+                    var StreetBuildinsList = await GetStreetBuildingByFormId(id);
 
-                foreach (var item in StreetBuildinsList)
+                    foreach (var item in StreetBuildinsList)
+                    {
+                        var row = await _dbSetForm1
+                            .Include(x => x.RefBuilding)
+                            .Include(x => x.RefStreet)
+                            .FirstOrDefaultAsync(
+                                x => x.FormId == id &&
+                                x.RefStreetId == item.RefStreetId &&
+                                x.RefBuildingId == item.Id &&
+                                x.IsDel == false);
+                        if (row != null)
+                        {
+                            result.Add(new SupplyCityForm1TableDto()
+                            {
+                                Id = row.Id,
+                                FormId = row.FormId,
+                                RefStreetId = row.RefStreetId,
+                                RefBuildingId = row.RefBuildingId,
+                                HomeAddress = row.RefBuilding.NameRu,
+                                KatoId = row.RefStreet.RefKatoId,
+                                Street = row.RefStreet.NameRu,
+                                Volume = row.Volume,
+                                HasStreets = true,
+                            });
+                        }
+                        else
+                        {
+                            result.Add(new SupplyCityForm1TableDto()
+                            {
+                                Id = Guid.NewGuid(),
+                                FormId = id,
+                                RefStreetId = item.RefStreetId,
+                                RefBuildingId = item.Id,
+                                HomeAddress = item.NameRu,
+                                KatoId = item.RefStreet.RefKatoId,
+                                Street = item.RefStreet.NameRu,
+                                Volume = 0,
+                                HasStreets = true,
+                            });
+                        }
+                    }
+                }
+                else
                 {
                     var row = await _dbSetForm1
-                        .Include(x => x.RefBuilding)
-                        .Include(x => x.RefStreet)
-                        .FirstOrDefaultAsync(
-                            x => x.FormId == id &&
-                            x.RefStreetId == item.RefStreetId &&
-                            x.RefBuildingId == item.Id &&
-                            x.IsDel == false);
+                            .FirstOrDefaultAsync(
+                                x => x.FormId == id &&
+                                x.IsDel == false);
                     if (row != null)
                     {
                         result.Add(new SupplyCityForm1TableDto()
                         {
                             Id = row.Id,
                             FormId = row.FormId,
-                            RefStreetId = row.RefStreetId,
-                            RefBuildingId = row.RefBuildingId,
-                            HomeAddress = row.RefBuilding.NameRu,
-                            KatoId = row.RefStreet.RefKatoId,
-                            Street = row.RefStreet.NameRu,
+                            RefStreetId = null,
+                            RefBuildingId = null,
+                            HomeAddress = string.Empty,
+                            KatoId = await GetKatoIDByFormID(row.FormId),
+                            Street = string.Empty,
                             Volume = row.Volume,
+                            HasStreets = false,
                         });
                     }
                     else
@@ -179,34 +235,17 @@ namespace WebServer.Reposotory
                         {
                             Id = Guid.NewGuid(),
                             FormId = id,
-                            RefStreetId = item.RefStreetId,
-                            RefBuildingId = item.Id,
-                            HomeAddress = item.NameRu,
-                            KatoId = item.RefStreet.RefKatoId,
-                            Street = item.RefStreet.NameRu,
+                            RefStreetId = null,
+                            RefBuildingId =null,
+                            HomeAddress = string.Empty,
+                            KatoId = 0, //katoid добавить на фронте
+                            Street = string.Empty,
                             Volume = 0,
+                            HasStreets = false,
                         });
                     }
                 }
-                //var culture = new CultureInfo("ru-RU");
-                //var list = await _dbSetForm1
-                //    .Include(x => x.RefBuilding)
-                //    .Include(x => x.RefStreet)
-                //    .Where(x => x.FormId == id)
-                //    .OrderBy(x => x.RefStreet.NameRu)
-                //    .OrderBy(x => x.RefBuilding.NameRu)
-                //    .Skip((query.PageNumber - 1) * query.PageSize)
-                //    .Take(query.PageSize)
-                //    .Select(x => new Form1TableDto()
-                //    {
-                //        Id = x.Id,
-                //        HomeAddress = x.RefBuilding.NameRu,
-                //        Street = x.RefStreet.NameRu,
-                //        KatoId = 0,
-                //        Volume = x.Volume,
-                //    })
-                //    .ToListAsync();
-                //return new PageResultDto<Form1TableDto>(result.Count, result, query.PageNumber, query.PageSize, query.Filter);
+
                 return result;
             }
             catch (Exception)
@@ -238,8 +277,8 @@ namespace WebServer.Reposotory
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
-                        RefBuildingId = entity.RefBuildingId.Value,
-                        RefStreetId = entity.RefStreetId.Value,
+                        RefBuildingId = entity.RefBuildingId.HasValue ? entity.RefBuildingId.Value : null,
+                        RefStreetId = entity.RefStreetId.HasValue ? entity.RefStreetId.Value : null,
                         FormId = entity.FormId                        
                     });
                 }

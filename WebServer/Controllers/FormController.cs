@@ -20,25 +20,12 @@ namespace WebServer.Controllers
             _repository = repository;
         }
 
-        //[HttpGet("getParentChain")]
-        //public async Task<IActionResult> GetParentChain(int katoId)
-        //{
-        //    return Ok(await _repository.GetTreeByKatoId(katoId));
-        //}
-
-        //[HttpPost("createOrUpdateForm")]
-        //public async Task<IActionResult> CreateOrUpdateForm([FromBody]FormKatoDto form)
-        //{
-        //    return Ok(await _repository.UpdateForm(form));
-        //}
-
         [HttpGet("list")]
         public async Task<IActionResult> GetForms([FromQuery] int katoid)
         {
             try
             {
                 return Ok(await _repository.GetFormsByKatoId(katoid));
-                //HttpContext.FromQuery(), 
             }
             catch (Exception ex)
             {
@@ -66,7 +53,6 @@ namespace WebServer.Controllers
             try
             {
                 return Ok(await _repository.SupplyCityGetForm1(id));
-                //HttpContext.FromQuery(),
             }
             catch (Exception ex)
             {

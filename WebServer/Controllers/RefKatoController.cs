@@ -18,9 +18,9 @@ namespace WebServer.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> GetKatoByParentId([FromQuery] int parentId)
+        public async Task<IActionResult> GetKatoByParentId([FromQuery] int parentId, [FromQuery] bool? getNested)
         {
-            return Ok(await _repository.GetRefKatoAsync(parentId));
+            return Ok(await _repository.GetRefKatoAsync(parentId, getNested));
         }
         
         [HttpGet("kato/IsReportable")]

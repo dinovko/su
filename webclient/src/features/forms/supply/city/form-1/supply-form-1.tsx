@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'hooks/storeHook'
 import { TextField, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Fab, Button } from '@mui/material';
 import { IWaterSupplyForm, IWaterSupplyForm1 } from 'types';
-import { addForm1, fetchForm1, selectSupplyForm1, selectSupplyForm1Saved, updateForm1, updateForm1PropByName } from './supplyForm1Slice';
+import { addForm1, fetchForm1, selectSupplyForm1, selectSupplyForm1Saved, selectSupplyForm1StreetLevel, updateForm1, updateForm1PropByName } from './supplyForm1Slice';
 // import { RPeriod } from 'features/refs/reporting-period';
 // import { WTableCell } from './supply-form-1-style';
 import { CustomTextField } from 'components';
@@ -11,10 +11,11 @@ import store from 'store/store';
 
 export const SupplyForm1 = () => {
     const dispatch = useAppDispatch();
-    const { id } = useParams();
+    const { id, kato } = useParams();
     // const form = useAppSelector(selectSupplyForm) as IWaterSupplyForm[];
     const curForm = useAppSelector(selectSupplyForm1) as IWaterSupplyForm1[];
     const saveEnabled = useAppSelector(selectSupplyForm1Saved) as boolean;
+    const streetLevel = useAppSelector(selectSupplyForm1StreetLevel) as boolean;
 
     useEffect(() => {
         if (!id) return;
@@ -34,24 +35,21 @@ export const SupplyForm1 = () => {
     const updateForm = useCallback(() => {
         if (!id) return;
         let getDirectFromStore = store.getState().supplyForm1.data;
-        dispatch(updateForm1({ id: id, payload: getDirectFromStore }))
-    }, [])
+        dispatch(updateForm1({ id: id, payload: getDirectFromStore })).then(()=>{
 
-    // const rowValue = (formId?: any) => {
-    //     let row = curForm.find(x => x.formId == formId) || null;
-    //     return row;
-    // };
+        })
+    }, []);
 
     const TableRowItem: React.FC<IWaterSupplyForm1> = React.memo((row) => {
         return (
             <TableRow
                 key={row.id}>
-                <TableCell component="th" scope="row">
+                {streetLevel && <TableCell component="th" scope="row">
                     {row.street}
-                </TableCell>
-                <TableCell component="th" scope="row" align='left'>
+                </TableCell>}
+                {streetLevel && <TableCell component="th" scope="row" align='left'>
                     {row.homeAddress}
-                </TableCell>
+                </TableCell>}
                 <TableCell component="th" scope="row">
                     <CustomTextField
                         key={`val-${row.id}`}
@@ -73,8 +71,8 @@ export const SupplyForm1 = () => {
                 <TableHead>
                     <TableRow>
                         {/* <TableCell>№</TableCell> */}
-                        <TableCell>Наименование улиц</TableCell>
-                        <TableCell align="left">Адрес дома</TableCell>
+                        {streetLevel && <TableCell>Наименование улиц</TableCell>}
+                        {streetLevel && <TableCell align="left">Адрес дома</TableCell>}
                         <TableCell align="left">Количество снабжаемой воды{" "}
                             <Button disabled={saveEnabled} onClick={updateForm} variant="outlined">Сохранить</Button>
                         </TableCell>
