@@ -1162,8 +1162,8 @@ namespace WebServer.Reposotory
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
-                        RefBuildingId = entity.RefBuildingId.Value,
-                        RefStreetId = entity.RefStreetId.Value,
+                        RefBuildingId = entity.RefBuildingId ?? 0,
+                        RefStreetId = entity.RefStreetId ?? 0,
                         FormId = entity.FormId.Value,
                     });
                 }
@@ -1212,10 +1212,10 @@ namespace WebServer.Reposotory
                         result.Add(new WasteCityForm3TableDto()
                         {
                             Id = Guid.NewGuid(),
-                            FormId = row.FormId,
-                            RefStreetId = row.RefStreetId,
-                            KatoId = row.RefStreet.RefKatoId,
-                            Street = row.RefStreet.NameRu,
+                            FormId = id,
+                            RefStreetId = item.Id,
+                            KatoId = item.RefKatoId,
+                            Street = item.NameRu,
                             HasSewerNetworks = false,
                             HasSewagePumpingStations = false,
                             HasSewageTreatmentPlants = false,
@@ -1258,8 +1258,8 @@ namespace WebServer.Reposotory
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
-                        RefStreetId = entity.RefStreetId.Value,
-                        FormId = entity.FormId.Value,
+                        RefStreetId = entity.RefStreetId ?? 0,
+                        FormId = entity.FormId ?? Guid.Empty
                     });
                 }
                 await _context.SaveChangesAsync();
