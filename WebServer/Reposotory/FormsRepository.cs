@@ -113,7 +113,7 @@ namespace WebServer.Reposotory
                             Year = x.ReportYearId,
                             MonthId = x.ReportMonthId,
                             MonthName = culture.DateTimeFormat.GetMonthName(x.ReportMonthId),
-                            Status = x.RefStatus.NameRu
+                            Status = x.RefStatus != null ? x.RefStatus.NameRu : ""
                         })
                         .ToListAsync();
                 //return new PageResultDto<FormDto>(list.Count, list, query.PageNumber, query.PageSize, query.Filter);
@@ -162,7 +162,7 @@ namespace WebServer.Reposotory
             PageQueryDto query = new PageQueryDto();
             try
             {
-                var result = new List<SupplyCityForm1TableDto>();
+                var result = new List<SupplyCityForm1TableDto>();                
 
                 if (await IsStreetLevel() == true)
                 {
@@ -186,11 +186,11 @@ namespace WebServer.Reposotory
                                 FormId = row.FormId,
                                 RefStreetId = row.RefStreetId,
                                 RefBuildingId = row.RefBuildingId,
-                                HomeAddress = row.RefBuilding.NameRu,
-                                KatoId = row.RefStreet.RefKatoId,
-                                Street = row.RefStreet.NameRu,
+                                HomeAddress = row.RefBuilding?.NameRu,
+                                KatoId = row.RefStreet != null ? row.RefStreet.RefKatoId : 0,
+                                Street = row.RefStreet?.NameRu,
                                 Volume = row.Volume,
-                                HasStreets = true,
+                                HasStreets = true                                
                             });
                         }
                         else
@@ -202,8 +202,8 @@ namespace WebServer.Reposotory
                                 RefStreetId = item.RefStreetId,
                                 RefBuildingId = item.Id,
                                 HomeAddress = item.NameRu,
-                                KatoId = item.RefStreet.RefKatoId,
-                                Street = item.RefStreet.NameRu,
+                                KatoId = item.RefStreet != null ? item.RefStreet.RefKatoId : 0,
+                                Street = item.RefStreet?.NameRu,
                                 Volume = 0,
                                 HasStreets = true,
                             });
@@ -317,9 +317,9 @@ namespace WebServer.Reposotory
                                 FormId = row.FormId,
                                 RefStreetId = row.RefStreetId,
                                 RefBuildingId = row.RefBuildingId,
-                                HomeAddress = row.RefBuilding.NameRu,
-                                KatoId = row.RefStreet.RefKatoId,
-                                Street = row.RefStreet.NameRu,
+                                HomeAddress = row.RefBuilding?.NameRu,
+                                KatoId = row.RefStreet != null ? row.RefStreet.RefKatoId : 0,
+                                Street = row.RefStreet?.NameRu,
                                 IsVillage = isVill,
                                 //city
                                 CoverageWater = !isVill ? row.CoverageWater : null,
@@ -340,8 +340,8 @@ namespace WebServer.Reposotory
                                 RefStreetId = item.RefStreetId,
                                 RefBuildingId = item.Id,
                                 HomeAddress = item.NameRu,
-                                KatoId = item.RefStreet.RefKatoId,
-                                Street = item.RefStreet.NameRu,
+                                KatoId = item.RefStreet != null ? item.RefStreet.RefKatoId : 0,
+                                Street = item.RefStreet?.NameRu,
                                 IsVillage = isVill,
                                 //city
                                 CoverageWater = !isVill ? false : null,
@@ -417,31 +417,44 @@ namespace WebServer.Reposotory
         public async Task<List<SupplyCityForm2TableDto>> SupplyCityUpdateForm2(List<SupplyCityForm2TableDto> list, Guid id)
         {
             if (list == null || list.Count == 0) throw new Exception("Данные не могут быть пустыми");
-            if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");
+            if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");            
 
             foreach (var entity in list)
             {
                 var row = await _dbSetForm2.FindAsync(entity.Id);
                 if (row != null)
                 {
-                    row.CoverageWater = entity.CoverageWater;
-                    row.CentralizedWaterNumber = entity.CentralizedWaterNumber;
-                    row.LastModifiedDate = DateTime.UtcNow;
+                    //city
+                    row.CoverageWater = row.IsVillage ? null : entity.CoverageWater;
+                    row.CentralizedWaterNumber = row.IsVillage ? null : entity.CentralizedWaterNumber;
+                    //village
+                    row.RuralPopulation = row.IsVillage ? entity.RuralPopulation : null;
+                    row.CentralWaterSupplySubscribers = row.IsVillage ? entity.CentralWaterSupplySubscribers : null;
+                    row.IndividualWaterMetersInstalled = row.IsVillage ? entity.IndividualWaterMetersInstalled : null;
+                    row.RemoteDataTransmissionMeters = row.IsVillage ? entity.RemoteDataTransmissionMeters : null;
+                    row.LastModifiedDate = DateTime.UtcNow;                    
                     _context.Entry(row).State = EntityState.Modified;
                 }
                 else
                 {
                     await _dbSetForm2.AddAsync(new Supply_City_Form2()
                     {
-                        Id = entity.Id,
-                        CoverageWater = entity.CoverageWater,
-                        CentralizedWaterNumber = entity.CentralizedWaterNumber,
+                        Id = entity.Id,                        
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
                         RefBuildingId = entity.RefBuildingId,
                         RefStreetId = entity.RefStreetId,
                         FormId = entity.FormId,
+                        IsVillage = entity.IsVillage,
+                        //city
+                        CoverageWater = entity.IsVillage ? null : entity.CoverageWater,
+                        CentralizedWaterNumber = entity.IsVillage ? null : entity.CentralizedWaterNumber,
+                        //village
+                        RuralPopulation = entity.IsVillage ? entity.RuralPopulation : null,
+                        CentralWaterSupplySubscribers = entity.IsVillage ? entity.CentralWaterSupplySubscribers : null,
+                        IndividualWaterMetersInstalled = entity.IsVillage ? entity.IndividualWaterMetersInstalled : null,
+                        RemoteDataTransmissionMeters = entity.IsVillage ? entity.RemoteDataTransmissionMeters : null,
                         //Form = new Report_Form() { RefKato = new Ref_Kato(), RefStatus = new Ref_Status() },
                     });
                 }
@@ -454,31 +467,104 @@ namespace WebServer.Reposotory
             PageQueryDto query = new PageQueryDto();
             try
             {
+                var isVill = await IsVillage(id);
                 var result = new List<SupplyCityForm3TableDto>();
-                var StreetBuildinsList = await GetStreetBuildingByFormId(id);
-                foreach (var item in StreetBuildinsList)
+                if (await IsStreetLevel() == true)
+                {
+                    var StreetBuildinsList = await GetStreetBuildingByFormId(id);
+                    foreach (var item in StreetBuildinsList)
+                    {
+                        var row = await _dbSetForm3
+                            .Include(x => x.RefBuilding)
+                            .Include(x => x.RefStreet)
+                            .FirstOrDefaultAsync(
+                                x => x.FormId == id &&
+                                x.RefStreetId == item.RefStreetId &&
+                                x.RefBuildingId == item.Id &&
+                                x.IsDel == false);
+                        if (row != null)
+                        {
+                            result.Add(new SupplyCityForm3TableDto()
+                            {
+                                Id = row.Id,
+                                FormId = row.FormId,
+                                RefStreetId = row.RefStreetId,
+                                RefBuildingId = row.RefBuildingId,
+                                HomeAddress = row.RefBuilding?.NameRu,
+                                KatoId = row.RefStreet != null ? row.RefStreet.RefKatoId : 0,
+                                Street = row.RefStreet?.NameRu,    
+                                IsVillage = isVill,
+                                //city
+                                CoverageMetersTotalCumulative = isVill ? null : row.CoverageMetersTotalCumulative,
+                                CoverageMetersRemoteData = isVill ? null : row.CoverageMetersRemoteData,
+                                //village
+                                RuralPopulation = isVill ? row.RuralPopulation : null,
+                                RuralSettlementsCount = isVill ? row.RuralSettlementsCount : null,
+                                PopulationWithKBM = isVill ? row.PopulationWithKBM : null,
+                                PopulationWithPRV = isVill ? row.PopulationWithPRV : null,
+                                PopulationUsingDeliveredWater = isVill ? row.PopulationUsingDeliveredWater : null,
+                                PopulationUsingWellsAndBoreholes = isVill ? row.PopulationUsingWellsAndBoreholes : null,
+                                RuralSettlementsWithConstructionRefusalProtocols = isVill ? row.RuralSettlementsWithConstructionRefusalProtocols : null,
+                                PopulationWithConstructionRefusalProtocols = isVill ? row.PopulationWithConstructionRefusalProtocols : null,
+                            });
+                        }
+                        else
+                        {
+                            result.Add(new SupplyCityForm3TableDto()
+                            {
+                                Id = Guid.NewGuid(),
+                                FormId = id,
+                                RefStreetId = item.RefStreetId,
+                                RefBuildingId = item.Id,
+                                HomeAddress = item.NameRu,
+                                KatoId = item.RefStreet != null ? item.RefStreet.RefKatoId : 0,
+                                Street = item.RefStreet?.NameRu,
+                                //city
+                                CoverageMetersTotalCumulative = isVill ? null : 0,
+                                CoverageMetersRemoteData = isVill ? null : 0,
+                                //village
+                                RuralPopulation = isVill ? 0 : null,
+                                RuralSettlementsCount = isVill ? 0 : null,
+                                PopulationWithKBM = isVill ? 0 : null,
+                                PopulationWithPRV = isVill ? 0 : null,
+                                PopulationUsingDeliveredWater = isVill ? 0 : null,
+                                PopulationUsingWellsAndBoreholes = isVill ? 0 : null,
+                                RuralSettlementsWithConstructionRefusalProtocols = isVill ? 0 : null,
+                                PopulationWithConstructionRefusalProtocols = isVill ? 0 : null,
+                            });
+                        }
+                    }
+                }
+                else
                 {
                     var row = await _dbSetForm3
-                        .Include(x => x.RefBuilding)
-                        .Include(x => x.RefStreet)
-                        .FirstOrDefaultAsync(
-                            x => x.FormId == id &&
-                            x.RefStreetId == item.RefStreetId &&
-                            x.RefBuildingId == item.Id &&
-                            x.IsDel == false);
+                    .FirstOrDefaultAsync(
+                        x => x.FormId == id &&
+                        x.IsDel == false);
                     if (row != null)
                     {
                         result.Add(new SupplyCityForm3TableDto()
                         {
                             Id = row.Id,
                             FormId = row.FormId,
-                            RefStreetId = row.RefStreetId,
-                            RefBuildingId = row.RefBuildingId,
-                            HomeAddress = row.RefBuilding.NameRu,
-                            KatoId = row.RefStreet.RefKatoId,
-                            Street = row.RefStreet.NameRu,
-                            CoverageMetersTotalCumulative = row.CoverageMetersTotalCumulative,
-                            CoverageMetersRemoteData = row.CoverageMetersRemoteData,
+                            RefStreetId = null,
+                            RefBuildingId = null,
+                            HomeAddress = string.Empty,
+                            KatoId = 0,
+                            Street = string.Empty,
+                            IsVillage = isVill,
+                            //city
+                            CoverageMetersTotalCumulative = isVill ? null : row.CoverageMetersTotalCumulative,
+                            CoverageMetersRemoteData = isVill ? null : row.CoverageMetersRemoteData,
+                            //village
+                            RuralPopulation = isVill ? row.RuralPopulation : null,
+                            RuralSettlementsCount = isVill ? row.RuralSettlementsCount : null,
+                            PopulationWithKBM = isVill ? row.PopulationWithKBM : null,
+                            PopulationWithPRV = isVill ? row.PopulationWithPRV : null,
+                            PopulationUsingDeliveredWater = isVill ? row.PopulationUsingDeliveredWater : null,
+                            PopulationUsingWellsAndBoreholes = isVill ? row.PopulationUsingWellsAndBoreholes : null,
+                            RuralSettlementsWithConstructionRefusalProtocols = isVill ? row.RuralSettlementsWithConstructionRefusalProtocols : null,
+                            PopulationWithConstructionRefusalProtocols = isVill ? row.PopulationWithConstructionRefusalProtocols : null,
                         });
                     }
                     else
@@ -487,16 +573,28 @@ namespace WebServer.Reposotory
                         {
                             Id = Guid.NewGuid(),
                             FormId = id,
-                            RefStreetId = item.RefStreetId,
-                            RefBuildingId = item.Id,
-                            HomeAddress = item.NameRu,
-                            KatoId = item.RefStreet.RefKatoId,
-                            Street = item.RefStreet.NameRu,
-                            CoverageMetersTotalCumulative = 0,
-                            CoverageMetersRemoteData = 0,
+                            RefStreetId = null,
+                            RefBuildingId = null,
+                            HomeAddress = string.Empty,
+                            KatoId = 0,
+                            Street = string.Empty,
+                            IsVillage = isVill,
+                            //city
+                            CoverageMetersTotalCumulative = isVill ? null : 0,
+                            CoverageMetersRemoteData = isVill ? null : 0,
+                            //village
+                            RuralPopulation = isVill ? 0 : null,
+                            RuralSettlementsCount = isVill ? 0 : null,
+                            PopulationWithKBM = isVill ? 0 : null,
+                            PopulationWithPRV = isVill ? 0 : null,
+                            PopulationUsingDeliveredWater = isVill ? 0 : null,
+                            PopulationUsingWellsAndBoreholes = isVill ? 0 : null,
+                            RuralSettlementsWithConstructionRefusalProtocols = isVill ? 0 : null,
+                            PopulationWithConstructionRefusalProtocols = isVill ? 0 : null,
                         });
                     }
                 }
+                
 
                 return result;
             }
@@ -516,9 +614,19 @@ namespace WebServer.Reposotory
                 var row = await _dbSetForm3.FindAsync(entity.Id);
                 if (row != null)
                 {
-                    row.CoverageMetersTotalCumulative = entity.CoverageMetersTotalCumulative;
-                    row.CoverageMetersRemoteData = entity.CoverageMetersRemoteData;
                     row.LastModifiedDate = DateTime.UtcNow;
+                    //city
+                    row.CoverageMetersTotalCumulative = entity.IsVillage ? null : entity.CoverageMetersTotalCumulative;
+                    row.CoverageMetersRemoteData = entity.IsVillage ? null : entity.CoverageMetersRemoteData;
+                    //village
+                    row.PopulationUsingDeliveredWater = entity.IsVillage ? entity.PopulationUsingDeliveredWater : null;
+                    row.PopulationUsingWellsAndBoreholes = entity.IsVillage ? entity.PopulationUsingWellsAndBoreholes : null;
+                    row.PopulationWithConstructionRefusalProtocols = entity.IsVillage ? entity.PopulationWithConstructionRefusalProtocols : null;
+                    row.PopulationWithPRV = entity.IsVillage ? entity.PopulationWithPRV : null;
+                    row.RuralSettlementsWithConstructionRefusalProtocols = entity.IsVillage ? entity.RuralSettlementsWithConstructionRefusalProtocols : null;
+                    row.PopulationWithKBM = entity.IsVillage ? entity.PopulationWithKBM : null;
+                    row.RuralPopulation = entity.IsVillage ? entity.RuralPopulation : null;
+                    row.RuralSettlementsCount = entity.IsVillage ? entity.RuralSettlementsCount : null;
                     _context.Entry(row).State = EntityState.Modified;
                 }
                 else
@@ -526,14 +634,24 @@ namespace WebServer.Reposotory
                     await _dbSetForm3.AddAsync(new Supply_City_Form3()
                     {
                         Id = entity.Id,
-                        CoverageMetersTotalCumulative = entity.CoverageMetersTotalCumulative,
-                        CoverageMetersRemoteData = entity.CoverageMetersRemoteData,
+                        //city
+                        CoverageMetersTotalCumulative = entity.IsVillage ? null : entity.CoverageMetersTotalCumulative,
+                        CoverageMetersRemoteData = entity.IsVillage ? null : entity.CoverageMetersRemoteData,
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
-                        RefBuildingId = entity.RefBuildingId.Value,
-                        RefStreetId = entity.RefStreetId.Value,
+                        RefBuildingId = entity.RefBuildingId ?? 0,
+                        RefStreetId = entity.RefStreetId ?? 0,
                         FormId = entity.FormId,
+                        //village
+                        PopulationUsingDeliveredWater = entity.IsVillage ? entity.PopulationUsingDeliveredWater : null,
+                        PopulationUsingWellsAndBoreholes = entity.IsVillage ? entity.PopulationUsingWellsAndBoreholes : null,
+                        PopulationWithConstructionRefusalProtocols = entity.IsVillage ? entity.PopulationWithConstructionRefusalProtocols : null,
+                        PopulationWithPRV = entity.IsVillage ? entity.PopulationWithPRV : null,
+                        RuralSettlementsWithConstructionRefusalProtocols = entity.IsVillage ? entity.RuralSettlementsWithConstructionRefusalProtocols : null,
+                        PopulationWithKBM = entity.IsVillage ? entity.PopulationWithKBM : null,
+                        RuralPopulation = entity.IsVillage ? entity.RuralPopulation : null,
+                        RuralSettlementsCount = entity.IsVillage ? entity.RuralSettlementsCount : null
                     });
                 }
                 await _context.SaveChangesAsync();
@@ -546,28 +664,69 @@ namespace WebServer.Reposotory
             try
             {
                 var result = new List<SupplyCityForm4TableDto>();
-                var StreetBuildinsList = await GetStreetBuildingByFormId(id);
-                foreach (var item in StreetBuildinsList)
+                if (await IsStreetLevel() == true)
                 {
-                    var row = await _dbSetForm4
-                        .Include(x => x.RefBuilding)
-                        .Include(x => x.RefStreet)
-                        .FirstOrDefaultAsync(
-                            x => x.FormId == id &&
-                            x.RefStreetId == item.RefStreetId &&
-                            x.RefBuildingId == item.Id &&
-                            x.IsDel == false);
+                    var StreetBuildinsList = await GetStreetBuildingByFormId(id);
+                    foreach (var item in StreetBuildinsList)
+                    {
+                        var row = await _dbSetForm4
+                            .Include(x => x.RefBuilding)
+                            .Include(x => x.RefStreet)
+                            .FirstOrDefaultAsync(
+                                x => x.FormId == id &&
+                                x.RefStreetId == item.RefStreetId &&
+                                x.RefBuildingId == item.Id &&
+                                x.IsDel == false);
+                        if (row != null)
+                        {
+                            result.Add(new SupplyCityForm4TableDto()
+                            {
+                                Id = row.Id,
+                                FormId = row.FormId,
+                                RefStreetId = row.RefStreetId,
+                                RefBuildingId = row.RefBuildingId,
+                                HomeAddress = row.RefBuilding.NameRu,
+                                KatoId = row.RefStreet.RefKatoId,
+                                Street = row.RefStreet.NameRu,                                                                
+                                CoverageHouseholdNeedNumberBuildings = row.CoverageHouseholdNeedNumberBuildings,
+                                CoverageHouseholdInstalledBuildings = row.CoverageHouseholdInstalledBuildings,
+                                CoverageHouseholdInstalledCount = row.CoverageHouseholdInstalledCount,
+                                CoverageHouseholdRemoteData = row.CoverageHouseholdRemoteData
+                            });
+                        }
+                        else
+                        {
+                            result.Add(new SupplyCityForm4TableDto()
+                            {
+                                Id = Guid.NewGuid(),
+                                FormId = id,
+                                RefStreetId = item.RefStreetId,
+                                RefBuildingId = item.Id,
+                                HomeAddress = item.NameRu,
+                                KatoId = item.RefStreet != null ? item.RefStreet.RefKatoId : 0,
+                                Street = item.RefStreet?.NameRu,
+                                CoverageHouseholdNeedNumberBuildings = 0,
+                                CoverageHouseholdInstalledBuildings = 0,
+                                CoverageHouseholdInstalledCount = 0,
+                                CoverageHouseholdRemoteData = 0,
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    var row = await _dbSetForm4.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);
                     if (row != null)
                     {
                         result.Add(new SupplyCityForm4TableDto()
                         {
                             Id = row.Id,
                             FormId = row.FormId,
-                            RefStreetId = row.RefStreetId,
-                            RefBuildingId = row.RefBuildingId,
-                            HomeAddress = row.RefBuilding.NameRu,
-                            KatoId = row.RefStreet.RefKatoId,
-                            Street = row.RefStreet.NameRu,
+                            RefStreetId = null,
+                            RefBuildingId = null,
+                            HomeAddress = string.Empty,
+                            KatoId = 0,
+                            Street = string.Empty,                            
                             CoverageHouseholdNeedNumberBuildings = row.CoverageHouseholdNeedNumberBuildings,
                             CoverageHouseholdInstalledBuildings = row.CoverageHouseholdInstalledBuildings,
                             CoverageHouseholdInstalledCount = row.CoverageHouseholdInstalledCount,
@@ -580,18 +739,18 @@ namespace WebServer.Reposotory
                         {
                             Id = Guid.NewGuid(),
                             FormId = id,
-                            RefStreetId = item.RefStreetId,
-                            RefBuildingId = item.Id,
-                            HomeAddress = item.NameRu,
-                            KatoId = item.RefStreet.RefKatoId,
-                            Street = item.RefStreet.NameRu,
+                            RefStreetId = null,
+                            RefBuildingId = null,
+                            HomeAddress = string.Empty,
+                            KatoId = 0,
+                            Street = string.Empty,
                             CoverageHouseholdNeedNumberBuildings = 0,
                             CoverageHouseholdInstalledBuildings = 0,
                             CoverageHouseholdInstalledCount = 0,
                             CoverageHouseholdRemoteData = 0,
                         });
                     }
-                }
+                }                
 
                 return result;
             }
@@ -630,8 +789,8 @@ namespace WebServer.Reposotory
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
-                        RefBuildingId = entity.RefBuildingId.Value,
-                        RefStreetId = entity.RefStreetId.Value,
+                        RefBuildingId = entity.RefBuildingId != null ? entity.RefBuildingId.Value : 0,
+                        RefStreetId = entity.RefStreetId != null ? entity.RefStreetId.Value : 0,
                         FormId = entity.FormId,
                     });
                 }
@@ -645,28 +804,69 @@ namespace WebServer.Reposotory
             try
             {
                 var result = new List<SupplyCityForm5TableDto>();
-                var StreetBuildinsList = await GetStreetBuildingByFormId(id);
-                foreach (var item in StreetBuildinsList)
+                if (await IsStreetLevel() == true)
                 {
-                    var row = await _dbSetForm5
-                        .Include(x => x.RefBuilding)
-                        .Include(x => x.RefStreet)
-                        .FirstOrDefaultAsync(
-                            x => x.FormId == id &&
-                            x.RefStreetId == item.RefStreetId &&
-                            x.RefBuildingId == item.Id &&
-                            x.IsDel == false);
+                    var StreetBuildinsList = await GetStreetBuildingByFormId(id);
+                    foreach (var item in StreetBuildinsList)
+                    {
+                        var row = await _dbSetForm5
+                            .Include(x => x.RefBuilding)
+                            .Include(x => x.RefStreet)
+                            .FirstOrDefaultAsync(
+                                x => x.FormId == id &&
+                                x.RefStreetId == item.RefStreetId &&
+                                x.RefBuildingId == item.Id &&
+                                x.IsDel == false);
+                        if (row != null)
+                        {
+                            result.Add(new SupplyCityForm5TableDto()
+                            {
+                                Id = row.Id,
+                                FormId = row.FormId,
+                                RefStreetId = row.RefStreetId,
+                                RefBuildingId = row.RefBuildingId,
+                                HomeAddress = row.RefBuilding?.NameRu,
+                                KatoId = row.RefStreet != null ? row.RefStreet.RefKatoId : 0,
+                                Street = row.RefStreet?.NameRu,
+                                ScadaWaterIntake = row.ScadaWaterIntake,
+                                ScadaWaterTreatment = row.ScadaWaterTreatment,
+                                ScadaStations = row.ScadaStations,
+                                ScadaSupplyNetworks = row.ScadaSupplyNetworks
+                            });
+                        }
+                        else
+                        {
+                            result.Add(new SupplyCityForm5TableDto()
+                            {
+                                Id = Guid.NewGuid(),
+                                FormId = id,
+                                RefStreetId = item.RefStreetId,
+                                RefBuildingId = item.Id,
+                                HomeAddress = item.NameRu,
+                                KatoId = row.RefStreet != null ? row.RefStreet.RefKatoId : 0,
+                                Street = item.RefStreet?.NameRu,
+                                ScadaWaterIntake = false,
+                                ScadaWaterTreatment = false,
+                                ScadaStations = false,
+                                ScadaSupplyNetworks = false,
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    var row = await _dbSetForm5.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);
                     if (row != null)
                     {
                         result.Add(new SupplyCityForm5TableDto()
                         {
                             Id = row.Id,
                             FormId = row.FormId,
-                            RefStreetId = row.RefStreetId,
-                            RefBuildingId = row.RefBuildingId,
-                            HomeAddress = row.RefBuilding.NameRu,
-                            KatoId = row.RefStreet.RefKatoId,
-                            Street = row.RefStreet.NameRu,
+                            RefStreetId = null,
+                            RefBuildingId = null,
+                            HomeAddress = string.Empty,
+                            KatoId = 0,
+                            Street = string.Empty,
                             ScadaWaterIntake = row.ScadaWaterIntake,
                             ScadaWaterTreatment = row.ScadaWaterTreatment,
                             ScadaStations = row.ScadaStations,
@@ -679,11 +879,11 @@ namespace WebServer.Reposotory
                         {
                             Id = Guid.NewGuid(),
                             FormId = id,
-                            RefStreetId = item.RefStreetId,
-                            RefBuildingId = item.Id,
-                            HomeAddress = item.NameRu,
-                            KatoId = item.RefStreet.RefKatoId,
-                            Street = item.RefStreet.NameRu,
+                            RefStreetId = null,
+                            RefBuildingId = null,
+                            HomeAddress = string.Empty,
+                            KatoId = 0,
+                            Street = string.Empty,
                             ScadaWaterIntake = false,
                             ScadaWaterTreatment = false,
                             ScadaStations = false,
@@ -691,6 +891,7 @@ namespace WebServer.Reposotory
                         });
                     }
                 }
+                
 
                 return result;
             }
@@ -729,8 +930,8 @@ namespace WebServer.Reposotory
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
-                        RefBuildingId = entity.RefBuildingId.Value,
-                        RefStreetId = entity.RefStreetId.Value,
+                        RefBuildingId = entity.RefBuildingId != null ? entity.RefBuildingId.Value : 0,
+                        RefStreetId = entity.RefStreetId != null ? entity.RefStreetId.Value : 0,
                         FormId = entity.FormId,
                     });
                 }

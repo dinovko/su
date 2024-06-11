@@ -12,7 +12,7 @@ namespace WebServer.Dtos
         [Comment("в том числе с дистанционной передачей данных в АСУЭ обслуживающего предприятия (единиц)")]
         public int? CoverageMetersRemoteData { get; set; } = 0;
         public bool HasStreets { get; set; }
-
+        public bool IsVillage { get; set; }
         #region Село
         public int? RuralPopulation { get; set; }
 
