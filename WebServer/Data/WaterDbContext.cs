@@ -29,5 +29,12 @@ namespace WebServer.Data
         public DbSet<Waste_City_Form2> Waste_City_Form2 { get; set; }
         public DbSet<Waste_City_Form3> Waste_City_Form3 { get; set; }
         public DbSet<SettingsValue> SettingsValues { get; set; }
+
+        public DbSet<Account_Roles> Account_Roles { get; set; }
+        public DbSet<Business_Dictionary> Business_Dictionary { get; set; }
+        public DbSet<Ref_Access> Ref_Access { get; set; }
+        public DbSet<Ref_Role> Ref_Roles { get; set; }
+        public DbSet<Universal_Refference> Universal_Refferences { get; set; }
+
     }
 }

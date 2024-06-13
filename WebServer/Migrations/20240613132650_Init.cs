@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebServer.Migrations
 {
     /// <inheritdoc />
-    public partial class initCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,6 +38,45 @@ namespace WebServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Business_Dictionary",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: false, comment: "ключ на ИД (своего типа или стороннего)"),
+                    Code = table.Column<string>(type: "text", nullable: false, comment: "Код*"),
+                    Type = table.Column<string>(type: "text", nullable: false, comment: "Тип*"),
+                    BusinessDecription = table.Column<string>(type: "text", nullable: true, comment: "Бизнес описание"),
+                    NameRu = table.Column<string>(type: "text", nullable: false),
+                    NameKk = table.Column<string>(type: "text", nullable: true),
+                    IsDel = table.Column<bool>(type: "boolean", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Business_Dictionary", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ref_Access",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NameRu = table.Column<string>(type: "text", nullable: false, comment: "Наименование доступа"),
+                    CodeAccessName = table.Column<string>(type: "text", nullable: false, comment: "Код доступа"),
+                    TypeAccessName = table.Column<string>(type: "text", nullable: false, comment: "Тип доступа"),
+                    ActionName = table.Column<string>(type: "text", nullable: false, comment: "Действие"),
+                    NameKk = table.Column<string>(type: "text", nullable: true),
+                    IsDel = table.Column<bool>(type: "boolean", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ref_Access", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ref_Katos",
                 columns: table => new
                 {
@@ -58,6 +97,24 @@ namespace WebServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ref_Katos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ref_Roles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Code = table.Column<string>(type: "text", nullable: false, comment: "Код роли"),
+                    TypeName = table.Column<string>(type: "text", nullable: false, comment: "Тип роли"),
+                    NameRu = table.Column<string>(type: "text", nullable: false),
+                    NameKk = table.Column<string>(type: "text", nullable: true),
+                    IsDel = table.Column<bool>(type: "boolean", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ref_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,6 +161,26 @@ namespace WebServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Universal_Refferences",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: false, comment: "ключ на ИД (своего типа или стороннего)"),
+                    Code = table.Column<string>(type: "text", nullable: false, comment: "Код*"),
+                    Type = table.Column<string>(type: "text", nullable: false, comment: "Тип*"),
+                    BusinessDecription = table.Column<string>(type: "text", nullable: true, comment: "Бизнес описание"),
+                    NameRu = table.Column<string>(type: "text", nullable: false),
+                    NameKk = table.Column<string>(type: "text", nullable: true),
+                    IsDel = table.Column<bool>(type: "boolean", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Universal_Refferences", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ActionLogs",
                 columns: table => new
                 {
@@ -145,6 +222,36 @@ namespace WebServer.Migrations
                         name: "FK_Ref_Streets_Ref_Katos_RefKatoId",
                         column: x => x.RefKatoId,
                         principalTable: "Ref_Katos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Account_Roles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<int>(type: "integer", nullable: false),
+                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsDel = table.Column<bool>(type: "boolean", nullable: false),
+                    Desctiption = table.Column<string>(type: "text", nullable: false, comment: "Примечания")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Account_Roles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Account_Roles_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Account_Roles_Ref_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Ref_Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -629,6 +736,16 @@ namespace WebServer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Account_Roles_AccountId",
+                table: "Account_Roles",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Account_Roles_RoleId",
+                table: "Account_Roles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ActionLogs_AccountId",
                 table: "ActionLogs",
                 column: "AccountId");
@@ -798,13 +915,22 @@ namespace WebServer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Account_Roles");
+
+            migrationBuilder.DropTable(
                 name: "ActionLogs");
+
+            migrationBuilder.DropTable(
+                name: "Business_Dictionary");
 
             migrationBuilder.DropTable(
                 name: "Consumers");
 
             migrationBuilder.DropTable(
                 name: "Pipelines");
+
+            migrationBuilder.DropTable(
+                name: "Ref_Access");
 
             migrationBuilder.DropTable(
                 name: "SettingsValues");
@@ -828,6 +954,9 @@ namespace WebServer.Migrations
                 name: "Tariff_Level");
 
             migrationBuilder.DropTable(
+                name: "Universal_Refferences");
+
+            migrationBuilder.DropTable(
                 name: "Waste_City_Form1");
 
             migrationBuilder.DropTable(
@@ -835,6 +964,9 @@ namespace WebServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Waste_City_Form3");
+
+            migrationBuilder.DropTable(
+                name: "Ref_Roles");
 
             migrationBuilder.DropTable(
                 name: "Accounts");

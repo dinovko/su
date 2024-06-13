@@ -100,6 +100,44 @@ namespace WebServer.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("WebServer.Models.Account_Roles", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Desctiption")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Примечания");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Account_Roles");
+                });
+
             modelBuilder.Entity("WebServer.Models.ActionLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -129,6 +167,50 @@ namespace WebServer.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("ActionLogs");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Business_Dictionary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BusinessDecription")
+                        .HasColumnType("text")
+                        .HasComment("Бизнес описание");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Код*");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKk")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameRu")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uuid")
+                        .HasComment("ключ на ИД (своего типа или стороннего)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Тип*");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Business_Dictionary");
                 });
 
             modelBuilder.Entity("WebServer.Models.Pipeline", b =>
@@ -206,6 +288,48 @@ namespace WebServer.Migrations
                     b.HasIndex("FormId");
 
                     b.ToTable("Pipelines");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Ref_Access", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActionName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Действие");
+
+                    b.Property<string>("CodeAccessName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Код доступа");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKk")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameRu")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Наименование доступа");
+
+                    b.Property<string>("TypeAccessName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Тип доступа");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ref_Access");
                 });
 
             modelBuilder.Entity("WebServer.Models.Ref_Building", b =>
@@ -289,6 +413,42 @@ namespace WebServer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ref_Katos");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Ref_Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Код роли");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKk")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameRu")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Тип роли");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ref_Roles");
                 });
 
             modelBuilder.Entity("WebServer.Models.Ref_Status", b =>
@@ -813,6 +973,50 @@ namespace WebServer.Migrations
                     b.ToTable("Tariff_Level");
                 });
 
+            modelBuilder.Entity("WebServer.Models.Universal_Refference", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BusinessDecription")
+                        .HasColumnType("text")
+                        .HasComment("Бизнес описание");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Код*");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKk")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameRu")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uuid")
+                        .HasComment("ключ на ИД (своего типа или стороннего)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Тип*");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Universal_Refferences");
+                });
+
             modelBuilder.Entity("WebServer.Models.Waste_City_Form1", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1048,6 +1252,25 @@ namespace WebServer.Migrations
                     b.Navigation("Ref_Kato");
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Account_Roles", b =>
+                {
+                    b.HasOne("WebServer.Models.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebServer.Models.Ref_Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("WebServer.Models.ActionLog", b =>

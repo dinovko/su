@@ -22,23 +22,40 @@ namespace WebServerTests.Controllers
         }
 
         [Fact]
-        public async Task GetFormsReturnsOk()
+        public void GetFormsReturnsOk()
         {
             //Arrange
             var katoid = 123;
-            var forms = A.Fake<Task<List<FormDto>>>();//new List<Form> { / ... / };
+            //var forms = A.Fake<Task<List<FormDto>>>();//new List<Form> { / ... / };
             var formList = A.Fake<Task<List<FormDto>>>();
             //A.CallTo(() => _repository.GetFormsByKatoId(katoid)).Returns(forms);
-            A.CallTo(() => forms).Returns(formList);
+            A.CallTo(() => _repository.GetFormsByKatoId(katoid)).Returns(formList);
             var controller = new FormController(_repository);
             //Act
-            var result = await controller.GetForms(katoid);
+            var result = controller.GetForms(katoid);
 
             //Assert
-            result.Should().NotBeNull();
+            result.Should().NotBeNull();            
             //Assert.IsType<OkObjectResult>(result);
             //var okResult = (OkObjectResult)result;
             //Assert.Equal(forms, okResult.Value);
+        }
+
+        [Fact]
+        public async Task AddFormReturnsOk()
+        {
+            //Arrange
+            var dto = A.Fake<FormsAddDto>();
+            //var formDto = A.Fake<FormDto>();
+            var formDto = new FormDto();
+
+            //Act
+            A.CallTo(() => _repository.AddForm(dto)).Returns(formDto);
+            var controller = new FormController(_repository);
+            var result = await controller.AddForm(dto);
+
+            //Assert
+            result.Should().NotBeNull();
         }
     }
 }

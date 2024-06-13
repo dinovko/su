@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Security.Claims;
 using WebServer.Data;
 using WebServer.Dtos;
@@ -12,6 +13,7 @@ namespace WebServer.Reposotory
     {
         private readonly WaterDbContext _context;
         private readonly DbSet<Account> _dbSet;
+        private readonly DbSet<Account_Roles> _dbSetAcRoles;
         private readonly IHttpContextAccessor _httpContext;
         private readonly IConfiguration _configuration;
 
@@ -24,6 +26,7 @@ namespace WebServer.Reposotory
             _httpContext = httpContext;
             _dbSet = _context.Set<Account>();
             _configuration = configuration;
+            _dbSetAcRoles = _context.Set<Account_Roles>();
         }
         public async Task<AccountSignInResponseDto> SignIn(AccountSignInRequestDto request)
         {
@@ -71,6 +74,49 @@ namespace WebServer.Reposotory
     
         //SingUp()
         //add-migraion initCreate
-        //upodate-database
+        //update-database
+        public async Task<AccountSignUpResponseDto> SignUp(AccountSignUpRequestDto request)
+        {
+            try
+            {
+                //var salt = GenerateSalt();
+                var saltedPassword = PasswordHelper.HashPassword(request.Password);
+
+                var account = new Account
+                {
+                    Login = request.Login,
+                    KatoCode = request.KatoCode,                  
+                    PasswordHash = saltedPassword                    
+                };
+                await _dbSet.AddAsync(account);
+                await _context.SaveChangesAsync();
+
+                var list = new List<Account_Roles>();
+
+                foreach (var t in request.Roles)
+                {
+                    var accountRole = new Account_Roles
+                    {
+                        RoleId = t,
+                        AccountId = account.Id
+                    };
+                    list.Add(accountRole);  
+                }
+                if (list.Count > 0)
+                {
+                    await _dbSetAcRoles.AddRangeAsync(list);
+                    await _context.SaveChangesAsync();
+                }
+                return new AccountSignUpResponseDto()
+                {
+                    Login = request.Login,
+                    Password = request.Password,
+                };
+            }
+            catch (Exception ex) 
+            {
+                throw;
+            }
+        }
     }
 }
