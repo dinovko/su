@@ -358,3 +358,8 @@ public string Status { get; set; }
 public string? LinkToForm { get; set; }
  */
 //#endregion
+
+export interface IRole{
+    id: number,
+    label: string
+}

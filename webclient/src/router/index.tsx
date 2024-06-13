@@ -6,6 +6,7 @@ import { Suspense, lazy, useEffect } from "react";
 import { BigSinner } from "components";
 import { decodeJwtToken, isExpired } from "utils/tokenUtils";
 import { IndexPage, ReportPage } from "pages";
+import AdminPage from "pages/admin-page";
 const MainPage = lazy(() => import('pages').then(module => ({ default: module.MainPage })));
 const FormsPage = lazy(() => import('pages').then(module => ({ default: module.FormsPage })));
 const ErrorPage = lazy(() => import('pages').then(module => ({ default: module.ErrorPage })));
@@ -71,5 +72,14 @@ export const AppRouter = createBrowserRouter([
                 </ProtectedRoute>
             </Suspense>)
         ),
-    },
+    },{
+        path: "/admin",
+        element: (
+            (<Suspense fallback={<BigSinner />}>
+                <ProtectedRoute>
+                    <AdminPage />
+                </ProtectedRoute>
+            </Suspense>)
+        )
+    }
 ]);
