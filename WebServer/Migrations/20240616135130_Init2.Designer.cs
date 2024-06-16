@@ -12,8 +12,8 @@ using WebServer.Data;
 namespace WebServer.Migrations
 {
     [DbContext(typeof(WaterDbContext))]
-    [Migration("20240613154223_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240616135130_Init2")]
+    partial class Init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -452,6 +452,43 @@ namespace WebServer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ref_Roles");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Ref_Role_Access", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccessId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKk")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameRu")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer")
+                        .HasComment("Айди roles");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccessId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Ref_Role_Access");
                 });
 
             modelBuilder.Entity("WebServer.Models.Ref_Status", b =>
@@ -1307,6 +1344,25 @@ namespace WebServer.Migrations
                         .IsRequired();
 
                     b.Navigation("RefStreet");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Ref_Role_Access", b =>
+                {
+                    b.HasOne("WebServer.Models.Ref_Access", "Access")
+                        .WithMany()
+                        .HasForeignKey("AccessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebServer.Models.Ref_Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Access");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("WebServer.Models.Ref_Street", b =>

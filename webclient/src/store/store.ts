@@ -27,6 +27,7 @@ import {
     // водопровод
     pipelineReducer,
 } from '../features/index';
+import { adminReducer } from "features/admin/adminSlice";
 
 const rootReducer = combineReducers({
     loading: loadingReducer,
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
     wasteForm1: wasteCityForm1Reducer,
     // водопровод
     pipe: pipelineReducer,
+    adm: adminReducer
 });
 
 const persistConfig = {

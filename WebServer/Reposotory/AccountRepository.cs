@@ -79,6 +79,9 @@ namespace WebServer.Reposotory
         {
             try
             {
+                var oldAccount = await _dbSet.FirstOrDefaultAsync(x => x.Login.ToLower() == request.Login.ToLower());
+                if (oldAccount != null) throw new Exception("Пользователь с таким логином уже существует");
+
                 //var salt = GenerateSalt();
                 var saltedPassword = PasswordHelper.HashPassword(request.Password);
 

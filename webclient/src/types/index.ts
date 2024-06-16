@@ -363,3 +363,16 @@ export interface IRole{
     id: number,
     label: string
 }
+
+export interface ISignUpDTO{
+    login: string,
+    password: string,
+    katoCode: number,
+    roles: IRole[]
+}
+
+export interface ISignUpResponseDTO{
+    login: string,
+    password: string
+}
+

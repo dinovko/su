@@ -7,21 +7,25 @@ import { useLocation, useNavigate, Navigate, Link } from 'react-router-dom';
 import { theme } from 'theme';
 import { decodeJwtToken, isExpired } from 'utils/tokenUtils';
 //import { fetchSignIn, selectAccount } from './accountSlice';
-import { ISignInDTO } from 'types';
+import { IRole, ISignInDTO, ISignUpDTO } from 'types';
 import { fetchSignIn, selectAccount } from 'features/account/accountSlice';
 import { Copyright } from '@mui/icons-material';
+import { fetchSignUp, selectAdmin } from './adminSlice';
+import ax from 'utils/axios';
 
 export const Register = () => {
   const dispatch = useAppDispatch();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const location = useLocation();
   const navigation = useNavigate();
-  const acc = useAppSelector(selectAccount);
-  const [signInDTO, setsignInDTO] = useState<ISignInDTO>({
+  const adm = useAppSelector(selectAdmin);
+  const [signUpDTO, setsignUpDTO] = useState<ISignUpDTO>({
     login: '',
-    pwd: '',
-    rem: false,
+    katoCode: 0,
+    password: '',
+    roles: []
   })
+  const rolesList = ax.get<IRole>('/Refs/GetRefList');
 
   /* useEffect(() => {
     console.info('acc.isAuth', acc.isAuth)
@@ -40,15 +44,17 @@ export const Register = () => {
     }
   }, []); */
 
-  const handleSignIn = () => {
-    const { login, pwd, rem } = signInDTO;
-    dispatch(fetchSignIn({ login, pwd, rem }));
+  const handleSignUp = () => {
+    const { login, password, katoCode } = signUpDTO;
+    const roles = [{id: 1, label: 'Базовая роль'},{id: 1, label: 'Базовая роль'}]
+    /* console.log(login) */
+    dispatch(fetchSignUp({ login, password, katoCode, roles}));
     navigation("/main");
   }
 
   const handleChangeInput = (e: any) => {
-    setsignInDTO({
-      ...signInDTO,
+    setsignUpDTO({
+      ...signUpDTO,
       [e.target.name]: e.target.value,
     })
   }
@@ -56,15 +62,12 @@ export const Register = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    console.log(data);
   };
 
-  return (
+  return (    
     
-    <Container component="main" maxWidth="xs">
+     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         sx={{
@@ -75,42 +78,34 @@ export const Register = () => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          {/* <LockOutlinedIcon /> */}
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
               <TextField
-                autoComplete="given-name"
-                name="firstName"
+                autoComplete="login"
+                name="login"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="login"
+                label="Логин"
                 autoFocus
+                onChange={(e: any) => handleChangeInput(e)}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-              />
-            </Grid>
+            </Grid>            
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="katoCode"
+                label="КАТО"
+                name="katoCode"
+                autoComplete="katoCode"
+                type="number"
+                onChange={(e: any) => handleChangeInput(e)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -118,18 +113,19 @@ export const Register = () => {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Пароль"
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                onChange={(e: any) => handleChangeInput(e)}
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
             type="submit"
@@ -137,18 +133,56 @@ export const Register = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Регистрация
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              {/* <Link href="#" variant="body2">
-                Already have an account? Sign in
-              </Link> */}
             </Grid>
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 5 }} />
-    </Container>
+    </Container>     
+      /* <Box sx={{ width: '400px' }}>
+      <div className="header">
+        <div className="text"></div>
+        <div className="underline"></div>
+      </div>
+      <Stack direction={'row'} gap={'8px'} alignItems={'center'} margin={'8px'} width={'100%'} >
+        <PersonOutlinedIcon />
+        <TextField
+          id="login"
+          name="login"
+          variant="outlined"
+          sx={{ width: '100%' }}
+          onChange={(e: any) => handleChangeInput(e)}
+        />
+      </Stack>
+      <Stack direction={'row'} gap={'8px'} alignItems={'center'} margin={'8px'} width={'100%'} >
+        <PasswordOutlinedIcon />
+        <TextField
+          id="password"
+          name="password"
+          className='input'
+          variant="outlined"
+          type='password'
+          sx={{ width: '100%' }}
+          onChange={(e: any) => handleChangeInput(e)}
+        />
+      </Stack>
+      <Stack direction={'row'} gap={'8px'} alignItems={'center'} margin={'8px'} width={'100%'} >
+        <PersonOutlinedIcon />
+        <TextField
+          id="katoCode"
+          name="katoCode"
+          variant="outlined"
+          sx={{ width: '100%' }}
+          type='number'
+          onChange={(e: any) => handleChangeInput(e)}
+        />
+      </Stack>
+      <Stack direction={'row'} gap={'8px'} alignItems={'center'} margin={'8px'} width={'100%'} justifyContent={'flex-end'}>
+        <Button variant="outlined" sx={{ width: '120px' }} onClick={() => handleSignUp()}>Вход</Button>
+      </Stack>
+    </Box> */
   )
 }
