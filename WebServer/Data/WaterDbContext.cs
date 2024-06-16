@@ -19,15 +19,10 @@ namespace WebServer.Data
 
         public DbSet<Report_Form> Report_Forms { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<Supply_City_Form1> Supply_City_Form1 { get; set; }
-        public DbSet<Supply_City_Form2> Supply_City_Form2 { get; set; }
-        public DbSet<Supply_City_Form3> Supply_City_Form3 { get; set; }
-        public DbSet<Supply_City_Form4> Supply_City_Form4 { get; set; }
-        public DbSet<Supply_City_Form5> Supply_City_Form5 { get; set; }
         public DbSet<Tariff_Level> Tariff_Level { get; set; }
-        public DbSet<Waste_City_Form1> Waste_City_Form1 { get; set; }
-        public DbSet<Waste_City_Form2> Waste_City_Form2 { get; set; }
-        public DbSet<Waste_City_Form3> Waste_City_Form3 { get; set; }
         public DbSet<SettingsValue> SettingsValues { get; set; }
+        public DbSet<ApprovedForm> ApprovedForms { get; set; }
+        public DbSet<ApprovedFormItem> ApprovedFormItems { get; set; }
+        public DbSet<ApprovedFormItemColumn> ApprovedFormItemColumns { get; set; }
     }
 }

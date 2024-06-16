@@ -10,7 +10,8 @@ using WebServer.Models;
 
 namespace WebServer.Reposotory
 {
-    public class FormsRepository : IForms
+#if LEGACY_COD
+    public class FormsRepository_Old
     {
         private readonly WaterDbContext _context;
         private readonly DbSet<Ref_Kato> _dbSetKato;
@@ -32,7 +33,7 @@ namespace WebServer.Reposotory
         private readonly DbSet<SettingsValue> _dbSetSettings;
         private readonly IHttpContextAccessor _httpContext;
 
-        public FormsRepository(WaterDbContext context
+        public FormsRepository_Old(WaterDbContext context
             , IHttpContextAccessor httpContext
             )
         {
@@ -89,11 +90,11 @@ namespace WebServer.Reposotory
 
         private async Task<bool> IsVillage(Guid FormID)
         {
-            var form = await _dbSetForm.Include(x=>x.RefKato).FirstOrDefaultAsync(x => x.Id == FormID);
+            var form = await _dbSetForm.Include(x => x.RefKato).FirstOrDefaultAsync(x => x.Id == FormID);
             if (form == null) return false;
             if (form.RefKato == null || !form.RefKato.KatoLevel.HasValue) return false;
 
-            return form.RefKato.KatoLevel.Value  == 1 ? false : true;
+            return form.RefKato.KatoLevel.Value == 1 ? false : true;
         }
 
         public async Task<List<FormDto>> GetFormsByKatoId(int id)
@@ -128,7 +129,13 @@ namespace WebServer.Reposotory
 
         public async Task<FormDto> AddForm(FormsAddDto row)
         {
-            var form = await _dbSetForm.FirstOrDefaultAsync(x => x.ReportMonthId == row.ReportMonthId && x.ReportYearId == row.ReportYearId && x.IsDel == false);
+            var form = await _dbSetForm
+                .FirstOrDefaultAsync(x =>
+                x.ReportMonthId == row.ReportMonthId &&
+                x.ReportYearId == row.ReportYearId &&
+                x.RefKatoId == row.RefKatoId &&
+                x.IsDel == false);
+
             if (form != null) { throw new Exception("Отчет за данный период уже имеется"); }
             var newRow = await _dbSetForm.AddAsync(new Report_Form()
             {
@@ -162,7 +169,7 @@ namespace WebServer.Reposotory
             PageQueryDto query = new PageQueryDto();
             try
             {
-                var result = new List<SupplyCityForm1TableDto>();                
+                var result = new List<SupplyCityForm1TableDto>();
 
                 if (await IsStreetLevel() == true)
                 {
@@ -190,7 +197,7 @@ namespace WebServer.Reposotory
                                 KatoId = row.RefStreet != null ? row.RefStreet.RefKatoId : 0,
                                 Street = row.RefStreet?.NameRu,
                                 Volume = row.Volume,
-                                HasStreets = true                                
+                                HasStreets = true
                             });
                         }
                         else
@@ -417,7 +424,7 @@ namespace WebServer.Reposotory
         public async Task<List<SupplyCityForm2TableDto>> SupplyCityUpdateForm2(List<SupplyCityForm2TableDto> list, Guid id)
         {
             if (list == null || list.Count == 0) throw new Exception("Данные не могут быть пустыми");
-            if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");            
+            if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");
 
             foreach (var entity in list)
             {
@@ -432,14 +439,14 @@ namespace WebServer.Reposotory
                     row.CentralWaterSupplySubscribers = row.IsVillage ? entity.CentralWaterSupplySubscribers : null;
                     row.IndividualWaterMetersInstalled = row.IsVillage ? entity.IndividualWaterMetersInstalled : null;
                     row.RemoteDataTransmissionMeters = row.IsVillage ? entity.RemoteDataTransmissionMeters : null;
-                    row.LastModifiedDate = DateTime.UtcNow;                    
+                    row.LastModifiedDate = DateTime.UtcNow;
                     _context.Entry(row).State = EntityState.Modified;
                 }
                 else
                 {
                     await _dbSetForm2.AddAsync(new Supply_City_Form2()
                     {
-                        Id = entity.Id,                        
+                        Id = entity.Id,
                         LastModifiedDate = DateTime.UtcNow,
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
@@ -492,7 +499,7 @@ namespace WebServer.Reposotory
                                 RefBuildingId = row.RefBuildingId,
                                 HomeAddress = row.RefBuilding?.NameRu,
                                 KatoId = row.RefStreet != null ? row.RefStreet.RefKatoId : 0,
-                                Street = row.RefStreet?.NameRu,    
+                                Street = row.RefStreet?.NameRu,
                                 IsVillage = isVill,
                                 //city
                                 CoverageMetersTotalCumulative = isVill ? null : row.CoverageMetersTotalCumulative,
@@ -594,7 +601,7 @@ namespace WebServer.Reposotory
                         });
                     }
                 }
-                
+
 
                 return result;
             }
@@ -687,7 +694,7 @@ namespace WebServer.Reposotory
                                 RefBuildingId = row.RefBuildingId,
                                 HomeAddress = row.RefBuilding.NameRu,
                                 KatoId = row.RefStreet.RefKatoId,
-                                Street = row.RefStreet.NameRu,                                                                
+                                Street = row.RefStreet.NameRu,
                                 CoverageHouseholdNeedNumberBuildings = row.CoverageHouseholdNeedNumberBuildings,
                                 CoverageHouseholdInstalledBuildings = row.CoverageHouseholdInstalledBuildings,
                                 CoverageHouseholdInstalledCount = row.CoverageHouseholdInstalledCount,
@@ -726,7 +733,7 @@ namespace WebServer.Reposotory
                             RefBuildingId = null,
                             HomeAddress = string.Empty,
                             KatoId = 0,
-                            Street = string.Empty,                            
+                            Street = string.Empty,
                             CoverageHouseholdNeedNumberBuildings = row.CoverageHouseholdNeedNumberBuildings,
                             CoverageHouseholdInstalledBuildings = row.CoverageHouseholdInstalledBuildings,
                             CoverageHouseholdInstalledCount = row.CoverageHouseholdInstalledCount,
@@ -750,7 +757,7 @@ namespace WebServer.Reposotory
                             CoverageHouseholdRemoteData = 0,
                         });
                     }
-                }                
+                }
 
                 return result;
             }
@@ -891,7 +898,7 @@ namespace WebServer.Reposotory
                         });
                     }
                 }
-                
+
 
                 return result;
             }
@@ -1482,369 +1489,30 @@ namespace WebServer.Reposotory
             }
             return list;
         }
-        #endregion
-        #endregion
-        #region Село 1
-        #region Форма 1
-        public async Task<List<WasteCityForm1TableDto>> WasteVillageGetForm1(Guid id)//WasteVillageForm1TableDto
+
+        public Task<List<ApprovedForm>> GetForms()
         {
-            PageQueryDto query = new PageQueryDto();
-            try
-            {
-                var result = new List<WasteCityForm1TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
-                var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
-                var curForm = await _dbSetWForm1.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);//_dbSetWFormVill1
-
-                if (form == null) throw new Exception("Форма не найдена");
-
-                if (curForm == null)
-                {
-                    result.Add(new WasteCityForm1TableDto()
-                    {
-                        Id = Guid.NewGuid(),
-                        FormId = id,
-                        KatoId = form.RefKatoId,
-                        WaterVolume = 0,
-                    });
-                    return result;
-                }
-                return new List<WasteCityForm1TableDto>()
-                {
-                    new WasteCityForm1TableDto()
-                    {
-                        Id = curForm.Id,
-                        FormId = curForm.FormId,
-                        KatoId = form.RefKatoId,
-                        WaterVolume = curForm.WaterVolume,
-                    }
-                };
-
-            }
-            catch (Exception)
-            {
-                //return new PageResultDto<Form1TableDto>(0, [], query.PageNumber, query.PageSize, query.Filter);
-                return new List<WasteCityForm1TableDto>();
-            }
+            throw new NotImplementedException();
         }
-        public async Task<List<WasteCityForm1TableDto>> WasteVillageUpdateForm1(List<WasteCityForm1TableDto> list, Guid id)
-        {
-            if (list == null || list.Count == 0) throw new Exception("Данные не могут быть пустыми");
-            if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");
 
-            foreach (var entity in list)
-            {
-                var row = await _dbSetWForm1.FindAsync(entity.Id);//_dbSetWFormVill1
-                if (row != null)
-                {
-                    row.WaterVolume = entity.WaterVolume;
-                    row.LastModifiedDate = DateTime.UtcNow;
-                    _context.Entry(row).State = EntityState.Modified;
-                }
-                else
-                {
-                    await _dbSetWForm1.AddAsync(new Waste_City_Form1()//Waste_Village_Form1
-                    {
-                        Id = Guid.NewGuid(),
-                        FormId = entity.FormId ?? Guid.NewGuid(), //Need? Guid.NewGuid()
-                        WaterVolume = entity.WaterVolume,
-                        CreateDate = DateTime.UtcNow,
-                        IsDel = false,
-                    });
-                }
-                await _context.SaveChangesAsync();
-            }
-            return list;
+        public Task<ApprovedForm> Add(ApprovedForm aForm)
+        {
+            throw new NotImplementedException();
         }
-        #endregion
-        #region Форма 2
-        public async Task<List<WasteCityForm2TableDto>> WasteVillageGetForm2(Guid id)//WasteVillageForm2TableDto
+
+        public Task<ApprovedForm> Update(ApprovedForm aForm)
         {
-            PageQueryDto query = new PageQueryDto();
-            try
-            {
-                var result = new List<WasteCityForm2TableDto>(); //потому что структуры с городом одинаковы, без наличия улиц
-                var form = await _dbSetForm.FirstOrDefaultAsync(x => x.Id == id);
-                var curForm = await _dbSetWForm2.FirstOrDefaultAsync(x => x.FormId == id && x.IsDel == false);//_dbSetWFormVill2
-
-                if (form == null) throw new Exception("Форма не найдена");
-
-                if (curForm == null)
-                {
-                    result.Add(new WasteCityForm2TableDto()
-                    {
-                        Id = Guid.NewGuid(),
-                        FormId = id,
-                        KatoId = form.RefKatoId,
-                        RuralSettlementsWithCentralizedWastewater = 0,
-                        PopulationInRuralSettlements = 0,
-                        SubscribersInRuralSettlements = 0,
-                        IndividualSubscribers = 0,
-                        CorporateSubscribers = 0,
-                        GovernmentOrganizations = 0,
-                        SewageTreatmentFacilitiesCount = 0,
-                        MechanicalTreatmentFacilitiesCount = 0,
-                        MechanicalAndBiologicalTreatmentFacilitiesCount = 0,
-                        SewageTreatmentCapacity = 0,
-                        SewageTreatmentFacilitiesWearPercentage = 0,
-                        PopulationServedBySewageTreatmentFacilities = 0,
-                        ActualWastewaterInflux = 0,
-                        NormativelyTreatedWastewaterVolume = 0,
-                    });
-                }
-                else
-                {
-                    result.Add(new WasteCityForm2TableDto()
-                    {
-                        Id = Guid.NewGuid(),
-                        FormId = id,
-                        KatoId = form.RefKatoId,
-                        RuralSettlementsWithCentralizedWastewater = curForm.RuralSettlementsWithCentralizedWastewater,
-                        PopulationInRuralSettlements = curForm.PopulationInRuralSettlements,
-                        SubscribersInRuralSettlements = curForm.SubscribersInRuralSettlements,
-                        IndividualSubscribers = curForm.IndividualSubscribers,
-                        CorporateSubscribers = curForm.CorporateSubscribers,
-                        GovernmentOrganizations = curForm.GovernmentOrganizations,
-                        SewageTreatmentFacilitiesCount = curForm.SewageTreatmentFacilitiesCount,
-                        MechanicalTreatmentFacilitiesCount = curForm.MechanicalTreatmentFacilitiesCount,
-                        MechanicalAndBiologicalTreatmentFacilitiesCount = curForm.MechanicalAndBiologicalTreatmentFacilitiesCount,
-                        SewageTreatmentCapacity = curForm.SewageTreatmentCapacity,
-                        SewageTreatmentFacilitiesWearPercentage = curForm.SewageTreatmentFacilitiesWearPercentage,
-                        PopulationServedBySewageTreatmentFacilities = curForm.PopulationServedBySewageTreatmentFacilities,
-                        ActualWastewaterInflux = curForm.ActualWastewaterInflux,
-                        NormativelyTreatedWastewaterVolume = curForm.NormativelyTreatedWastewaterVolume,
-                    });
-                }
-                return result;
-
-
-            }
-            catch (Exception)
-            {
-                //return new PageResultDto<Form1TableDto>(0, [], query.PageNumber, query.PageSize, query.Filter);
-                return new List<WasteCityForm2TableDto>();
-            }
+            throw new NotImplementedException();
         }
-        public async Task<List<WasteCityForm2TableDto>> WasteVillageUpdateForm2(List<WasteCityForm2TableDto> list, Guid id)
-        {
-            if (list == null || list.Count == 0) throw new Exception("Данные не могут быть пустыми");
-            if (id == Guid.Empty) throw new Exception("ИД формы не может быть пустым");
 
-            foreach (var entity in list)
-            {
-                var row = await _dbSetWForm2.FindAsync(entity.Id);//_dbSetWFormVill2
-                if (row != null)
-                {
-                    row.RuralSettlementsWithCentralizedWastewater = entity.RuralSettlementsWithCentralizedWastewater;
-                    row.PopulationInRuralSettlements = entity.PopulationInRuralSettlements;
-                    row.SubscribersInRuralSettlements = entity.SubscribersInRuralSettlements;
-                    row.IndividualSubscribers = entity.IndividualSubscribers;
-                    row.CorporateSubscribers = entity.CorporateSubscribers;
-                    row.GovernmentOrganizations = entity.GovernmentOrganizations;
-                    row.SewageTreatmentFacilitiesCount = entity.SewageTreatmentFacilitiesCount;
-                    row.MechanicalTreatmentFacilitiesCount = entity.MechanicalTreatmentFacilitiesCount;
-                    row.MechanicalAndBiologicalTreatmentFacilitiesCount = entity.MechanicalAndBiologicalTreatmentFacilitiesCount;
-                    row.SewageTreatmentCapacity = entity.SewageTreatmentCapacity;
-                    row.SewageTreatmentFacilitiesWearPercentage = entity.SewageTreatmentFacilitiesWearPercentage;
-                    row.PopulationServedBySewageTreatmentFacilities = entity.PopulationServedBySewageTreatmentFacilities;
-                    row.ActualWastewaterInflux = entity.ActualWastewaterInflux;
-                    row.NormativelyTreatedWastewaterVolume = entity.NormativelyTreatedWastewaterVolume;
-                    row.LastModifiedDate = DateTime.UtcNow;
-                    _context.Entry(row).State = EntityState.Modified;
-                }
-                else
-                {
-                    await _dbSetWForm2.AddAsync(new Waste_City_Form2()//Waste_Village_Form2
-                    {
-                        Id = Guid.NewGuid(),
-                        FormId = entity.FormId ?? Guid.NewGuid(),
-                        RuralSettlementsWithCentralizedWastewater = entity.RuralSettlementsWithCentralizedWastewater,
-                        PopulationInRuralSettlements = entity.PopulationInRuralSettlements,
-                        SubscribersInRuralSettlements = entity.SubscribersInRuralSettlements,
-                        IndividualSubscribers = entity.IndividualSubscribers,
-                        CorporateSubscribers = entity.CorporateSubscribers,
-                        GovernmentOrganizations = entity.GovernmentOrganizations,
-                        SewageTreatmentFacilitiesCount = entity.SewageTreatmentFacilitiesCount,
-                        MechanicalTreatmentFacilitiesCount = entity.MechanicalTreatmentFacilitiesCount,
-                        MechanicalAndBiologicalTreatmentFacilitiesCount = entity.MechanicalAndBiologicalTreatmentFacilitiesCount,
-                        SewageTreatmentCapacity = entity.SewageTreatmentCapacity,
-                        SewageTreatmentFacilitiesWearPercentage = entity.SewageTreatmentFacilitiesWearPercentage,
-                        PopulationServedBySewageTreatmentFacilities = entity.PopulationServedBySewageTreatmentFacilities,
-                        ActualWastewaterInflux = entity.ActualWastewaterInflux,
-                        NormativelyTreatedWastewaterVolume = entity.NormativelyTreatedWastewaterVolume,
-                        CreateDate = DateTime.UtcNow,
-                        IsDel = false,
-                    });
-                }
-                await _context.SaveChangesAsync();
-            }
-            return list;
+        public Task<ApprovedForm> Delete(Guid id)
+        {
+            throw new NotImplementedException();
         }
         #endregion
         #endregion
         #endregion
-
-        //public Task<FormKatoDto> DeleteFormKato()
-        //{
-        //    return null;
-        //}
-
-        //public async Task<PageResultDto<FormKatoDto>> GetFormStreets(PageQueryDto query, int k)
-        //{
-        //int accessLevel = _httpContext.HttpContext.GetAccessLevel();
-        //if(accessLevel == 0)
-        //{
-        //    return new PageResultDto<FormTableDto>(totalCount:0, [], filter: query.Filter, pageNumber: 1, pageSize: query.PageSize);
-        //}
-
-        //var katoString = _httpContext.HttpContext?.GetClaim("kcd");
-        //var data = new List<WaterSupplyForm>();
-        //var isNumber = long.TryParse(katoString, out var katoCode);
-        //if (isNumber)
-        //{
-        //    var endRangeCode = getKatoCodeRange(katoCode);
-        //    var result = await _dbSetForm
-        //        .Where(x => x.Ref_KatoId == k && x.IsDel == false)
-        //        .Skip((query.PageNumber - 1) * query.PageSize)
-        //        .Take(query.PageSize)
-        //        .Select(x => new FormTableDto()
-        //        {
-        //            KatoId = x.Ref_KatoId,
-        //            Code = x.Ref_Kato.Code.ToString(),
-        //            HomeAddress = x.HouseAddress,
-        //            Street = x.Street,
-        //        })
-        //        .OrderBy(x => x.Code)
-        //        .ToListAsync();
-        //    return new PageResultDto<FormKatoDto>(totalCount: data.Count, result, filter: query.Filter, pageNumber: query.PageNumber, pageSize: query.PageSize);
-        //}
-        //else
-        //{
-
-        //}
-
-        //var result = await _dbSetForm
-        //        .Where(x => x.IsDel == false && x.Ref_KatoId == k)
-        //        .Select(x => new FormKatoDto()
-        //        {
-        //            KatoId = x.Ref_KatoId,
-        //            HomeAddress = x.HouseAddress,
-        //            Street = x.Street,
-        //            Id = x.Id,
-        //        })
-        //        .OrderBy(x => x.Street).ThenBy(x => x.HomeAddress)
-        //        .Skip((query.PageNumber - 1) * query.PageSize)
-        //        .Take(query.PageSize)
-        //        .ToListAsync();
-        //return new PageResultDto<FormKatoDto>(totalCount: result.Count, items: result, filter: query.Filter, pageNumber: query.PageNumber, pageSize: query.PageSize);
-        //}
-
-        /// <summary>
-        /// Рекурсивное получение родителей по цепочке
-        /// </summary>
-        /// <param name="katoId"></param>
-        /// <returns></returns>
-        //public async Task<FormKatoDto> GetTreeByKatoId(int katoId)
-        //{
-        //    var rez = new List<RefKato>();
-        //    var curKato = await _dbSetKato.FirstOrDefaultAsync(x => x.Id == katoId);
-        //    while (curKato?.ParentId != 0)
-        //    {
-        //        if (curKato != null)
-        //        {
-        //            curKato = await _dbSetKato.FirstOrDefaultAsync(x => x.Id == curKato.ParentId);
-        //            if (curKato != null)
-        //            {
-        //                rez.Add(curKato);
-        //            }
-        //        }
-        //    }
-        //    var count = rez.Count;
-        //    return new FormKatoDto()
-        //    {
-        //        KatoId = katoId,
-        //        Code = "",
-        //        Obl = count >= 1 && rez[rez.Count - 1] != null ? rez[rez.Count - 1].NameRu : "",
-        //        Raion = count >= 2 && rez[rez.Count - 2] != null ? rez[rez.Count - 2].NameRu : "",
-        //        CityOrVillage = count >= 3 && rez[rez.Count - 3] != null ? rez[rez.Count - 3].NameRu : "",
-        //        Village2 = count >= 4 && rez[rez.Count - 4] != null ? rez[rez.Count - 4].NameRu : "",
-        //        Village3 = count >= 5 && rez[rez.Count - 5] != null ? rez[rez.Count - 5].NameRu : "",
-        //    };
-        //}
-
-        //public Task<FormsValidationReponse> ValidateForm()
-        //{
-        //    return null;
-        //    //throw new NotImplementedException();
-        //}
-
-        //public long getKatoCodeRange(long code)
-        //{
-        //    //101033106
-        //    //113637000 c.o.
-        //    var codeString = code.ToString();
-        //    if (codeString.Substring(2, 2) == "00") //область город
-        //    {
-        //        int.TryParse(codeString.Substring(0, 2), out var _rangeEnd);
-        //        return long.Parse((_rangeEnd + 1).ToString() + "0000000");
-        //    }
-        //    else
-        //    if (codeString.Substring(4, 2) == "00") // район/ГА
-        //    {
-        //        int.TryParse(codeString.Substring(0, 4), out var _rangeEnd);
-        //        return long.Parse((_rangeEnd + 1).ToString() + "00000");
-        //    }
-        //    else
-        //    if (codeString.Substring(6, 3) == "000") //сельский округ
-        //    {
-        //        int.TryParse(codeString.Substring(0, 6), out var _rangeEnd);
-        //        return long.Parse((_rangeEnd + 1).ToString() + "000");
-        //    }
-        //    else
-        //    {
-        //        return code;
-        //    }
-
-        //}
-
-        //public Task<PageResultDto<FormKatoDto>> GetForm1(PageQueryDto query, Guid formid)
-        //{
-        //    var result = await _dbSetForm1
-        //            .Where(x => x.IsDel == false && x.FormId == formid)
-        //            .Select(x => new FormKatoDto()
-        //            {
-        //                KatoId = x.Ref_KatoId,
-        //                HomeAddress = x.HouseAddress,
-        //                Street = x.Street,
-        //                Id = x.Id,
-        //            })
-        //            .OrderBy(x => x.Street).ThenBy(x => x.HomeAddress)
-        //            .Skip((query.PageNumber - 1) * query.PageSize)
-        //            .Take(query.PageSize)
-        //            .ToListAsync();
-        //    return new PageResultDto<FormKatoDto>(totalCount: result.Count, items: result, filter: query.Filter, pageNumber: query.PageNumber, pageSize: query.PageSize);
-        //}
-
-        //public Task<PageResultDto<FormKatoDto>> GetForm2(PageQueryDto query, Guid formid)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<PageResultDto<FormKatoDto>> GetForm3(PageQueryDto query, Guid formid)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<PageResultDto<FormKatoDto>> GetForm4(PageQueryDto query, Guid formid)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<PageResultDto<FormKatoDto>> GetForm5(PageQueryDto query, Guid formid)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
 
     }
+#endif
 }

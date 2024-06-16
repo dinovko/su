@@ -32,3 +32,10 @@ export { wasteCityForm1Reducer, selectWasteCityForm1, selectWasteCityForm1Saved,
 
 // водопровод
 export { pipelineReducer, selectPipeline, selectPipelineSaved, updatePipelinePropByName, fetchPipline, updatePipline } from './forms/pipeline/pipelineSlice'
+
+
+export { unformReducer, addApprovedForm, fetchApprovedForm, deleteApprovedForm, updateApprovedForm } from './forms/uniforms/uniformSlice'
+export { unformItemReducer, addApprovedFormItem, fetchApprovedFormItem, deleteApprovedFormItem, updateApprovedFormItem } from './forms/uniformitems/uniformitemSlice'
+export { UniForm } from './forms/uniforms/uni-form'
+export { unformItemColumnReducer, fetchApprovedFormItemColumn, addApprovedFormItemColumn, updateApprovedFormItemColumn, deleteApprovedFormItemColumn } from './forms/uniformitemColumns/uniformitemColumnsSlice'
+export { UniFormColumn } from './forms/uniformitemColumns/uni-form-column'

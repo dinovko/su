@@ -1,0 +1,22 @@
+.container {
+    width: 80%;
+    height: 80vh;
+}
+.form {
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    border: 2px solid blue;
+    flex-direction: column;
+    gap: 16px;
+}
+
+input, textarea {
+    padding: 8px;
+    border-radius: 4px;
+    width: 30vw;
+}
+
+input[type='submit'] {
+    width: 120px;
+}

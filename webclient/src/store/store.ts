@@ -26,6 +26,9 @@ import {
     wasteCityForm1Reducer,
     // водопровод
     pipelineReducer,
+    unformReducer,
+    unformItemReducer,
+    unformItemColumnReducer,
 } from '../features/index';
 
 const rootReducer = combineReducers({
@@ -45,6 +48,9 @@ const rootReducer = combineReducers({
     wasteForm1: wasteCityForm1Reducer,
     // водопровод
     pipe: pipelineReducer,
+    unf: unformReducer,
+    unfItem: unformItemReducer,
+    unfCol: unformItemColumnReducer,
 });
 
 const persistConfig = {

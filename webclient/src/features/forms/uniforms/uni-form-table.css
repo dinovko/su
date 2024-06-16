@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+    text-align: left;
+    border: 1px solid grey;
+}
+
+th, td {
+    border: 1px solid grey;
+    padding: 8px;
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    cursor: pointer;
+    background-color: rgb(0, 145, 255);
+    padding: 16px;
+    border-radius: 8px;
+    color: white;
+    font-size: large;
+}

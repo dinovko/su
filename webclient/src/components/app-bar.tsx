@@ -12,6 +12,7 @@ const pages: IMenu[] = [
     { title: 'Пользователи', navUrl: '/users' },
     { title: 'Като', navUrl: '/refs/kato', },
     { title: 'Формы', navUrl: '/reports' },
+    { title: 'Редактирование форм', navUrl: '/uniform/view' },
 ];
 export const MainBar = () => {
     const dispatch = useAppDispatch();

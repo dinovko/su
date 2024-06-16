@@ -1,0 +1,19 @@
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+label {
+    margin-right: 8px;
+}
+
+select {
+    padding: 8px;
+}
+
+input[type='number'] {
+    width: 50px;
+}

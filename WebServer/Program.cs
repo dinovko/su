@@ -60,8 +60,11 @@ namespace WebServer
             builder.Services.AddDbContext<WaterDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
             #region DI св¤зи
             builder.Services.AddScoped(typeof(IAccount), typeof(AccountRepository));
-            builder.Services.AddScoped(typeof(Interfaces.IForms), typeof(Reposotory.FormsRepository));
             builder.Services.AddScoped(typeof(Interfaces.IRefKato), typeof(Reposotory.RefKatoRepository));
+            builder.Services.AddScoped(typeof(Interfaces.IForms), typeof(Reposotory.FormRepository));
+            builder.Services.AddScoped(typeof(Interfaces.IFormItem), typeof(Reposotory.FormItemRepository));
+            builder.Services.AddScoped(typeof(Interfaces.IFormItemColumn), typeof(Reposotory.FormItemColumnRepository));
+            builder.Services.AddScoped(typeof(Interfaces.IRefs), typeof(Reposotory.RefsRepository));
             #endregion
             #region Swagger
             builder.Services.AddSwaggerGen(sw =>

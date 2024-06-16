@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebServer.Interfaces;
 
 namespace WebServer.Controllers
@@ -8,10 +7,16 @@ namespace WebServer.Controllers
     [ApiController]
     public class RefsController : ControllerBase
     {
-        private readonly IRefKato _repo;
-        public RefsController(IRefKato repo)
+        private readonly IRefs _repo;
+        public RefsController(IRefs repo)
         {
             _repo = repo;
+        }
+
+        [HttpGet("datatypes")]
+        public ActionResult GetDataTypes()
+        {
+            return Ok(_repo.GetDataTypes());
         }
     }
 }

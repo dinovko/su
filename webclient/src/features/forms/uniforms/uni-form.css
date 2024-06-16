@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    border: 1px solid red;
+    flex-direction: row;
+    padding: 16px;
+    gap: 8px;
+    max-height: 95vh;
+    height: 95vh;
+}
+
+.sidebar {
+    border: 1px solid red;
+    height: 100%;
+    width: 20%;
+    padding: inherit;
+    overflow: hidden;
+}
+
+.content {
+    border: 1px solid red;
+    padding: inherit;
+    overflow-y: scroll;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}

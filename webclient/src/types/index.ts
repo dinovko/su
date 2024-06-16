@@ -358,3 +358,27 @@ public string Status { get; set; }
 public string? LinkToForm { get; set; }
  */
 //#endregion
+
+export interface IApprovedForm {
+    id?:string;
+    description?:string;
+    approvalDate?:Date;
+    completionDate?:Date;
+    deletedById?:string;
+}
+
+export interface IApprovedFormItem {
+    id?:string;
+    approvedFormId?:string;
+    serviceId?:number;
+    title?:string;
+    displayOrder?:number;
+}
+
+export interface IApprovedFormItemColumn {
+    id:string;
+    approvedFormItemId:string;
+    dataType:number;
+    thRu:string;
+    thKk:string;
+}
