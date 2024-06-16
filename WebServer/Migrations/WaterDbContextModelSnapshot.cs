@@ -100,6 +100,44 @@ namespace WebServer.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("WebServer.Models.Account_Roles", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Desctiption")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Примечания");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Account_Roles");
+                });
+
             modelBuilder.Entity("WebServer.Models.ActionLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -303,6 +341,48 @@ namespace WebServer.Migrations
                     b.ToTable("Pipelines");
                 });
 
+            modelBuilder.Entity("WebServer.Models.Ref_Access", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActionName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Действие");
+
+                    b.Property<string>("CodeAccessName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Код доступа");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKk")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameRu")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Наименование доступа");
+
+                    b.Property<string>("TypeAccessName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Тип доступа");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ref_Access");
+                });
+
             modelBuilder.Entity("WebServer.Models.Ref_Building", b =>
                 {
                     b.Property<int>("Id")
@@ -384,6 +464,42 @@ namespace WebServer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ref_Katos");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Ref_Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Код роли");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKk")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameRu")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Тип роли");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ref_Roles");
                 });
 
             modelBuilder.Entity("WebServer.Models.Ref_Status", b =>
@@ -588,6 +704,226 @@ namespace WebServer.Migrations
                     b.ToTable("Tariff_Level");
                 });
 
+            modelBuilder.Entity("WebServer.Models.Waste_City_Form1", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Desctiption")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Примечания");
+
+                    b.Property<Guid>("FormId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("RefBuildingId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("RefStreetId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("WaterVolume")
+                        .HasColumnType("double precision")
+                        .HasComment("Объем воды в тысячах кубических метров.");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FormId");
+
+                    b.HasIndex("RefBuildingId");
+
+                    b.HasIndex("RefStreetId");
+
+                    b.ToTable("Waste_City_Form1");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Waste_City_Form2", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("ActualWastewaterInflux")
+                        .HasColumnType("numeric")
+                        .HasComment("Фактически поступило сточных вод в канализационно-очистные сооружения (тыс.м3)");
+
+                    b.Property<Guid?>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("CorporateSubscribers")
+                        .HasColumnType("integer")
+                        .HasComment("в том числе юридических лиц (единиц)");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Desctiption")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Примечания");
+
+                    b.Property<Guid>("FormId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("GovernmentOrganizations")
+                        .HasColumnType("integer")
+                        .HasComment("в том числе GovernmentOrganizations");
+
+                    b.Property<bool?>("HasMechanicalAndBiologicalTreatment")
+                        .HasColumnType("boolean")
+                        .HasComment("С механической и биологической очист-кой (1-0)");
+
+                    b.Property<bool?>("HasMechanicalTreatment")
+                        .HasColumnType("boolean")
+                        .HasComment("С механичес-кой очисткой (1-0)");
+
+                    b.Property<bool?>("HasSewageTreatmentFacilities")
+                        .HasColumnType("boolean")
+                        .HasComment("Наличие канализационно-очистных сооружений, (1-0)");
+
+                    b.Property<int?>("IndividualSubscribers")
+                        .HasColumnType("integer")
+                        .HasComment("в том числе физических лиц/население (единиц)");
+
+                    b.Property<bool?>("IsConnectedToCentralizedWastewaterSystem")
+                        .HasColumnType("boolean")
+                        .HasComment("Охваченные централизованным водоотведением (0-1)");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsVillage")
+                        .HasColumnType("boolean")
+                        .HasComment("Признак если True-Село, Flase-Город");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("MechanicalAndBiologicalTreatmentFacilitiesCount")
+                        .HasColumnType("integer")
+                        .HasComment("в том числе с механической и биологической очист-кой (еди-ниц)");
+
+                    b.Property<int?>("MechanicalTreatmentFacilitiesCount")
+                        .HasColumnType("integer")
+                        .HasComment("в том числе только с механичес-кой очисткой (еди-ниц)");
+
+                    b.Property<decimal?>("NormativelyTreatedWastewaterVolume")
+                        .HasColumnType("numeric")
+                        .HasComment("Объем сточных вод, соответствующей нормативной очистке по собственному лабораторному мониторингу за отчетный период (тыс.м3)");
+
+                    b.Property<int?>("PopulationCoveredByCentralizedWastewater")
+                        .HasColumnType("integer")
+                        .HasComment("Численность населения, охваченного централизованным водоотведением, (человек)");
+
+                    b.Property<int?>("PopulationInRuralSettlements")
+                        .HasColumnType("integer")
+                        .HasComment("Численность населения, проживающего в данных сельских населенных пунктах (человек)");
+
+                    b.Property<int?>("PopulationServedBySewageTreatmentFacilities")
+                        .HasColumnType("integer")
+                        .HasComment("Числен-ность населе-ния, охваченного действующими канализационно- очистными сооружениями (человек)");
+
+                    b.Property<int?>("RefBuildingId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("RefStreetId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("RuralSettlementsWithCentralizedWastewater")
+                        .HasColumnType("integer")
+                        .HasComment("Кол-во сельских населенных пунктов (единиц)");
+
+                    b.Property<decimal?>("SewageTreatmentCapacity")
+                        .HasColumnType("numeric")
+                        .HasComment("Производительность канализационно-очистных сооружений (проектная)");
+
+                    b.Property<int?>("SewageTreatmentFacilitiesCount")
+                        .HasColumnType("integer")
+                        .HasComment("Наличие канализационно- очистных сооружений (единиц)");
+
+                    b.Property<decimal?>("SewageTreatmentFacilitiesWearPercentage")
+                        .HasColumnType("numeric")
+                        .HasComment("Износ канализационно- очистных сооружений, в %");
+
+                    b.Property<int?>("SubscribersInRuralSettlements")
+                        .HasColumnType("integer")
+                        .HasComment("Кол-во абонентов, проживающих в данных сельских населенных пунктах (единиц)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FormId");
+
+                    b.HasIndex("RefBuildingId");
+
+                    b.HasIndex("RefStreetId");
+
+                    b.ToTable("Waste_City_Form2");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Waste_City_Form3", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Desctiption")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Примечания");
+
+                    b.Property<Guid>("FormId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("HasSewagePumpingStations")
+                        .HasColumnType("boolean")
+                        .HasComment("Канализационные насосные станции (0 или 1)");
+
+                    b.Property<bool>("HasSewageTreatmentPlants")
+                        .HasColumnType("boolean")
+                        .HasComment("Канализационно-очистные сооружения (0 или 1)");
+
+                    b.Property<bool>("HasSewerNetworks")
+                        .HasColumnType("boolean")
+                        .HasComment("Сети канализации (0 или 1)");
+
+                    b.Property<bool>("IsDel")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("RefStreetId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FormId");
+
+                    b.HasIndex("RefStreetId");
+
+                    b.ToTable("Waste_City_Form3");
+                });
+
             modelBuilder.Entity("Business.Entities.Consumers", b =>
                 {
                     b.HasOne("WebServer.Models.Ref_Kato", "Ref_Kato")
@@ -603,6 +939,25 @@ namespace WebServer.Migrations
                     b.Navigation("Ref_Kato");
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("WebServer.Models.Account_Roles", b =>
+                {
+                    b.HasOne("WebServer.Models.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebServer.Models.Ref_Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("WebServer.Models.ActionLog", b =>
