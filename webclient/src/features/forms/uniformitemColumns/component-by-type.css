@@ -1,0 +1,7 @@
+.component-by-type-tr {
+    border: 1px solid grey;
+}
+
+.not-saved {
+    background-color: rgba(92, 255, 4, 0.5);
+}

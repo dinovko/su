@@ -19,6 +19,11 @@ namespace WebServer.Reposotory
 
         public async Task<ApprovedFormItemColumn> Add(ApprovedFormItemColumn aForm)
         {
+            var col = await _dbSetForm.FirstOrDefaultAsync(x=>x.Id == aForm.Id);
+            if (col != null)
+            {
+                return await Update(aForm);
+            }
             await _dbSetForm.AddAsync(aForm);
             try
             {
@@ -52,7 +57,7 @@ namespace WebServer.Reposotory
 
         public async Task<List<ApprovedFormItemColumn>> GetForms(Guid tabId)
         {
-            var form = await _dbSetForm.Where(x=>x.ApprovedFormItemId == tabId).ToListAsync();
+            var form = await _dbSetForm.Where(x=>x.ApprovedFormItemId == tabId).OrderBy(x=>x.DisplayOrder).ToListAsync();
             if (form == null)
             {
                 return new List<ApprovedFormItemColumn>();
@@ -67,6 +72,7 @@ namespace WebServer.Reposotory
             form.DataType = aForm.DataType;
             form.ThRu = aForm.ThRu;
             form.ThKk = aForm.ThKk;
+            form.DisplayOrder = aForm.DisplayOrder;
             _context.Entry(form).State = EntityState.Modified;
             try
             {

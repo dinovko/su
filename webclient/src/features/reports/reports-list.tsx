@@ -8,11 +8,12 @@ import { ModalDialog, ReportPeriod } from 'components';
 import { useEffect, useState } from 'react';
 import { IFormPeriod } from 'types';
 import { useNavigate } from 'react-router-dom';
-import { checkIsReportable } from 'features/refs/katoSlice';
+import { checkIsReportable, selectRefKatoDataInline } from 'features/refs/katoSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { generateGUID } from 'utils/uuid';
 
 type ReportsListProps = {
-    katoID: number,
+    katoID: string | undefined,
 }
 export const ReportsList: React.FC<ReportsListProps> = ({ katoID }) => {
     const dispatch = useAppDispatch();
@@ -20,9 +21,10 @@ export const ReportsList: React.FC<ReportsListProps> = ({ katoID }) => {
     const reports = useAppSelector(selectReports);
     const [open, setopen] = useState(false);
     const [isReportable, setisReportable] = useState(false);
+    const lineData = useAppSelector(selectRefKatoDataInline).find(x=>x.id.toString() == katoID);
 
     const handleLoadReports = () => {
-        // navigate(`/reports/${katoID}`)
+        if(!katoID) return;
         dispatch(reportsGetAll(katoID))
     }
 
@@ -31,12 +33,17 @@ export const ReportsList: React.FC<ReportsListProps> = ({ katoID }) => {
     }
 
     const handleAddReport = (p: IFormPeriod) => {
+        if (!katoID || katoID == '') return;
+
         dispatch(reportsAdd({
-            refKatoId: katoID,
+            id:generateGUID(),
+            isDel:false,
+            desctiption: `новый отчет като ид;${katoID}`,
+            refKatoId: Number.parseInt(katoID),
             reportYearId: p.year,
             reportMonthId: p.month,
-            desctiption: `новый отчет като ид;${katoID}`,
-            supplierId: 0,
+            refStatusId:3,
+            hasStreets:false,
         })).then(() => {
             setopen(false);
             handleLoadReports();
@@ -49,21 +56,21 @@ export const ReportsList: React.FC<ReportsListProps> = ({ katoID }) => {
     }
 
     useEffect(() => {
-        if (reports.length > 0) {
-            dispatch(setReports([]));
-        }
-        if(katoID && katoID!=0) {
-            dispatch(checkIsReportable(katoID)).then((resp:any)=>{
-                setisReportable(resp.payload as boolean);
-            });
-        }
+        // if (reports.length > 0) {
+        //     dispatch(setReports([]));
+        // }
+        // if (katoID && katoID != '0' && katoID != undefined) {
+        //     dispatch(checkIsReportable(Number.parseInt(katoID))).then((resp: any) => {
+        //         setisReportable(resp.payload as boolean);
+        //     });
+        // }
     }, [katoID])
 
     return (
         <Box sx={{ marginTop: '8px' }}>
             <ModalDialog title='' children={<ReportPeriod key={'report-period'} onSetPeriod={(v) => handleAddReport(v)} />} open={open} key={'new-form-modal'} onClose={() => setopen(false)} />
             <Stack alignItems={'flex-end'} sx={{ margin: '8px' }}>
-                {isReportable && <Button disabled={katoID == 0} variant="outlined" startIcon={<AddIcon />} onClick={() => handleOpenReportPeriod()}>
+                {lineData?.isReportable && <Button disabled={katoID == '0'} variant="outlined" startIcon={<AddIcon />} onClick={() => handleOpenReportPeriod()}>
                     Добавить отчет
                 </Button>}
             </Stack>
@@ -87,10 +94,10 @@ export const ReportsList: React.FC<ReportsListProps> = ({ katoID }) => {
                                 onDoubleClick={() => handleOpenForm(row.id)}
                             >
                                 <TableCell component="th" scope="row">
-                                    {row.year}
+                                    {row.reportYearId}
                                 </TableCell>
-                                <TableCell align="right">{row.monthName}</TableCell>
-                                <TableCell align="right">{row.status}</TableCell>
+                                <TableCell align="right">{row.reportMonthId}</TableCell>
+                                <TableCell align="right">{row.refStatusLabel}</TableCell>
                                 <TableCell align="right">редактировать</TableCell>
                                 <TableCell align="right"><Button variant="contained"
                                     endIcon={<OpenInNewOutlinedIcon />}
@@ -111,7 +118,7 @@ export const ReportsList: React.FC<ReportsListProps> = ({ katoID }) => {
                 </Table>
             </TableContainer>
             {reports.length == 0 &&
-                (<Button disabled={katoID == 0 || isReportable == false} variant="contained" endIcon={<ArticleOutlinedIcon />} sx={{ margin: '16px' }} onClick={handleLoadReports}>
+                (<Button disabled={!lineData?.isReportable} variant="contained" endIcon={<ArticleOutlinedIcon />} sx={{ margin: '16px' }} onClick={handleLoadReports}>
                     загрузить отчеты
                 </Button>)}
         </Box>

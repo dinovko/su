@@ -46,7 +46,7 @@ namespace WebServer.Reposotory
 
         public async Task<List<ApprovedFormItem>> GetForms(Guid formId)
         {
-            var form = await _dbSetForm.Where(x=>x.ApprovedFormId == formId).OrderBy(x=>x.DisplayOrder).ToListAsync();
+            var form = await _dbSetForm.Where(x=>x.ApprovedFormId == formId && x.IsDel == false).OrderBy(x=>x.DisplayOrder).ToListAsync();
             if (form == null)
             {
                 return new List<ApprovedFormItem>();

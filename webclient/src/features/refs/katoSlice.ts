@@ -59,6 +59,15 @@ function findIdInTree(node: TreeViewBaseItem, searchId: string): TreeViewBaseIte
     return null;
 }
 
+const updateKato = (newArr: IKatoTreeViewDto[], oldArr: IKatoTreeViewDto[]) => {
+    const oldArrMap = new Map(oldArr.map(item => [item.id, item]));
+
+    newArr.forEach(item => {
+        oldArrMap.set(item.id, item);
+    });
+    return Array.from(oldArrMap.values());
+}
+
 
 const refKatoSlice = createSlice({
     name: 'refs/kato',
@@ -66,15 +75,16 @@ const refKatoSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchKato.fulfilled, (state: thisSliceState, action: PayloadAction<IKatoTreeViewDto[]>) => {
+            state.data = updateKato(action.payload,state.data);
             if (action.payload.length > 0) {
                 let tree_: TreeViewBaseItem[] = [];
-                    action.payload.map((item: IKatoTreeViewDto) => {
-                        tree_.push({
-                            id: item.id.toString(),
-                            label: item.name,
-                            children: [],
-                        });
+                action.payload.map((item: IKatoTreeViewDto) => {
+                    tree_.push({
+                        id: item.id.toString(),
+                        label: item.name,
+                        children: [],
                     });
+                });
 
                 if (action.payload[0].parentId == 0) {
                     state.tree = tree_;
@@ -98,3 +108,4 @@ export const refKatoReducer = refKatoSlice.reducer;
 export const { } = refKatoSlice.actions;
 // selector
 export const selectRefKatoTree = (state: RootState) => state.kato.tree;
+export const selectRefKatoDataInline = (state: RootState) => state.kato.data;

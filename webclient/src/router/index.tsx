@@ -95,7 +95,7 @@ export const AppRouter = createBrowserRouter([
         ),
     },
     {
-        path: "/uniformitem/:action/:id?",
+        path: "/uniformitem/:action/:id?/:tabid?",
         element: (
             (<Suspense fallback={<BigSinner />}>
                 <ProtectedRoute>

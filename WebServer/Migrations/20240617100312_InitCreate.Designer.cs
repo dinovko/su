@@ -12,7 +12,7 @@ using WebServer.Data;
 namespace WebServer.Migrations
 {
     [DbContext(typeof(WaterDbContext))]
-    [Migration("20240616172028_InitCreate")]
+    [Migration("20240617100312_InitCreate")]
     partial class InitCreate
     {
         /// <inheritdoc />
@@ -211,6 +211,10 @@ namespace WebServer.Migrations
                     b.Property<int>("DataType")
                         .HasColumnType("integer")
                         .HasComment("Тип хранимых данных: Label(Просто отображение), IntegerType, DecimalType, StringType, BooleanType, DateType, CalcType");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("integer")
+                        .HasComment("Порядок отображения");
 
                     b.Property<string>("ThKk")
                         .IsRequired()

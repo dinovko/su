@@ -4,6 +4,7 @@
     {
         public enum DataTypeEnum
         {
+            Label,
             IntegerType,
             DecimalType,
             StringType,

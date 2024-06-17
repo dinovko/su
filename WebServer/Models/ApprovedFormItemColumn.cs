@@ -19,5 +19,8 @@ namespace WebServer.Models
         public string ThRu { get; set; } = "";
         [Comment("Заголовок столбца на Qaz")]
         public string ThKk { get; set; } = "";
+
+        [Comment("Порядок отображения")]
+        public int DisplayOrder { get; set; } = 1;
     }
 }

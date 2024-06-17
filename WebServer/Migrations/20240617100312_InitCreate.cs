@@ -259,7 +259,8 @@ namespace WebServer.Migrations
                     ApprovedFormItemId = table.Column<Guid>(type: "uuid", nullable: false),
                     DataType = table.Column<int>(type: "integer", nullable: false, comment: "Тип хранимых данных: Label(Просто отображение), IntegerType, DecimalType, StringType, BooleanType, DateType, CalcType"),
                     ThRu = table.Column<string>(type: "text", nullable: false, comment: "Заголовок столбца на ру"),
-                    ThKk = table.Column<string>(type: "text", nullable: false, comment: "Заголовок столбца на Qaz")
+                    ThKk = table.Column<string>(type: "text", nullable: false, comment: "Заголовок столбца на Qaz"),
+                    DisplayOrder = table.Column<int>(type: "integer", nullable: false, comment: "Порядок отображения")
                 },
                 constraints: table =>
                 {

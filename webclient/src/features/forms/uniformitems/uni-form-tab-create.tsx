@@ -42,7 +42,7 @@ export const UniFormTabCreate: React.FC<UniFormTabCreateProps> = ({ onCreate }) 
     return (
         <form>
             <div>
-                <label htmlFor='title'>Услуга</label>
+                <label htmlFor='title'>Название вкладки</label>
                 <input type='text' id='title' name='title' placeholder='Введите название' value={formItem?.title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)} />
             </div>
             <div>

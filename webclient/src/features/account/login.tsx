@@ -16,8 +16,8 @@ export const Login = () => {
   const navigation = useNavigate();
   const acc = useAppSelector(selectAccount);
   const [signInDTO, setsignInDTO] = useState<ISignInDTO>({
-    login: '',
-    pwd: '',
+    login: 'suadmin@su.qz',
+    pwd: 'suadmin@su.qz',
     rem: false,
   })
 
@@ -64,6 +64,7 @@ export const Login = () => {
           name="login"
           variant="outlined"
           sx={{ width: '100%' }}
+          value={signInDTO.login}
           onChange={(e: any) => handleChangeInput(e)}
         />
       </Stack>
@@ -76,6 +77,7 @@ export const Login = () => {
           variant="outlined"
           type='password'
           sx={{ width: '100%' }}
+          value={signInDTO.pwd}
           onChange={(e: any) => handleChangeInput(e)}
         />
       </Stack>

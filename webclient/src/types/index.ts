@@ -281,6 +281,7 @@ export interface IKatoTreeViewDto {
     description: string | null;
     children: IKatoTreeViewDto[]
     katoLevel: number | null;
+    isReportable:boolean;
 }
 
 export interface ISimpleTreeView {
@@ -312,11 +313,30 @@ export interface FormDto {
 }
 
 export interface IFormAddDto {
+    id:string;
+    isDel:boolean;
+    desctiption:string;
     refKatoId: number;
-    supplierId: number;
     reportYearId: number;
     reportMonthId: number;
-    desctiption: string;
+    refStatusId:number;
+    hasStreets:boolean;
+    refStatusLabel?:string;
+    /**
+     * 
+     * "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "authorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "createDate": "2024-06-17T16:41:39.761Z",
+  "lastModifiedDate": "2024-06-17T16:41:39.761Z",
+  "isDel": true,
+  "desctiption": "string",
+  "refKatoId": 0,
+  "supplierId": 0,
+  "reportYearId": 0,
+  "reportMonthId": 0,
+  "refStatusId": 0,
+  "hasStreets": true
+     */
 }
 
 export interface IFormPeriod {
@@ -381,4 +401,5 @@ export interface IApprovedFormItemColumn {
     dataType:number;
     thRu:string;
     thKk:string;
+    displayOrder:number;
 }

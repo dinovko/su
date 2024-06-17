@@ -7,7 +7,7 @@ interface thisSliceState {
     isLoading: boolean,
     isError: boolean,
     error: string,
-    data: FormDto[],
+    data: IFormAddDto[],
     isVillage: boolean;
 }
 
@@ -19,9 +19,9 @@ const initialState: thisSliceState = {
     isVillage: false,
 }
 export const reportsGetAll = createAsyncThunk(
-    'supply/form/bykato', async (payload: number, thunkAPI) => {
+    'supply/form/bykato', async (payload: string, thunkAPI) => {
         try {
-            const response = await ax.get<FormDto[]>(`/Form/list?katoid=${payload}`);
+            const response = await ax.get<IFormAddDto[]>(`/Report?katoid=${payload}`);
             return response.data;
         } catch (error) {
             console.info('slice', error)
@@ -33,7 +33,7 @@ export const reportsGetAll = createAsyncThunk(
 export const reportsAdd = createAsyncThunk(
     'supply/form/add', async (payload: IFormAddDto, thunkAPI) => {
         try {
-            const response = await ax.post<any>(`/Form/add`, payload);
+            const response = await ax.post<any>(`/Report`, payload);
             return response.data;
         } catch (error) {
             return thunkAPI.rejectWithValue("ошибка");
@@ -45,7 +45,7 @@ const reportsSlice = createSlice({
     name: 'reportsSlice',
     initialState: initialState,
     reducers: {
-        setReports: (state: thisSliceState, action: PayloadAction<FormDto[]>) => {
+        setReports: (state: thisSliceState, action: PayloadAction<IFormAddDto[]>) => {
             state.data = action.payload;
         },
         setVillage: (state: thisSliceState, action: PayloadAction<number | null>) => {
@@ -54,10 +54,13 @@ const reportsSlice = createSlice({
             } else {
                 state.isVillage = action.payload == 1 ? false : true;
             }
-        }
+        },
+        resetReports: (state: thisSliceState)=>{
+            state.data = [];
+        },
     },
     extraReducers: (builder) => {
-        builder.addCase(reportsGetAll.fulfilled, (state: thisSliceState, action: PayloadAction<FormDto[]>) => {
+        builder.addCase(reportsGetAll.fulfilled, (state: thisSliceState, action: PayloadAction<IFormAddDto[]>) => {
             state.data = action.payload
         })
     }
@@ -66,6 +69,6 @@ const reportsSlice = createSlice({
 // reducer
 export const reportsReducer = reportsSlice.reducer;
 // action
-export const { setReports, setVillage } = reportsSlice.actions;
+export const { setReports, setVillage, resetReports } = reportsSlice.actions;
 // selector
 export const selectReports = (state: RootState) => state.reports.data;
