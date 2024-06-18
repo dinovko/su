@@ -5,6 +5,14 @@ INSERT INTO public."Ref_Roles"
 ("Code", "TypeName", "NameRu", "IsDel", "Description")
 VALUES('USER_ADMIN', 'Базовая роль', 'Базовая роль', false, '');
 
+INSERT INTO public."Ref_Roles"
+("Code", "TypeName", "NameRu", "IsDel", "Description")
+VALUES('USER_ADMIN2', 'Базовая роль', 'Базовая роль', false, '');
+
+INSERT INTO public."Ref_Roles"
+("Code", "TypeName", "NameRu", "IsDel", "Description")
+VALUES('USER_ADMIN3', 'Базовая роль', 'Базовая роль', false, '');
+
 INSERT INTO public."Ref_Access"
 ("RoleId", "NameRu", "CodeAccessName", "TypeAccessName", "ActionName", "NameKk", "IsDel", "Description")
 VALUES(1, 'Доступ на модуля администрирование', '', '', '', '', false, '');
