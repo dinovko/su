@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "store/store";
-import { IRole, ISignUpDTO, ISignUpResponseDTO } from "types";
-import ax from 'utils/axios';
+import { RootState } from "../../store/store";
+import { IRole, ISignUpDTO, ISignUpResponseDTO } from "../../types";
+import ax from  '../../utils/axios'
 
 interface thisSliceState {
     isLoading: boolean,

@@ -2,16 +2,17 @@ import { Box, Stack, TextField, Button, useMediaQuery, ThemeProvider, Container,
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import PasswordOutlinedIcon from '@mui/icons-material/PasswordOutlined';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'hooks/storeHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/storeHook';
 import { useLocation, useNavigate, Navigate, Link } from 'react-router-dom';
-import { theme } from 'theme';
-import { decodeJwtToken, isExpired } from 'utils/tokenUtils';
+import { theme } from '../../theme';
+import { decodeJwtToken, isExpired } from '../../utils/tokenUtils';
 //import { fetchSignIn, selectAccount } from './accountSlice';
-import { IRole, ISignInDTO, ISignUpDTO } from 'types';
-import { fetchSignIn, selectAccount } from 'features/account/accountSlice';
+import { IRole, ISignInDTO, ISignUpDTO } from '../../types';
+import { fetchSignIn, selectAccount } from '../../features/account/accountSlice';
 import { Copyright } from '@mui/icons-material';
 import { fetchSignUp, selectAdmin } from './adminSlice';
-import ax from 'utils/axios';
+import ax from '../../utils/axios';
+import React from 'react';
 
 export const Register = () => {
   const dispatch = useAppDispatch();
@@ -25,28 +26,23 @@ export const Register = () => {
     password: '',
     roles: []
   })
-  const rolesList = ax.get<IRole>('/Refs/GetRefList');
 
-  /* useEffect(() => {
-    console.info('acc.isAuth', acc.isAuth)
-    if (acc.isAuth) {
-      let tokenExp = null;
-      let jwtFromSessionStorage = sessionStorage.getItem('X-TOKEN');
-      console.info('jwtFromSessionStorage', jwtFromSessionStorage)
-      if (jwtFromSessionStorage) {
-        tokenExp = decodeJwtToken(jwtFromSessionStorage);
-        if (tokenExp) {
-          console.info('!isExpired(tokenExp.exp)', isExpired(tokenExp.exp))
-        }
-      }
-      navigation("/reports", { replace: true });
-      // <Navigate to="/reports" state={{ from: location }} replace />
+  const fetchRolesList = async () => {
+    try {
+      const response = await ax.get<IRole>('/Refs/GetRefList');
+      const roles = response.data;
+      // Handle the rolesList data here
+    } catch (error) {
+      // Handle any errors that occur during the API call
+      console.error('Error fetching roles list:', error);
     }
-  }, []); */
+  };
+  
+  fetchRolesList();
 
   const handleSignUp = () => {
-    const { login, password, katoCode } = signUpDTO;
-    const roles = [{id: 1, label: 'Базовая роль'},{id: 1, label: 'Базовая роль'}]
+    const { login, password, katoCode, roles } = signUpDTO;
+    
     /* console.log(login) */
     dispatch(fetchSignUp({ login, password, katoCode, roles}));
     navigation("/main");
@@ -120,12 +116,6 @@ export const Register = () => {
                 onChange={(e: any) => handleChangeInput(e)}
               />
             </Grid>
-            {/* <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid> */}
           </Grid>
           <Button
             type="submit"
@@ -141,48 +131,6 @@ export const Register = () => {
           </Grid>
         </Box>
       </Box>
-    </Container>     
-      /* <Box sx={{ width: '400px' }}>
-      <div className="header">
-        <div className="text"></div>
-        <div className="underline"></div>
-      </div>
-      <Stack direction={'row'} gap={'8px'} alignItems={'center'} margin={'8px'} width={'100%'} >
-        <PersonOutlinedIcon />
-        <TextField
-          id="login"
-          name="login"
-          variant="outlined"
-          sx={{ width: '100%' }}
-          onChange={(e: any) => handleChangeInput(e)}
-        />
-      </Stack>
-      <Stack direction={'row'} gap={'8px'} alignItems={'center'} margin={'8px'} width={'100%'} >
-        <PasswordOutlinedIcon />
-        <TextField
-          id="password"
-          name="password"
-          className='input'
-          variant="outlined"
-          type='password'
-          sx={{ width: '100%' }}
-          onChange={(e: any) => handleChangeInput(e)}
-        />
-      </Stack>
-      <Stack direction={'row'} gap={'8px'} alignItems={'center'} margin={'8px'} width={'100%'} >
-        <PersonOutlinedIcon />
-        <TextField
-          id="katoCode"
-          name="katoCode"
-          variant="outlined"
-          sx={{ width: '100%' }}
-          type='number'
-          onChange={(e: any) => handleChangeInput(e)}
-        />
-      </Stack>
-      <Stack direction={'row'} gap={'8px'} alignItems={'center'} margin={'8px'} width={'100%'} justifyContent={'flex-end'}>
-        <Button variant="outlined" sx={{ width: '120px' }} onClick={() => handleSignUp()}>Вход</Button>
-      </Stack>
-    </Box> */
+    </Container>           
   )
 }
