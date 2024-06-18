@@ -17,10 +17,7 @@ const initialState: thisSliceState = {
     isLoading: false,
     isError: false,
     error: '',
-    roles: [{
-        id: 0,
-        label: ''
-    }],
+    roles: [],
     user: {
         login: '',
         password: ''
@@ -45,12 +42,18 @@ export const fetchSignUp = createAsyncThunk(
     }
 )
 
+export const fetchRolesList = createAsyncThunk('refs/getRefList', async () => {
+    const response = await ax.get<IRole[]>('/Refs/GetRefList');
+    return response.data;
+  });
+
+
 const adminSlice = createSlice({
     name: 'adminSlice',
     initialState: initialState,
     reducers: {
         newAccount: (state: thisSliceState, action: PayloadAction<boolean>) => {
-            state.roles = [];
+            //state.roles = [];
             state.accounts = [];
             sessionStorage.clear();
         }
@@ -61,6 +64,9 @@ const adminSlice = createSlice({
             state.user.password = action.payload.password;
             // state.data.token = action.payload.token;
         })
+        builder.addCase(fetchRolesList.fulfilled, (state: thisSliceState, action: PayloadAction<IRole[]>) => {
+            state.roles = action.payload;
+        })
     },
 });
 
@@ -70,6 +76,7 @@ export const adminReducer = adminSlice.reducer;
 export const { newAccount } = adminSlice.actions;
 // selector
 export const selectAdmin = (state: RootState) => state.adm.user;
+export const selectRoles = (state: RootState) => state.adm.roles;
 
 /* const registrationSlice = createSlice({
     name: 'registration',

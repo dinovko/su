@@ -368,7 +368,7 @@ export interface ISignUpDTO{
     login: string,
     password: string,
     katoCode: number,
-    roles: IRole[]
+    roles: number[]
 }
 
 export interface ISignUpResponseDTO{

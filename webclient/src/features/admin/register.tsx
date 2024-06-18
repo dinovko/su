@@ -1,21 +1,58 @@
-import { Box, Stack, TextField, Button, useMediaQuery, ThemeProvider, Container, CssBaseline, Avatar, Typography, Grid, FormControlLabel, Checkbox } from '@mui/material'
+import { Box, Stack, TextField, Button, useMediaQuery, ThemeProvider, Container, CssBaseline, Avatar, Typography, Grid, FormControlLabel, Checkbox, useTheme, SelectChangeEvent, FormControl, InputLabel, Select, Chip, MenuItem, OutlinedInput, Theme, Autocomplete } from '@mui/material'
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import PasswordOutlinedIcon from '@mui/icons-material/PasswordOutlined';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHook';
 import { useLocation, useNavigate, Navigate, Link } from 'react-router-dom';
-import { theme } from '../../theme';
 import { decodeJwtToken, isExpired } from '../../utils/tokenUtils';
 //import { fetchSignIn, selectAccount } from './accountSlice';
 import { IRole, ISignInDTO, ISignUpDTO } from '../../types';
 import { fetchSignIn, selectAccount } from '../../features/account/accountSlice';
 import { Copyright } from '@mui/icons-material';
-import { fetchSignUp, selectAdmin } from './adminSlice';
+import { fetchRolesList, fetchSignUp, selectAdmin, selectRoles } from './adminSlice';
 import ax from '../../utils/axios';
 import React from 'react';
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+/* const options:IRole[] =  [
+  {
+    id: 1,
+    label: "USER_ADMIN"
+  },
+  {
+    id: 2,
+    label: "SUPER_ADMIN"
+  },
+  {
+    id: 3,
+    label: "user_akimat_worker"
+  }
+] */
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
+
 export const Register = () => {
+  const theme = useTheme();
   const dispatch = useAppDispatch();
+  useEffect(()=>{dispatch(fetchRolesList())}, [])
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const location = useLocation();
   const navigation = useNavigate();
@@ -26,26 +63,31 @@ export const Register = () => {
     password: '',
     roles: []
   })
+  const adminRoles = useAppSelector(selectRoles);
+  console.table(adminRoles)
+  const [localRoles, setLocalRoles] = React.useState<IRole[]>([]);
+ 
 
-  const fetchRolesList = async () => {
-    try {
-      const response = await ax.get<IRole>('/Refs/GetRefList');
-      const roles = response.data;
-      // Handle the rolesList data here
-    } catch (error) {
-      // Handle any errors that occur during the API call
-      console.error('Error fetching roles list:', error);
-    }
-  };
+  /* const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  }; */
+
   
-  fetchRolesList();
+  
+  
 
   const handleSignUp = () => {
-    const { login, password, katoCode, roles } = signUpDTO;
-    
-    /* console.log(login) */
-    dispatch(fetchSignUp({ login, password, katoCode, roles}));
-    navigation("/main");
+    console.log(localRoles)
+    const { login, password, katoCode } = signUpDTO;    
+
+    dispatch(fetchSignUp({ login, password, katoCode, roles: extractId(localRoles)}));
+    //navigation("/main");
   }
 
   const handleChangeInput = (e: any) => {
@@ -60,6 +102,10 @@ export const Register = () => {
     const data = new FormData(event.currentTarget);
     console.log(data);
   };
+
+  const extractId = (list: IRole[]):number[] =>{    
+    return list.map(x=>x.id)
+  }
 
   return (    
     
@@ -116,6 +162,62 @@ export const Register = () => {
                 onChange={(e: any) => handleChangeInput(e)}
               />
             </Grid>
+                    <Autocomplete
+              multiple
+              id="select-with-chips"
+              options={adminRoles}
+              getOptionLabel={(option) => option.label}
+              value={localRoles}
+              onChange={(event, newValue) => {
+                setLocalRoles(newValue);
+              }}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    label={option.label}
+                    {...getTagProps({ index })}
+                    key={option.id}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Select"
+                  placeholder="Select options"
+                />
+              )}
+            />
+            {/* <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+        <Select
+          labelId="demo-multiple-chip-label"
+          id="demo-multiple-chip"
+          multiple
+          value={personName}
+          onChange={handleChange}
+          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((value) => (
+                <Chip key={value} label={value} />
+              ))}
+            </Box>
+          )}
+          MenuProps={MenuProps}
+        >
+          {names.map((name) => (
+            <MenuItem
+              key={name}
+              value={name}
+              style={getStyles(name, personName, theme)}
+            >
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl> */}
           </Grid>
           <Button
             type="submit"
