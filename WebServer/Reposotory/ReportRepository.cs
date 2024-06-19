@@ -12,6 +12,9 @@ namespace WebServer.Reposotory
         private readonly DbSet<Report_Form> _dbSetForm;
         private readonly DbSet<Ref_Status> _dbSetRefStatus;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly DbSet<ApprovedForm> _dbSetApprovedForm;
+        private readonly DbSet<ApprovedFormItem> _dbSetApprovedFormItem;
+        private readonly DbSet<ApprovedFormItemColumn> _dbSetApprovedFormItemColumn;
 
         public ReportRepository(WaterDbContext context, IHttpContextAccessor httpContext)
         {
@@ -19,6 +22,9 @@ namespace WebServer.Reposotory
             _httpContext = httpContext;
             _dbSetForm = _context.Set<Report_Form>();
             _dbSetRefStatus = _context.Set<Ref_Status>();
+            _dbSetApprovedForm = _context.Set<ApprovedForm>();
+            _dbSetApprovedFormItem = _context.Set<ApprovedFormItem>();
+            _dbSetApprovedFormItemColumn = _context.Set<ApprovedFormItemColumn>();
         }
         public async Task<ReportsDto> Add(Report_Form form)
         {
@@ -111,6 +117,37 @@ namespace WebServer.Reposotory
             var label = _dbSetRefStatus.FirstOrDefault(x => x.Id == id);
             if (label == null) return "";
             return label.NameRu;
+        }
+
+        public async Task<List<ApprovedFormItemDto>> GetServices()
+        {
+            return await _dbSetApprovedFormItem.Where(x => x.IsDel == false)
+                .Select(x => new ApprovedFormItemDto()
+                {
+                    Id = x.Id,
+                    ApprovedFormId = x.ApprovedFormId,
+                    ServiceId = x.ServiceId,
+                    ServiceName = x.ServiceId == 0 ? "водоснабжение" : (x.ServiceId == 1 ? "водоотведение" : "водопровод"),
+                    Title = x.Title,
+                    DisplayOrder = x.DisplayOrder,
+                    Url = $"/forms?id={x.Id}"
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<ApprovedFormItemColumnDto>> GetServiceById(Guid Id)
+        {
+            return await _dbSetApprovedFormItemColumn.Where(x => x.ApprovedFormItemId == Id)
+                .Select(x => new ApprovedFormItemColumnDto()
+                {
+                    Id = x.Id,
+                    ApprovedFormItemId = x.ApprovedFormItemId,
+                    DataType = x.DataType,
+                    ThRu = x.ThRu,
+                    ThKk = x.ThKk,
+                    DisplayOrder = x.DisplayOrder
+                })
+                .ToListAsync();
         }
     }
 }

@@ -53,5 +53,33 @@ namespace WebServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("services")]
+        public async Task<IActionResult> GetServices()
+        {
+            try
+            {
+                return Ok(await _repo.GetServices());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("forms")]
+        public async Task<IActionResult> GetServiceById(Guid Id)
+        {
+            try
+            {
+                return Ok(await _repo.GetServiceById(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
