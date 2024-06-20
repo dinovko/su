@@ -205,6 +205,11 @@ namespace WebServer.Migrations
                     b.Property<Guid>("ApprovedFormItemId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("DataJson")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Data");
+
                     b.Property<int>("DataType")
                         .HasColumnType("integer")
                         .HasComment("Тип хранимых данных: Label(Просто отображение), IntegerType, DecimalType, StringType, BooleanType, DateType, CalcType");

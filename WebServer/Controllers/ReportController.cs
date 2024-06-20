@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebServer.Dtos;
 using WebServer.Interfaces;
 using WebServer.Models;
 
@@ -70,11 +71,39 @@ namespace WebServer.Controllers
 
         [HttpGet]
         [Route("forms")]
-        public async Task<IActionResult> GetServiceById(Guid Id)
+        public async Task<IActionResult> GetApprovedFormItemColumnsServId(Guid Id)
         {
             try
             {
-                return Ok(await _repo.GetServiceById(Id));
+                return Ok(await _repo.GetApprovedFormItemColumnsServId(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("tables")]
+        public async Task<IActionResult> GetApprovedFormItemColumnTablesById(Guid Id)
+        {
+            try
+            {
+                return Ok(await _repo.GetApprovedFormItemColumnTablesById(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("tables/post")]
+        public async Task<IActionResult> UpdateApprovedFormItemColumnTable(ApprovedFormItemColumnTableDto model)
+        {
+            try
+            {                
+                return Ok(await _repo.UpdateApprovedFormItemColumnTable(model));
             }
             catch (Exception ex)
             {
