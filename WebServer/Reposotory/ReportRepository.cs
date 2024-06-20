@@ -127,7 +127,7 @@ namespace WebServer.Reposotory
                     Id = x.Id,
                     ApprovedFormId = x.ApprovedFormId,
                     ServiceId = x.ServiceId,
-                    ServiceName = x.ServiceId == 0 ? "водоснабжение" : (x.ServiceId == 1 ? "водоотведение" : "водопровод"),
+                    ServiceName = GetServiceName(x.ServiceId),
                     Title = x.Title,
                     DisplayOrder = x.DisplayOrder,
                     Url = $"/forms?id={x.Id}"
@@ -148,6 +148,16 @@ namespace WebServer.Reposotory
                     DisplayOrder = x.DisplayOrder
                 })
                 .ToListAsync();
+        }
+
+        private static string GetServiceName(int serviceId)
+        {
+            return serviceId switch
+            {
+                0 => "водоснабжение",
+                1 => "водоотведение",
+                _ => "водопровод"
+            };
         }
     }
 }
