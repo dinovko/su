@@ -3,7 +3,7 @@ using WebServer.Models;
 
 namespace WebServer.Dtos
 {
-    public class ApprovedFormItemColumnDto
+    public class ApprovedFormItemColumnServDto
     {
         public Guid Id { get; set; }
         public Guid ApprovedFormItemId { get; set; }

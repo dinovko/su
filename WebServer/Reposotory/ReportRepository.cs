@@ -127,7 +127,7 @@ namespace WebServer.Reposotory
                     Id = x.Id,
                     ApprovedFormId = x.ApprovedFormId,
                     ServiceId = x.ServiceId,
-                    ServiceName = x.ServiceId == 0 ? "водоснабжение" : (x.ServiceId == 1 ? "водоотведение" : "водопровод"),
+                    ServiceName = GetServiceName(x.ServiceId),
                     Title = x.Title,
                     DisplayOrder = x.DisplayOrder,
                     Url = $"/forms?id={x.Id}"
@@ -135,10 +135,10 @@ namespace WebServer.Reposotory
                 .ToListAsync();
         }
 
-        public async Task<List<ApprovedFormItemColumnDto>> GetServiceById(Guid Id)
+        public async Task<List<ApprovedFormItemColumnServDto>> GetApprovedFormItemColumnsServId(Guid Id)
         {
             return await _dbSetApprovedFormItemColumn.Where(x => x.ApprovedFormItemId == Id)
-                .Select(x => new ApprovedFormItemColumnDto()
+                .Select(x => new ApprovedFormItemColumnServDto()
                 {
                     Id = x.Id,
                     ApprovedFormItemId = x.ApprovedFormItemId,
@@ -148,6 +148,45 @@ namespace WebServer.Reposotory
                     DisplayOrder = x.DisplayOrder
                 })
                 .ToListAsync();
+        }
+
+        private static string GetServiceName(int serviceId)
+        {
+            return serviceId switch
+            {
+                0 => "водоснабжение",
+                1 => "водоотведение",
+                _ => "водопровод"
+            };
+        }
+
+        public async Task<List<ApprovedFormItemColumnTableDto>> GetApprovedFormItemColumnTablesById(Guid Id)
+        {
+            return await _dbSetApprovedFormItemColumn.Where(x => x.Id == Id)
+                .Select(x => new ApprovedFormItemColumnTableDto()
+                {
+                    Id = x.Id,
+                    DataType = x.DataType,
+                    Th = x.ThRu,
+                    DisplayOrder = x.DisplayOrder,
+                    Data = x.DataJson
+                })
+                .OrderBy(x=>x.DisplayOrder)
+                .ToListAsync();
+        }
+
+        public async Task<Guid> UpdateApprovedFormItemColumnTable(ApprovedFormItemColumnTableDto model)
+        {
+            var obj = await _dbSetApprovedFormItemColumn.FindAsync(model.Id);
+            if(obj == null) throw new Exception("Объект не найден");
+            obj.DataType = model.DataType;
+            obj.ThRu = model.Th;
+            obj.DisplayOrder = model.DisplayOrder;
+            obj.DataJson = model.Data;
+
+            _context.Entry(obj).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return model.Id;
         }
     }
 }
