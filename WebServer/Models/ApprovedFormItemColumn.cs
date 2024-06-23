@@ -22,5 +22,15 @@ namespace WebServer.Models
 
         [Comment("Порядок отображения")]
         public int DisplayOrder { get; set; } = 1;
+
+        [NotMapped]
+        public dynamic Data { get; set; }
+
+        [Column("Data")]
+        public string DataJson
+        {
+            get => JsonConvert.SerializeObject(Data);
+            set => Data = JsonConvert.DeserializeObject<dynamic>(value);
+        }
     }
 }
