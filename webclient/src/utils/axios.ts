@@ -3,8 +3,8 @@ import store from "store/store";
 import {setLoading} from "features/loading/loadingSlice"
 
 const axiosInstance = axios.create({
-    // baseURL: 'http://localhost:5145/api', 
-    baseURL: 'http://85.159.27.162:81/api', 
+     baseURL: 'http://localhost:5145/api', 
+    //baseURL: 'http://85.159.27.162:81/api', 
     headers: {
         'Content-Type': 'application/json',
     }

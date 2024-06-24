@@ -13,41 +13,6 @@ import { fetchRolesList, fetchSignUp, selectAdmin, selectRoles } from './adminSl
 import ax from '../../utils/axios';
 import React from 'react';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-/* const options:IRole[] =  [
-  {
-    id: 1,
-    label: "USER_ADMIN"
-  },
-  {
-    id: 2,
-    label: "SUPER_ADMIN"
-  },
-  {
-    id: 3,
-    label: "user_akimat_worker"
-  }
-] */
-
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 
 export const Register = () => {
   const theme = useTheme();
@@ -64,26 +29,10 @@ export const Register = () => {
     roles: []
   })
   const adminRoles = useAppSelector(selectRoles);
-  console.table(adminRoles)
   const [localRoles, setLocalRoles] = React.useState<IRole[]>([]);
  
-
-  /* const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  }; */
-
-  
-  
-  
-
-  const handleSignUp = () => {
-    console.log(localRoles)
+  const handleSignUp = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const { login, password, katoCode } = signUpDTO;    
 
     dispatch(fetchSignUp({ login, password, katoCode, roles: extractId(localRoles)}));
@@ -145,8 +94,8 @@ export const Register = () => {
                 id="katoCode"
                 label="КАТО"
                 name="katoCode"
-                autoComplete="katoCode"
-                type="number"
+                autoComplete="katoCode"   
+                type="number"                    
                 onChange={(e: any) => handleChangeInput(e)}
               />
             </Grid>
@@ -162,62 +111,35 @@ export const Register = () => {
                 onChange={(e: any) => handleChangeInput(e)}
               />
             </Grid>
-                    <Autocomplete
-              multiple
-              id="select-with-chips"
-              options={adminRoles}
-              getOptionLabel={(option) => option.label}
-              value={localRoles}
-              onChange={(event, newValue) => {
-                setLocalRoles(newValue);
-              }}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip
-                    label={option.label}
-                    {...getTagProps({ index })}
-                    key={option.id}
+            <Grid item xs={12}>
+              <Autocomplete
+                multiple
+                id="select-with-chips"
+                options={adminRoles}
+                getOptionLabel={(option) => option.label}
+                value={localRoles}
+                onChange={(event, newValue) => {
+                  setLocalRoles(newValue);
+                }}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip
+                      label={option.label}
+                      {...getTagProps({ index })}
+                      key={option.id}
+                    />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Select"
+                    placeholder="Select options"
                   />
-                ))
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  label="Select"
-                  placeholder="Select options"
-                />
-              )}
-            />
-            {/* <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
-        <Select
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-          multiple
-          value={personName}
-          onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl> */}
+                )}
+              />
+            </Grid>
           </Grid>
           <Button
             type="submit"

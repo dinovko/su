@@ -38,9 +38,9 @@ namespace WebServer.Controllers
             {
                 return Ok(await _repository.SignUp(request));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest("Ошибка при авторизации. Неверный логин или пароль");
+                return BadRequest(ex.Message);
             }
         }
     }
