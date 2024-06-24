@@ -21,8 +21,12 @@ namespace WebServer.Data
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Tariff_Level> Tariff_Level { get; set; }
         public DbSet<SettingsValue> SettingsValues { get; set; }
-        public DbSet<ApprovedForm> ApprovedForms { get; set; }
-        public DbSet<ApprovedFormItem> ApprovedFormItems { get; set; }
-        public DbSet<ApprovedFormItemColumn> ApprovedFormItemColumns { get; set; }
+
+        public DbSet<Account_Roles> Account_Roles { get; set; }
+        public DbSet<Business_Dictionary> Business_Dictionary { get; set; }
+        public DbSet<Ref_Access> Ref_Access { get; set; }
+        public DbSet<Ref_Role> Ref_Roles { get; set; }
+        public DbSet<Universal_Refference> Universal_Refferences { get; set; }
+
     }
 }

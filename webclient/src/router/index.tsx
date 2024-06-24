@@ -5,9 +5,14 @@ import { logout, selectAccount } from "features/account/accountSlice";
 import { Suspense, lazy, useEffect } from "react";
 import { BigSinner } from "components";
 import { decodeJwtToken, isExpired } from "utils/tokenUtils";
+<<<<<<< HEAD
 import { IndexPage, ReportPage, UniFormItemPage } from "pages";
 import { UniFormPage } from "pages/uniform-page";
 import { UniFormColumnPage } from "pages/unform-column-page";
+=======
+import { IndexPage, ReportPage } from "pages";
+import AdminPage from "pages/admin-page";
+>>>>>>> Admin-Fr
 const MainPage = lazy(() => import('pages').then(module => ({ default: module.MainPage })));
 const FormsPage = lazy(() => import('pages').then(module => ({ default: module.FormsPage })));
 const ErrorPage = lazy(() => import('pages').then(module => ({ default: module.ErrorPage })));
@@ -73,6 +78,7 @@ export const AppRouter = createBrowserRouter([
                 </ProtectedRoute>
             </Suspense>)
         ),
+<<<<<<< HEAD
     },
     {
         path: "/reports/:kato?",
@@ -114,4 +120,16 @@ export const AppRouter = createBrowserRouter([
             </Suspense>)
         ),
     },
+=======
+    },{
+        path: "/admin",
+        element: (
+            (<Suspense fallback={<BigSinner />}>
+                <ProtectedRoute>
+                    <AdminPage />
+                </ProtectedRoute>
+            </Suspense>)
+        )
+    }
+>>>>>>> Admin-Fr
 ]);

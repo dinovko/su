@@ -2,12 +2,13 @@ import { Box, Stack, TextField, Button, useMediaQuery } from '@mui/material'
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import PasswordOutlinedIcon from '@mui/icons-material/PasswordOutlined';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'hooks/storeHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/storeHook';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
-import { theme } from 'theme';
-import { decodeJwtToken, isExpired } from 'utils/tokenUtils';
+import { theme } from '../../theme';
+import { decodeJwtToken, isExpired } from '../../utils/tokenUtils';
 import { fetchSignIn, selectAccount } from './accountSlice';
-import { ISignInDTO } from 'types';
+import { ISignInDTO } from '../../types';
+import React from 'react';
 
 export const Login = () => {
   const dispatch = useAppDispatch();
