@@ -27,6 +27,9 @@ namespace WebServer.Data
         public DbSet<Ref_Access> Ref_Access { get; set; }
         public DbSet<Ref_Role> Ref_Roles { get; set; }
         public DbSet<Universal_Refference> Universal_Refferences { get; set; }
+        public DbSet<ApprovedForm> ApprovedForms { get; set; }
+        public DbSet<ApprovedFormItem> ApprovedFormItems { get; set; }
+        public DbSet<ApprovedFormItemColumn> ApprovedFormItemColumns { get; set; }
 
     }
 }
