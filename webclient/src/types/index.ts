@@ -379,7 +379,6 @@ public string? LinkToForm { get; set; }
  */
 //#endregion
 
-<<<<<<< HEAD
 export interface IApprovedForm {
     id?:string;
     description?:string;
@@ -404,7 +403,6 @@ export interface IApprovedFormItemColumn {
     thKk:string;
     displayOrder:number;
 }
-=======
 export interface IRole{
     id: number,
     label: string
@@ -422,4 +420,3 @@ export interface ISignUpResponseDTO{
     password: string
 }
 
->>>>>>> Admin-Fr
