@@ -26,6 +26,7 @@ namespace WebServer.Data
         public DbSet<Business_Dictionary> Business_Dictionary { get; set; }
         public DbSet<Ref_Access> Ref_Access { get; set; }
         public DbSet<Ref_Role> Ref_Roles { get; set; }
+        public DbSet<Ref_Role_Access> Ref_Role_Access { get; set; }
         public DbSet<Universal_Refference> Universal_Refferences { get; set; }
         public DbSet<ApprovedForm> ApprovedForms { get; set; }
         public DbSet<ApprovedFormItem> ApprovedFormItems { get; set; }
