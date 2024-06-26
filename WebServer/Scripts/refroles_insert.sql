@@ -1,3 +1,4 @@
+----Ref_Roles
 INSERT INTO public."Ref_Roles"
 ("Code", "TypeName", "NameRu", "IsDel", "Description")
 VALUES('USER_ADMIN', 'Базовая роль', 'Пользователь Администрирование', false, '');
@@ -18,9 +19,7 @@ INSERT INTO public."Ref_Roles"
 ("Code", "TypeName", "NameRu", "IsDel", "Description")
 VALUES('user_all', 'Базовая роль', 'Пользователь Просмотр', false, '');
 
-select * from "Ref_Roles" rr ;
-
----------------------------------------------------------------------
+--------------------Ref_Access-------------------------------------------------
 
 INSERT INTO public."Ref_Access"
 ("NameRu", "CodeAccessName", "TypeAccessName", "ActionName", "IsDel", "Description")
@@ -91,15 +90,67 @@ INSERT INTO public."Ref_Access"
 ("NameRu", "CodeAccessName", "TypeAccessName", "ActionName", "IsDel", "Description")
 VALUES('Просмотр финансов', '', '', '', false, '');
 
-
-select * from "Ref_Access" ra ;
-
-----------------------------------------------
+--------------------Ref_Role_Access--------------------------
 
 INSERT INTO public."Ref_Role_Access"
 ("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
-VALUES(0, 0, '', '', false, '');
+VALUES(1, 1, 'Доступ на модуля администрирование', '', false, '');
 
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(1, 2, 'Доступ на изменение структуры КАТО', '', false, '');
 
-select * from "Ref_Role_Access" rra ; 
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(1, 3, 'Доступ на редактирование обьекта КАТО', '', false, '');
+--
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(2, 4, 'Блокировка учетки и сброс пароля на почту', '', false, '');
+
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(2, 5, 'Создание учетки', '', false, '');
+
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(2, 6, 'Изменение учетки', '', false, '');
+---
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(3, 7, 'Доступ на редактирование обьекта КАТО', '', false, '');
+
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(3, 8, 'Доступ на согласование', '', false, '');
+
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(3, 9, 'Доступ на корректировку  (возврат)', '', false, '');
+---
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(4, 10, 'Забивка форм', '', false, '');
+
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(4, 11, 'отправка формы на согласование', '', false, '');
+---
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(5, 12, 'Просмотр карты', '', false, '');
+
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(5, 13, 'Просмотр отчетов', '', false, '');
+
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(5, 14, 'Просмотр форм', '', false, '');
+
+INSERT INTO public."Ref_Role_Access"
+("RoleId", "AccessId", "NameRu", "NameKk", "IsDel", "Description")
+VALUES(5, 15, 'Просмотр финансов', '', false, '');
+
+---------------------------------------------------------
 
