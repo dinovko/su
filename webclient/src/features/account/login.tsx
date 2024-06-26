@@ -39,6 +39,8 @@ export const Login = () => {
   }, []);
 
   const handleSignIn = () => {
+    localStorage.clear();
+    sessionStorage.clear();
     const { login, pwd, rem } = signInDTO;
     dispatch(fetchSignIn({ login, pwd, rem }));
     navigation("/main");
