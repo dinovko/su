@@ -424,9 +424,27 @@ export interface ITab {
 }
 
 export interface ICols {
-    id: string;
-    approvedFormItemId: string;
-    dataType: number;
-    thRu: string;
-    thKk: string;
+    id:string;
+    approvedFormItemId:string;
+    dataType:number;
+    thRu:string;
+    thKk:string;
+    displayOrder:number;
+}
+
+export interface IRole{
+    id: number,
+    label: string
+}
+
+export interface ISignUpDTO{
+    login: string,
+    password: string,
+    katoCode: number,
+    roles: number[]
+}
+
+export interface ISignUpResponseDTO{
+    login: string,
+    password: string
 }

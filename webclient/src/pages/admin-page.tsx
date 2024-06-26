@@ -1,9 +1,11 @@
+import { Box } from '@mui/material'
+import { Register } from 'features/admin/register'
 import React from 'react'
 
 const AdminPage = () => {
     
-  return (
-    <div>AdminPage</div>
+  return (    
+      <Register />    
   )
 }
 

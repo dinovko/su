@@ -8,6 +8,7 @@ import { decodeJwtToken, isExpired } from "utils/tokenUtils";
 import { IndexPage, ReportPage, UniFormItemPage } from "pages";
 import { UniFormPage } from "pages/uniform-page";
 import { UniFormColumnPage } from "pages/unform-column-page";
+import AdminPage from "pages/admin-page";
 const MainPage = lazy(() => import('pages').then(module => ({ default: module.MainPage })));
 const FormsPage = lazy(() => import('pages').then(module => ({ default: module.FormsPage })));
 const ErrorPage = lazy(() => import('pages').then(module => ({ default: module.ErrorPage })));
@@ -114,4 +115,14 @@ export const AppRouter = createBrowserRouter([
             </Suspense>)
         ),
     },
+    {
+        path: "/admin",
+        element: (
+            (<Suspense fallback={<BigSinner />}>
+                <ProtectedRoute>
+                    <AdminPage />
+                </ProtectedRoute>
+            </Suspense>)
+        )
+    }
 ]);

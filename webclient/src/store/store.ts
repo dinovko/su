@@ -20,6 +20,7 @@ import {
     unformItemColumnReducer,
     DataReducer,
 } from '../features/index';
+import { adminReducer } from "features/admin/adminSlice";
 
 const rootReducer = combineReducers({
     loading: loadingReducer,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     unfItem: unformItemReducer,
     unfCol: unformItemColumnReducer,
     data: DataReducer,
+    adm: adminReducer
 });
 
 const persistConfig = {

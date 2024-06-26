@@ -13,6 +13,12 @@ namespace WebServer.Controllers
             _repo = repo;
         }
 
+        [HttpGet("GetRefList")]
+        public async Task<IActionResult> GetRefList()
+        {
+            return Ok(await _repo.GetRefList());
+        }
+
         [HttpGet("datatypes")]
         public ActionResult GetDataTypes()
         {
