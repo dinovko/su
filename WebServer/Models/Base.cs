@@ -14,6 +14,6 @@ namespace WebServer.Models
         public DateTime? LastModifiedDate { get; set; }
         public bool IsDel { get; set; } = false;
         [Comment("Примечания")]
-        public String Desctiption { get; set; } = "";
+        public String Description { get; set; } = "";
     }
 }

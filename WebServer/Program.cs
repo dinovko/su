@@ -66,6 +66,7 @@ namespace WebServer
             builder.Services.AddScoped(typeof(Interfaces.IFormItemColumn), typeof(Reposotory.FormItemColumnRepository));
             builder.Services.AddScoped(typeof(Interfaces.IRefs), typeof(Reposotory.RefsRepository));
             builder.Services.AddScoped(typeof(Interfaces.IReport), typeof(Reposotory.ReportRepository));
+            builder.Services.AddScoped(typeof(Interfaces.IData), typeof(Reposotory.DataRepository));
             #endregion
             #region Swagger
             builder.Services.AddSwaggerGen(sw =>
@@ -105,6 +106,7 @@ namespace WebServer
                 var helper = new DatabaseHelper();
                 helper.InitializeRefs(dbCtx, environment); //справочники
                 helper.InitializeDefaultUsers(dbCtx, environment); //пользователи
+                helper.InitializeDefaultForms(dbCtx, environment); //формы
             }
             #endregion
             app.UseSwagger();

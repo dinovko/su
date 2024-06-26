@@ -21,13 +21,14 @@ namespace WebServer.Reposotory
 
         public async Task<ApprovedForm> Add(ApprovedForm aForm)
         {
-            await _dbSetForm.AddAsync(aForm);
             try
             {
+                aForm.ApprovalDate = aForm.ApprovalDate.ToUniversalTime();
+                await _dbSetForm.AddAsync(aForm);
                 await _context.SaveChangesAsync();
 
                 //отключаем остальные утвержденные формы.
-                var list = await _dbSetForm.Where(x => !x.CompletionDate.HasValue && x.Id!=aForm.Id).ToListAsync();
+                var list = await _dbSetForm.Where(x => !x.CompletionDate.HasValue && x.Id != aForm.Id).ToListAsync();
                 foreach (var entity in list)
                 {
                     var row = await _dbSetForm.FindAsync(entity.Id);
@@ -64,7 +65,7 @@ namespace WebServer.Reposotory
 
         public async Task<List<ApprovedForm>> GetForms()
         {
-            var form = await _dbSetForm.OrderByDescending(x=>x.ApprovalDate).ToListAsync();
+            var form = await _dbSetForm.OrderByDescending(x => x.ApprovalDate).ToListAsync();
             if (form == null)
             {
                 return new List<ApprovedForm>();

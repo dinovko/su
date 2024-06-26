@@ -10,7 +10,7 @@ interface ToggleButtonsProps {
     onClick(val: string | null): void;
 }
 export const ToggleButtons: React.FC<ToggleButtonsProps> = ({ onClick }) => {
-    const [alignment, setAlignment] = React.useState<string | null>('supply');
+    const [alignment, setAlignment] = React.useState<string | null>('0');
 
     const handleAlignment = (
         event: React.MouseEvent<HTMLElement>,
@@ -27,13 +27,13 @@ export const ToggleButtons: React.FC<ToggleButtonsProps> = ({ onClick }) => {
             onChange={handleAlignment}
             aria-label="text alignment"
         >
-            <ToggleButton value="supply" aria-label="left aligned">
+            <ToggleButton value="0" aria-label="left aligned">
                 Водоснабжение
             </ToggleButton>
-            <ToggleButton value="waste" aria-label="centered">
+            <ToggleButton value="1" aria-label="centered">
                 Водоотведение
             </ToggleButton>
-            <ToggleButton value="pipe" aria-label="right aligned" disabled={true}>
+            <ToggleButton value="2" aria-label="right aligned" disabled={true}>
                 Водопровод
             </ToggleButton>
             <ToggleButton value="preview" aria-label="right aligned">

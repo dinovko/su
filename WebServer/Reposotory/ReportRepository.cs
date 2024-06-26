@@ -41,7 +41,7 @@ namespace WebServer.Reposotory
                 {
                     Id = form.Id,
                     HasStreets = false,
-                    Desctiption = form.Desctiption,
+                    Description = form.Description,
                     AuthorId = form.AuthorId,
                     CreateDate = form.CreateDate,
                     IsDel = form.IsDel,
@@ -58,7 +58,7 @@ namespace WebServer.Reposotory
                 //    {
                 //        Id = x.Id,
                 //        HasStreets = false,
-                //        Desctiption = x.Desctiption,
+                //        Description = x.Description,
                 //        AuthorId = x.AuthorId,
                 //        CreateDate = x.CreateDate,
                 //        IsDel = x.IsDel,
@@ -98,7 +98,7 @@ namespace WebServer.Reposotory
                     {
                         Id = x.Id,
                         HasStreets = false,
-                        Desctiption = x.Desctiption,
+                        Description = x.Description,
                         AuthorId = x.AuthorId,
                         CreateDate = x.CreateDate,
                         IsDel = x.IsDel,
@@ -169,7 +169,7 @@ namespace WebServer.Reposotory
                     DataType = x.DataType,
                     Th = x.ThRu,
                     DisplayOrder = x.DisplayOrder,
-                    Data = x.DataJson
+                    //Data = x.DataJson
                 })
                 .OrderBy(x=>x.DisplayOrder)
                 .ToListAsync();
@@ -182,11 +182,23 @@ namespace WebServer.Reposotory
             obj.DataType = model.DataType;
             obj.ThRu = model.Th;
             obj.DisplayOrder = model.DisplayOrder;
-            obj.DataJson = model.Data;
+            //obj.DataJson = model.Data;
 
             _context.Entry(obj).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return model.Id;
+        }
+
+        public async Task<List<ApprovedFormItem>> GetTabsByServiceID(int id)
+        {
+            var result = new List<ApprovedFormItem>();
+            //получаем утвержденную форму
+            var form = await _dbSetApprovedForm.FirstOrDefaultAsync(x => !x.CompletionDate.HasValue);
+            if (form == null) throw new Exception("Отсутствуют актвные утвержденные формы");
+            //получаем вкладки утвержденной формы
+            var tabs = await _dbSetApprovedFormItem.Where(x=>x.ApprovedFormId == form.Id && x.ServiceId == id).ToListAsync();
+            if (!tabs.Any() || tabs == null) throw new Exception("Отсутствуют формы");
+            return tabs;
         }
     }
 }

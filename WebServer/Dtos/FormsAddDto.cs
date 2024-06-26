@@ -6,6 +6,6 @@
         public int? SupplierId { get; set; }
         public int ReportYearId { get; set; }
         public int ReportMonthId { get; set; }
-        public String? Desctiption { get; set; }
+        public String? Description { get; set; }
     }
 }

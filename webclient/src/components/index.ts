@@ -1,4 +1,4 @@
-export * from '../features/forms/tab-sypply-city'
+export * from '../features/forms/tab'
 export * from './big-spinner'
 export {default as ModalDialog} from './modal-dialog'
 export * from './zoom-content'

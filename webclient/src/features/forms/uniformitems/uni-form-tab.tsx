@@ -1,4 +1,5 @@
-import { Box, Tabs, Tab } from '@mui/material'
+import { Box, Tabs, Tab, Button } from '@mui/material'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { useAppDispatch, useAppSelector } from 'hooks/storeHook';
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,6 +7,7 @@ import { selectUniform } from '../uniforms/uniformSlice';
 import { addApprovedFormItem, deleteApprovedFormItem, fetchApprovedFormItem, selectUniformItem } from './uniformitemSlice';
 import { UniFormTabCreate } from './uni-form-tab-create';
 import { IApprovedFormItem } from 'types';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { UniFormColumn } from '../uniformitemColumns/uni-form-column';
 
 interface TabPanelProps {
@@ -85,6 +87,16 @@ export const UniFormTab = () => {
 
     return (
         <Box sx={{ width: '100%' }}>
+            <Box sx={{display:'flex', justifyContent:'flex-end', margin:'16px'}}>
+                <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<CloseOutlinedIcon />}
+                    onClick={() => navigation("/uniform/view", { replace: true })}
+                >
+                    Закрыть
+                </Button>
+            </Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     {uniformItem && uniformItem.map((tab, index) => (<Tab key={tab.id} label={tab.title} {...a11yProps(index, tab.id)} />))}
@@ -94,15 +106,24 @@ export const UniFormTab = () => {
             {uniformItem && uniformItem.map((tab, index) =>
             (<CustomTabPanel key={index} value={value} index={index}>
                 {tab.title}
-                <UniFormColumn />
-                <div>
-                    <button disabled={delIsDisabled(tabid)} style={{ backgroundColor: 'red', color: 'white' }} onClick={() => handleDeleteTab()}>Удалить вкладку</button>
+                <div style={{display:'flex',justifyContent:'flex-end', margin:'16px'}}>
+                    {/* <Button disabled={delIsDisabled(tabid)} variant="outlined">Удалить вкладку</Button> */}
+                    <Button
+                        disabled={delIsDisabled(tabid)}
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
+                        onClick={() => handleDeleteTab()}
+                        color="error"
+                    >
+                        Удалить вкладку
+                    </Button>
                 </div>
+                <UniFormColumn />
             </CustomTabPanel>))}
             <CustomTabPanel key='newtab' value={value} index={999}>
                 <UniFormTabCreate key='UniFormTabCreate' onCreate={handleCreateTab} />
             </CustomTabPanel>
-            <button onClick={() => navigation("/uniform/view", { replace: true })}>Закрыть</button>
+            {/* <button onClick={() => navigation("/uniform/view", { replace: true })}>Закрыть</button> */}
         </Box>
     )
 }

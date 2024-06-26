@@ -73,6 +73,7 @@ namespace WebServer.Reposotory
             form.ThRu = aForm.ThRu;
             form.ThKk = aForm.ThKk;
             form.DisplayOrder = aForm.DisplayOrder;
+            form.IsVillage = aForm.IsVillage;
             _context.Entry(form).State = EntityState.Modified;
             try
             {

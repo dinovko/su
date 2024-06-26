@@ -12,7 +12,7 @@ namespace WebServer.Dtos
         public bool IsDel { get; set; } = false;
 
         [Comment("Примечания")]
-        public String Desctiption { get; set; } = "";
+        public String Description { get; set; } = "";
         public int RefKatoId { get; set; }
         public int ReportYearId { get; set; }
         public int ReportMonthId { get; set; }

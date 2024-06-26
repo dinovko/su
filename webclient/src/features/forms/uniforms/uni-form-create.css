@@ -1,6 +1,6 @@
 .container {
     width: 80%;
-    height: 80vh;
+    height: 50vh;
 }
 .form {
     display: flex;
@@ -8,13 +8,13 @@
     padding: 16px;
     border: 2px solid blue;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
 }
 
 input, textarea {
     padding: 8px;
     border-radius: 4px;
-    width: 30vw;
+    width: 20vw;
 }
 
 input[type='submit'] {

@@ -10,47 +10,27 @@ import {
 } from "redux-persist";
 import localStorage from "redux-persist/es/storage";
 import {
-    // supplyFormReducer,
-    supplyForm1Reducer,
-    supplyForm2Reducer,
-    supplyForm3Reducer,
-    supplyForm4Reducer,
-    supplyForm5Reducer,
     refKatoReducer,
-    // RPeriodReducer,
     accountReducer,
     reportsReducer,
     refStreetReducer,
     loadingReducer,
-    /**водоотведение */
-    wasteCityForm1Reducer,
-    // водопровод
-    pipelineReducer,
     unformReducer,
     unformItemReducer,
     unformItemColumnReducer,
+    DataReducer,
 } from '../features/index';
 
 const rootReducer = combineReducers({
     loading: loadingReducer,
     reports: reportsReducer,
-    // supplyForm: supplyFormReducer,
-    supplyForm1: supplyForm1Reducer,
-    supplyForm2: supplyForm2Reducer,
-    supplyForm3: supplyForm3Reducer,
-    supplyForm4: supplyForm4Reducer,
-    supplyForm5: supplyForm5Reducer,
     kato: refKatoReducer,
     refStreet: refStreetReducer,
-    // rp: RPeriodReducer,
     acc: accountReducer,
-    /**водоотведение */
-    wasteForm1: wasteCityForm1Reducer,
-    // водопровод
-    pipe: pipelineReducer,
     unf: unformReducer,
     unfItem: unformItemReducer,
     unfCol: unformItemColumnReducer,
+    data: DataReducer,
 });
 
 const persistConfig = {

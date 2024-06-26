@@ -24,5 +24,6 @@ namespace WebServer.Data
         public DbSet<ApprovedForm> ApprovedForms { get; set; }
         public DbSet<ApprovedFormItem> ApprovedFormItems { get; set; }
         public DbSet<ApprovedFormItemColumn> ApprovedFormItemColumns { get; set; }
+        public DbSet<Models.Data> Data { get; set; }
     }
 }

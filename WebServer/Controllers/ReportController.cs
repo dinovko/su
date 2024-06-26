@@ -71,11 +71,11 @@ namespace WebServer.Controllers
 
         [HttpGet]
         [Route("forms")]
-        public async Task<IActionResult> GetApprovedFormItemColumnsServId(Guid Id)
+        public async Task<IActionResult> GetTabsByServiceID(int Id)
         {
             try
             {
-                return Ok(await _repo.GetApprovedFormItemColumnsServId(Id));
+                return Ok(await _repo.GetTabsByServiceID(Id));
             }
             catch (Exception ex)
             {
@@ -83,32 +83,32 @@ namespace WebServer.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("tables")]
-        public async Task<IActionResult> GetApprovedFormItemColumnTablesById(Guid Id)
-        {
-            try
-            {
-                return Ok(await _repo.GetApprovedFormItemColumnTablesById(Id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet]
+        //[Route("tables")]
+        //public async Task<IActionResult> GetApprovedFormItemColumnTablesById(Guid Id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _repo.GetApprovedFormItemColumnTablesById(Id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpPost]
-        [Route("tables/post")]
-        public async Task<IActionResult> UpdateApprovedFormItemColumnTable(ApprovedFormItemColumnTableDto model)
-        {
-            try
-            {                
-                return Ok(await _repo.UpdateApprovedFormItemColumnTable(model));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpPost]
+        //[Route("tables/post")]
+        //public async Task<IActionResult> UpdateApprovedFormItemColumnTable(ApprovedFormItemColumnTableDto model)
+        //{
+        //    try
+        //    {                
+        //        return Ok(await _repo.UpdateApprovedFormItemColumnTable(model));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

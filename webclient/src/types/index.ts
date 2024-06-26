@@ -281,7 +281,7 @@ export interface IKatoTreeViewDto {
     description: string | null;
     children: IKatoTreeViewDto[]
     katoLevel: number | null;
-    isReportable:boolean;
+    isReportable: boolean;
 }
 
 export interface ISimpleTreeView {
@@ -313,15 +313,15 @@ export interface FormDto {
 }
 
 export interface IFormAddDto {
-    id:string;
-    isDel:boolean;
-    desctiption:string;
+    id: string;
+    isDel: boolean;
+    desctiption: string;
     refKatoId: number;
     reportYearId: number;
     reportMonthId: number;
-    refStatusId:number;
-    hasStreets:boolean;
-    refStatusLabel?:string;
+    refStatusId: number;
+    hasStreets: boolean;
+    refStatusLabel?: string;
     /**
      * 
      * "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -380,26 +380,53 @@ public string? LinkToForm { get; set; }
 //#endregion
 
 export interface IApprovedForm {
-    id?:string;
-    description?:string;
-    approvalDate?:Date;
-    completionDate?:Date;
-    deletedById?:string;
+    id?: string;
+    description?: string;
+    approvalDate?: Date;
+    completionDate?: Date;
+    deletedById?: string;
 }
 
 export interface IApprovedFormItem {
-    id?:string;
-    approvedFormId?:string;
-    serviceId?:number;
-    title?:string;
-    displayOrder?:number;
+    id?: string;
+    approvedFormId?: string;
+    serviceId?: number;
+    title?: string;
+    displayOrder?: number;
 }
 
 export interface IApprovedFormItemColumn {
-    id:string;
-    approvedFormItemId:string;
-    dataType:number;
-    thRu:string;
-    thKk:string;
-    displayOrder:number;
+    id: string;
+    approvedFormItemId: string;
+    dataType: number;
+    thRu: string;
+    thKk: string;
+    displayOrder: number;
+}
+
+export interface IData {
+    approvedFormId: string;
+    approvedFormItemId: string;
+    approverFormColumnId: string;
+    id: string;
+    valueType: number;
+    valueJson: any;
+}
+
+export interface IDataUpate {
+    id: string;
+    valueJson: any;
+}
+
+export interface ITab {
+    id: string;
+    title: string;
+}
+
+export interface ICols {
+    id: string;
+    approvedFormItemId: string;
+    dataType: number;
+    thRu: string;
+    thKk: string;
 }

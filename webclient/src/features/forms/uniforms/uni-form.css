@@ -1,6 +1,5 @@
 .container {
     display: flex;
-    border: 1px solid red;
     flex-direction: row;
     padding: 16px;
     gap: 8px;
@@ -9,7 +8,6 @@
 }
 
 .sidebar {
-    border: 1px solid red;
     height: 100%;
     width: 20%;
     padding: inherit;
@@ -17,7 +15,6 @@
 }
 
 .content {
-    border: 1px solid red;
     padding: inherit;
     overflow-y: scroll;
     display: flex;

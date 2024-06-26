@@ -140,7 +140,7 @@ namespace WebServer.Reposotory
             var newRow = await _dbSetForm.AddAsync(new Report_Form()
             {
                 CreateDate = DateTime.UtcNow,
-                Desctiption = !String.IsNullOrEmpty(row.Desctiption) ? row.Desctiption : "",
+                Description = !String.IsNullOrEmpty(row.Description) ? row.Description : "",
                 IsDel = false,
                 RefKatoId = row.RefKatoId,
                 RefStatusId = 1,

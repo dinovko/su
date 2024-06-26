@@ -2,7 +2,7 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 16px;
 }
 
@@ -15,5 +15,11 @@ select {
 }
 
 input[type='number'] {
-    width: 50px;
+    width: 250px;
+}
+input[type='text'] {
+    width: 250px;
+}
+select, option {
+    width: 250px;
 }

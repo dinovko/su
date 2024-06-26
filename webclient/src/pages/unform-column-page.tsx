@@ -1,3 +1,4 @@
+import { MainBar } from 'components/app-bar';
 import { UniFormColumn } from 'features'
 import { UniFormColumnCreate } from 'features/forms/uniformitemColumns/uni-form-column-create';
 import { selectUniformCols } from 'features/forms/uniformitemColumns/uniformitemColumnsSlice';
@@ -16,6 +17,7 @@ export const UniFormColumnPage = () => {
     }, [])
     return (
         <>
+            <MainBar />
             {action == 'view' && id != null && id != '' && (<UniFormColumn />)}
             {action == 'edit' && id != null && id != '' && (<UniFormColumnCreate key={'UniFormColumnCreate'} id={id} />)}
         </>

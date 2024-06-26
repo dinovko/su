@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/storeHook';
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchApprovedFormItemColumn, selectUniformCols } from './uniformitemColumnsSlice';
+import { Button } from '@mui/material';
 
 export const UniFormColumn = () => {
     const { action, tabid } = useParams();
@@ -22,8 +23,8 @@ export const UniFormColumn = () => {
 
     return (
         <div className='uni-form-column-container'>
-            <input type='button' value='Редактировать' onClick={() => handleToEdit()} />
-            <table>
+            <Button variant="outlined" onClick={() => handleToEdit()}>{colsTab.length ? 'Редактировать':'Добавить столбцы'}</Button>
+            {colsTab.length > 0 && (<table>
                 <thead>
                     <tr>
                         <th>№</th>
@@ -36,7 +37,7 @@ export const UniFormColumn = () => {
                         {colsTab && colsTab.map((td) => (<td key={td.id}>-</td>))}
                     </tr>
                 </tbody>
-            </table>
+            </table>)}
         </div>
     )
 }

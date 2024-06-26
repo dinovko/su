@@ -91,6 +91,30 @@ namespace WebServer.Helpers
             }
         }
 
+        internal void InitializeDefaultForms(WaterDbContext context, IWebHostEnvironment environment)
+        {
+            if (context == null) throw new ArgumentNullException("context");
+            if (!context.ApprovedForms.Any())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        string baseDir = environment.ContentRootPath;
+                        string scriptsPath = Path.Combine(baseDir, "Scripts", "insert_forms_2024.sql");
+                        var script = System.IO.File.ReadAllText(scriptsPath);
+                        context.Database.ExecuteSqlRaw(script);
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
         internal async Task<bool> DatabaseHasTablesAsync(WaterDbContext context)
         {
             var connection = context.Database.GetDbConnection();

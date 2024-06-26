@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './uni-form.css'
 import { useAppDispatch, useAppSelector } from 'hooks/storeHook'
 import { addApprovedForm, fetchApprovedForm, selectUniform } from './uniformSlice';
@@ -13,43 +13,21 @@ export const UniForm = () => {
   const uniform = useAppSelector(selectUniform);
   const navigation = useNavigate();
   const { action } = useParams();
-
-  const actionType = (action: string | undefined) => {
-    switch (action) {
-      case 'view':
-        return (<UniFormTable key={'UniFormTable'}
-          data={uniform}
-          onCreate={() => navigation("/uniform/create")}
-          onEditRow={onEditRow}
-        />);
-        break;
-      case 'create':
-        return (<UniFormCreate key={'UniFormCreate'} onSubmit={onCreate} />);
-        break;
-
-      default:
-        return (<UniFormTable key={'UniFormTable'}
-          data={uniform}
-          onCreate={() => navigation("/uniform/create")}
-          onEditRow={onEditRow}
-        />);
-        break;
-    }
-  }
+  const [openModal, setopenModal] = useState<boolean>(false);
 
   useEffect(() => {
-    console.info('action', action);
-    if (!action || !params.includes(action)) {
-      navigation("/uniform/view", { replace: true });
-      reload();
-    }
+    reload();
+    // console.info('action', action);
+    // if (!action || !params.includes(action)) {
+    //   navigation("/uniform/view", { replace: true });
+    // }
   }, [, action])
 
   const reload = () => dispatch(fetchApprovedForm(''));
 
   const onCreate = (e: any) => {
     console.info('onCreate', e);
-    dispatch(addApprovedForm(e as IApprovedForm)).then(() => { reload(); navigation("/uniform/view") })
+    dispatch(addApprovedForm(e as IApprovedForm)).then(() => { reload(); setopenModal(false) })
   }
 
   const onEditRow = (id: string | undefined) => {
@@ -60,7 +38,11 @@ export const UniForm = () => {
   return (
     <div className='container'>
       <div className='content'>
-        {actionType(action)}
+        <UniFormTable key={'UniFormTable'}
+          data={uniform}
+          onCreate={(e:any) => onCreate(e)}
+          onEditRow={onEditRow}
+        />
       </div>
     </div>
   )
