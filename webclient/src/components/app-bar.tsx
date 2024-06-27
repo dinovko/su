@@ -14,6 +14,8 @@ const pages: IMenu[] = [
     { title: 'Формы', navUrl: '/reports' },
     { title: 'Редактирование форм', navUrl: '/uniform/view' },
     { title: 'Админка', navUrl: '/admin' },
+    {title: 'Справ Универсал', navUrl:'/refUniver'},
+    {title: 'Справ Бизнес', navUrl:'/refBusines'}        
 ];
 export const MainBar = () => {
     const dispatch = useAppDispatch();

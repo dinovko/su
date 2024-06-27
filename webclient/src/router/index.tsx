@@ -124,5 +124,25 @@ export const AppRouter = createBrowserRouter([
                 </ProtectedRoute>
             </Suspense>)
         )
+    },
+    {
+        path: "/refUniver",
+        element: (
+            (<Suspense fallback={<BigSinner />}>
+                <ProtectedRoute>
+                    <AdminPage />
+                </ProtectedRoute>
+            </Suspense>)
+        )
+    },
+    {
+        path: "/refBusines",
+        element: (
+            (<Suspense fallback={<BigSinner />}>
+                <ProtectedRoute>
+                    <AdminPage />
+                </ProtectedRoute>
+            </Suspense>)
+        )
     }
 ]);

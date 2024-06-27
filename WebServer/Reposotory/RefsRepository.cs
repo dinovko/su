@@ -38,14 +38,36 @@ namespace WebServer.Reposotory
             return enums;
         }
 
-        public async Task<List<RefIdGuidDto>> GetRefUniverList()
+        public async Task<List<RefUniverRefDto>> GetRefUniverList()
         {
-            return await _dbSetUniver.Select(x => new RefIdGuidDto { Id = x.Id, Label = x.Code }).ToListAsync();            
+            return await _dbSetUniver.Select(x => new RefUniverRefDto 
+            { 
+                Id = x.Id, 
+                ParentId = x.ParentId,
+                Code = x.Code,
+                Type = x.Type,
+                BusinessDecription = x.BusinessDecription,
+                NameRu = x.NameRu,
+                NameKk = x.NameKk,
+                IsDel = x.IsDel,
+                Description = x.Description
+            }).ToListAsync();            
         }
 
-        public async Task<List<RefIdGuidDto>> GetBusinesDictList()
+        public async Task<List<RefBusinesDictDto>> GetBusinesDictList()
         {
-            return await _dbSetBusines.Select(x => new RefIdGuidDto { Id = x.Id, Label= x.Code }).ToListAsync();
+            return await _dbSetUniver.Select(x => new RefBusinesDictDto
+            {
+                Id = x.Id,
+                ParentId = x.ParentId,
+                Code = x.Code,
+                Type = x.Type,
+                BusinessDecription = x.BusinessDecription,
+                NameRu = x.NameRu,
+                NameKk = x.NameKk,
+                IsDel = x.IsDel,
+                Description = x.Description
+            }).ToListAsync();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace WebServer.Interfaces
     {
         public Task<List<RefRoleDto>> GetRefRolesList();
         public Dictionary<int, string> GetDataTypes();
-        Task<List<RefIdGuidDto>> GetRefUniverList();
-        Task<List<RefIdGuidDto>> GetBusinesDictList();
+        Task<List<RefUniverRefDto>> GetRefUniverList();
+        Task<List<RefBusinesDictDto>> GetBusinesDictList();
     }
 }
