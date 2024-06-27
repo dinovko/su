@@ -42,8 +42,8 @@ export const fetchSignUp = createAsyncThunk(
     }
 )
 
-export const fetchRolesList = createAsyncThunk('refs/getRefList', async () => {
-    const response = await ax.get<IRole[]>('/Refs/GetRefList');
+export const fetchRolesList = createAsyncThunk('refs/refRolesList', async () => {
+    const response = await ax.get<IRole[]>('/Refs/refRolesList');
     return response.data;
   });
 

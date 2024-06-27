@@ -13,16 +13,36 @@ namespace WebServer.Controllers
             _repo = repo;
         }
 
-        [HttpGet("GetRefList")]
-        public async Task<IActionResult> GetRefList()
+        [HttpGet("refRolesList")]
+        public async Task<IActionResult> GetRefRolesList()
         {
-            return Ok(await _repo.GetRefList());
+            return Ok(await _repo.GetRefRolesList());
         }
 
         [HttpGet("datatypes")]
         public ActionResult GetDataTypes()
         {
             return Ok(_repo.GetDataTypes());
+        }
+
+        [HttpGet("univerList")]
+        public async Task<ActionResult> GetRefUniverList()
+        {
+            try
+            {
+                return Ok(await _repo.GetRefUniverList());
+            }
+            catch (Exception ex) 
+            { 
+                return BadRequest(ex.Message);
+            }
+            
+        }
+
+        [HttpGet("businesList")]
+        public async Task<ActionResult> GetBusinesDictList()
+        {
+            return Ok(await _repo.GetBusinesDictList());
         }
     }
 }

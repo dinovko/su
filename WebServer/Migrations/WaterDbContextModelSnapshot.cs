@@ -274,11 +274,9 @@ namespace WebServer.Migrations
 
             modelBuilder.Entity("WebServer.Models.Business_Dictionary", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("BusinessDecription")
                         .HasColumnType("text")
@@ -302,7 +300,7 @@ namespace WebServer.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ParentId")
+                    b.Property<Guid?>("ParentId")
                         .HasColumnType("uuid")
                         .HasComment("ключ на ИД (своего типа или стороннего)");
 
@@ -839,11 +837,9 @@ namespace WebServer.Migrations
 
             modelBuilder.Entity("WebServer.Models.Universal_Refference", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("BusinessDecription")
                         .HasColumnType("text")
@@ -867,7 +863,7 @@ namespace WebServer.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ParentId")
+                    b.Property<Guid?>("ParentId")
                         .HasColumnType("uuid")
                         .HasComment("ключ на ИД (своего типа или стороннего)");
 
