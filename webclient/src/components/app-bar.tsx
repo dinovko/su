@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, FormGroup, FormControlLabel, Toolbar, IconButton, Typography, Menu, MenuItem, Switch, AppBar, Button } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -14,17 +14,26 @@ const pages: IMenu[] = [
     { title: 'Формы', navUrl: '/reports' },
     { title: 'Редактирование форм', navUrl: '/uniform/view' },
     { title: 'Админка', navUrl: '/admin' },
-    {title: 'Справ Универсал', navUrl:'/refUniver'},
-    {title: 'Справ Бизнес', navUrl:'/refBusines'}        
+    { title: 'Справчоники', children: [
+        {title: 'Справ Универсал', navUrl:'/refUniver'},
+        {title: 'Справ Бизнес', navUrl:'/refBusines'}
+    ]}            
 ];
 export const MainBar = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
     const acc = useAppSelector(selectAccount);
-
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [anchorElRefs, setAnchorElRefs] = React.useState<null | HTMLElement>(null);
+    const [anchorElRefs, setAnchorElRefs] = React.useState<null | HTMLElement>(null);    
+    const [submenuAnchorEl, setSubmenuAnchorEl] = useState<null | HTMLElement>(null);
+    const [submenuItems, setSubmenuItems] = useState<IMenu[] | null>([]);
+
+    const handleNavigate = (page: IMenu) => {
+        if(page.navUrl){
+            navigate(page.navUrl)
+            handleClose()
+        } 
+    }
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -32,6 +41,13 @@ export const MainBar = () => {
 
     const handleClose = () => {
         setAnchorEl(null);
+        setSubmenuAnchorEl(null)
+        setSubmenuItems(null)
+    };
+
+    const handleSubmenu = (event: React.MouseEvent<HTMLElement>, children: IMenu[]) => {
+        setSubmenuAnchorEl(event.currentTarget);
+        setSubmenuItems(children);
     };
 
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -40,11 +56,7 @@ export const MainBar = () => {
 
     const handleCloseMenu = () => {
         setAnchorElRefs(null);
-    }
-
-    const handleNavigate = (page: IMenu) => {
-        navigate(page.navUrl!)
-    }
+    }    
 
     const handleLogout = () => {
         dispatch(logout(true))
@@ -62,13 +74,36 @@ export const MainBar = () => {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: 'flex' }}>
                         {pages.map((page) => (
-                            <Button
-                                key={page.navUrl}
-                                onClick={() => handleNavigate(page)}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page.title}
-                            </Button>
+                            <React.Fragment key={page.navUrl || page.title}>
+                            {page.children ? (
+                                <div>
+                                    <Button
+                                        onClick={(event) => handleSubmenu(event, page.children!)}
+                                        sx={{ my: 2, color: 'white', display: 'block' }}
+                                    >
+                                        {page.title}
+                                    </Button>
+                                    <Menu
+                                        anchorEl={submenuAnchorEl}
+                                        open={Boolean(submenuAnchorEl) && submenuItems === page.children}
+                                        onClose={handleClose}
+                                    >
+                                        {page.children.map((subPage) => (
+                                            <MenuItem key={subPage.navUrl} onClick={() => handleNavigate(subPage)}>
+                                                {subPage.title}
+                                            </MenuItem>
+                                        ))}
+                                    </Menu>
+                                </div>
+                            ) : (
+                                <Button
+                                    onClick={() => handleNavigate(page)}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page.title}
+                                </Button>
+                            )}
+                        </React.Fragment>
                         ))}
                     </Box>
                     {acc.isAuth && (

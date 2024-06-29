@@ -9,6 +9,8 @@ import { IndexPage, ReportPage, UniFormItemPage } from "pages";
 import { UniFormPage } from "pages/uniform-page";
 import { UniFormColumnPage } from "pages/unform-column-page";
 import AdminPage from "pages/admin-page";
+import RefUniverRefPage from "pages/ref-univ-page";
+import RefBusinPage from "pages/ref-busin-page";
 const MainPage = lazy(() => import('pages').then(module => ({ default: module.MainPage })));
 const FormsPage = lazy(() => import('pages').then(module => ({ default: module.FormsPage })));
 const ErrorPage = lazy(() => import('pages').then(module => ({ default: module.ErrorPage })));
@@ -130,7 +132,7 @@ export const AppRouter = createBrowserRouter([
         element: (
             (<Suspense fallback={<BigSinner />}>
                 <ProtectedRoute>
-                    <AdminPage />
+                    <RefUniverRefPage />
                 </ProtectedRoute>
             </Suspense>)
         )
@@ -140,7 +142,7 @@ export const AppRouter = createBrowserRouter([
         element: (
             (<Suspense fallback={<BigSinner />}>
                 <ProtectedRoute>
-                    <AdminPage />
+                    <RefBusinPage />
                 </ProtectedRoute>
             </Suspense>)
         )
