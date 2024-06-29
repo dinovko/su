@@ -4,11 +4,11 @@ import './uni-form-table.css'
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { format } from 'date-fns';
+//import { format } from 'date-fns';
 import { UniFormCreate } from './uni-form-create';
 
 type UniFormTableProps = {
-    onCreate: (e:any) => void;
+    onCreate: (e: any) => void;
     onEditRow: (id: string | undefined) => void;
     data: IApprovedForm[]
 }
@@ -30,7 +30,7 @@ export const UniFormTable: React.FC<UniFormTableProps> = ({ data, onCreate, onEd
                         <Button
                             variant="outlined"
                             startIcon={<AddCircleOutlineOutlinedIcon />}
-                            onClick={()=>setopenModal(true)}
+                            onClick={() => setopenModal(true)}
                         >
                             Создать
                         </Button>
