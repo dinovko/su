@@ -79,11 +79,11 @@ export const ReportsList: React.FC<ReportsListProps> = ({ katoID }) => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Год</TableCell>
-                            <TableCell align="right">месяц</TableCell>
+                            {/* <TableCell align="right">месяц</TableCell> */}
                             <TableCell align="right">статус</TableCell>
-                            <TableCell align="right">редактировать</TableCell>
-                            <TableCell align="right">Водоснабжение</TableCell>
-                            <TableCell align="right">Водоотведение</TableCell>
+                            <TableCell align="right"></TableCell>
+                            {/* <TableCell align="right">Водоснабжение</TableCell> */}
+                            {/* <TableCell align="right">Водоотведение</TableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -96,22 +96,22 @@ export const ReportsList: React.FC<ReportsListProps> = ({ katoID }) => {
                                 <TableCell component="th" scope="row">
                                     {row.reportYearId}
                                 </TableCell>
-                                <TableCell align="right">{row.reportMonthId}</TableCell>
+                                {/* <TableCell align="right">{row.reportMonthId}</TableCell> */}
                                 <TableCell align="right">{row.refStatusLabel}</TableCell>
-                                <TableCell align="right">редактировать</TableCell>
+                                {/* <TableCell align="right">редактировать</TableCell> */}
                                 <TableCell align="right"><Button variant="contained"
                                     endIcon={<OpenInNewOutlinedIcon />}
                                     onClick={() => handleOpenForm(row.id)}>
                                     открыть
                                 </Button>
                                 </TableCell>
-                                <TableCell align="right">
+                                {/* <TableCell align="right">
                                     <Button variant="contained"
                                         disabled={true}
                                         endIcon={<OpenInNewOutlinedIcon />}>
                                         открыть
                                     </Button>
-                                </TableCell>
+                                </TableCell> */}
                             </TableRow>
                         ))}
                     </TableBody>

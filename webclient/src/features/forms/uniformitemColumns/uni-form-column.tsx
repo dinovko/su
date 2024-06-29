@@ -28,7 +28,7 @@ export const UniFormColumn = () => {
                 <thead>
                     <tr>
                         <th>№</th>
-                        {colsTab && colsTab.map((th) => (<th key={th.id}>{th.thRu}</th>))}
+                        {colsTab && colsTab.map((th) => (<th key={th.id}>{th.name}</th>))}
                     </tr>
                 </thead>
                 <tbody>

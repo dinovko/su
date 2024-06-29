@@ -1,4 +1,6 @@
-﻿namespace WebServer.Dtos
+﻿using WebServer.Emuns;
+
+namespace WebServer.Dtos
 {
     public class DataTableDto
     {

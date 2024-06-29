@@ -59,6 +59,9 @@ const unformItemColumnSlice = createSlice({
     name: 'unformItemColumnSlice',
     initialState: initialState,
     reducers: {
+        addColumn: (state: thisSliceState, action: PayloadAction<IApprovedFormItemColumn>) => {
+            state.data.push(action.payload)
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchApprovedFormItemColumn.fulfilled, (state: thisSliceState, action: PayloadAction<IApprovedFormItemColumn[]>) => {
@@ -79,6 +82,6 @@ const unformItemColumnSlice = createSlice({
 // reducer
 export const unformItemColumnReducer = unformItemColumnSlice.reducer;
 // action
-export const { } = unformItemColumnSlice.actions;
+export const { addColumn } = unformItemColumnSlice.actions;
 // selector
 export const selectUniformCols = (state: RootState) => state.unfCol.data;

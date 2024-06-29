@@ -53,7 +53,7 @@ export const DataTable: React.FC<DataTableProps> = ({ tabid }) => {
                 <TableHead>
                     <TableRow>
                         {headers && headers.map((tc, index) => (
-                            <TableCell key={index} width={'50px'} sx={{ maxWidth: '50px' }}>{tc.thRu}</TableCell>
+                            <TableCell key={index} width={'50px'} sx={{ maxWidth: '50px' }}>{tc.name}</TableCell>
                         ))}
                     </TableRow>
                 </TableHead>

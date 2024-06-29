@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebServer.Data;
 using WebServer.Dtos;
+using WebServer.Emuns;
 using WebServer.Interfaces;
 using WebServer.Models;
 
@@ -51,7 +52,7 @@ namespace WebServer.Reposotory
                         ApprovedFormItemId = rowData.ApprovedFormItemId,
                         ApproverFormColumnId = rowData.ApproverFormColumnId,
                         ValueType = rowData.ValueType,
-                        ValueJson = rowData.ValueJson,
+                        ValueJson = rowData.ValueType == 0 ? col.NameRu : rowData.ValueJson,
                     });
                 }
                 else
@@ -62,8 +63,8 @@ namespace WebServer.Reposotory
                         ApprovedFormId = id,
                         ApprovedFormItemId = col.ApprovedFormItemId,
                         ApproverFormColumnId = col.Id,
-                        ValueType = col.DataType,
-                        ValueJson = GetJsonByDatatype(col.DataType)
+                        ValueType = (int)col.DataType,
+                        ValueJson = col.DataType == 0 ? col.NameRu : GetJsonByDatatype(col.DataType)
                     });
 
                 }
@@ -74,25 +75,25 @@ namespace WebServer.Reposotory
         private string GetJsonValue(List<Models.Data> cols, Guid id, int dataType)
         {
             var json = cols.FirstOrDefault(x => x.ApproverFormColumnId == id);
-            if (cols.Count == 0 || json == null) return GetJsonByDatatype(dataType);
+            if (cols.Count == 0 || json == null) return GetJsonByDatatype((Enums.DataTypeEnum)dataType);
             return json.ValueJson;
         }
 
-        private string GetJsonByDatatype(int datatype)
+        private string GetJsonByDatatype(Enums.DataTypeEnum datatype)
         {
             switch (datatype)
             {
-                case 0:
+                case Enums.DataTypeEnum.Label:
                     return string.Empty;
-                case 1:
+                case Enums.DataTypeEnum.IntegerType:
                     return "0";
-                case 2:
+                case Enums.DataTypeEnum.DecimalType:
                     return "0.0";
-                case 3:
+                case Enums.DataTypeEnum.StringType:
                     return string.Empty;
-                case 4:
+                case Enums.DataTypeEnum.BooleanType:
                     return "false";
-                case 5:
+                case Enums.DataTypeEnum.DateType:
                     return DateTime.Now.ToShortDateString();
                 default:
                     throw new InvalidOperationException("Invalid ValueType");
@@ -121,7 +122,7 @@ namespace WebServer.Reposotory
                         CreateDate = DateTime.UtcNow,
                         IsDel = false,
                         ValueJson = item.ValueJson,
-                        ValueType = item.ValueType,
+                        ValueType = (int)item.ValueType,
                     });
                 }
             }

@@ -11,12 +11,11 @@ type ReportPeriodProps = {
     onSetPeriod: (p: IFormPeriod) => void;
 }
 export const ReportPeriod: React.FC<ReportPeriodProps> = ({ onSetPeriod }) => {
-    const [age, setAge] = React.useState('');
     const [years, setyears] = React.useState<number[]>([]);
     const [months, setmonths] = React.useState<MonthProps[]>([]);
     const [period, setperiod] = React.useState<IFormPeriod>({
         year: 2024,
-        month: 1
+        month: 0
     })
 
     useEffect(() => {
@@ -51,8 +50,8 @@ export const ReportPeriod: React.FC<ReportPeriodProps> = ({ onSetPeriod }) => {
         setperiod({ ...period, month: val });
     };
     return (
-        <Box sx={{ minWidth: 120, display: 'flex', justifyContent: 'space-around', alignItems: 'center', width:'500px' }}>
-            <FormControl sx={{width:'150px'}}>
+        <Box sx={{ minWidth: 120, display: 'flex', justifyContent: 'space-around', alignItems: 'center', width: '400px', flexWrap: 'wrap', }}>
+            <FormControl sx={{ width: '150px' }}>
                 <InputLabel id="demo-simple-select-label">Год</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -64,7 +63,7 @@ export const ReportPeriod: React.FC<ReportPeriodProps> = ({ onSetPeriod }) => {
                     {years && years.map((row) => (<MenuItem key={row} value={row}>{row}</MenuItem>))}
                 </Select>
             </FormControl>
-            <FormControl sx={{width:'150px'}}>
+            <FormControl sx={{ width: '150px', display: 'none' }}>
                 <InputLabel id="demo-simple-select-label">Месяц</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -76,7 +75,9 @@ export const ReportPeriod: React.FC<ReportPeriodProps> = ({ onSetPeriod }) => {
                     {months && months.map((row) => (<MenuItem key={row.id} value={row.id}>{row.label}</MenuItem>))}
                 </Select>
             </FormControl>
-            <Button variant="contained" onClick={() => onSetPeriod(period)}>Сохранить</Button>
+            <FormControl sx={{ width: '150px' }}>
+                <Button variant="contained" onClick={() => onSetPeriod(period)}>Добавить</Button>
+            </FormControl>
         </Box>
     )
 }

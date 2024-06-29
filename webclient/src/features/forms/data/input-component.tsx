@@ -24,7 +24,7 @@ export const InputComponent: React.FC<InputComponentProps> = ({ id, vtype, val, 
         } else {
             setlocalState(val);
         }
-    }, [,id])
+    }, [, id])
 
     // const types: string[] = ['Текст заголовка', 'Целочисленный', 'Число с плавающей запятой (двойная точность)', 'Строка', 'Логический', 'Дата', 'Формула'];
 
@@ -33,6 +33,10 @@ export const InputComponent: React.FC<InputComponentProps> = ({ id, vtype, val, 
         const newValueCheck = e.target.checked;
         // console.info('handleChange', e, newValue, newValueCheck)
         switch (vtype) {
+            case 0: {
+
+            }
+                break;
             case 1: {
                 if (/^-?\d*$/.test(newValue)) {
                     setlocalState(parseInt(newValue, 10) || 0);

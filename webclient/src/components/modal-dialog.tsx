@@ -26,7 +26,7 @@ const ModalDialog: React.FC<ModalDialogProps> = ({ open, onClose, title, childre
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
-          outline: 'none'
+          outline: 'none',
         }}
       >
         <Typography id="modal-dialog-title" variant="h6" component="h2">
@@ -35,9 +35,11 @@ const ModalDialog: React.FC<ModalDialogProps> = ({ open, onClose, title, childre
         <Box id="modal-dialog-description" sx={{ mt: 2 }}>
           {children}
         </Box>
-        <Button onClick={onClose} sx={{ mt: 2 }}>
-          Close
-        </Button>
+        <Box sx={{display:'flex', justifyContent:'flex-end'}}>
+          <Button onClick={onClose} sx={{ mt: 2 }}>
+            Закрыть
+          </Button>
+        </Box>
       </Box>
     </Modal>
   );

@@ -1,12 +1,13 @@
-﻿using WebServer.Models;
+﻿using WebServer.Dtos;
+using WebServer.Models;
 
 namespace WebServer.Interfaces
 {
     public interface IFormItemColumn
     {
-        public Task<List<ApprovedFormItemColumn>> GetForms(Guid tabId);
-        public Task<ApprovedFormItemColumn> Add(ApprovedFormItemColumn aForm);
-        public Task<ApprovedFormItemColumn> Update(ApprovedFormItemColumn aForm);
+        public Task<List<ApprovedFormItemColumnServDto>> GetForms(Guid tabId);
+        public Task<ApprovedFormItemColumnServDto> Add(ApprovedFormItemColumnServDto aForm);
+        public Task<ApprovedFormItemColumnServDto> Update(ApprovedFormItemColumnServDto aForm);
         public Task<ApprovedFormItemColumn> Delete(Guid id);
     }
 }

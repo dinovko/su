@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebServer.Models;
+using static WebServer.Emuns.Enums;
 
 namespace WebServer.Dtos
 {
@@ -7,9 +8,15 @@ namespace WebServer.Dtos
     {
         public Guid Id { get; set; }
         public Guid ApprovedFormItemId { get; set; }
-        public int DataType { get; set; }
-        public string ThRu { get; set; } = "";        
-        public string ThKk { get; set; } = "";        
+        public DataTypeEnum DataType { get; set; }
+        public int Length { get; set; }
+        public bool Nullable { get; set; }
+        public string? Name { get; set; }
+        public string? NameKk { get; set; }
+        public string? NameRu { get; set; }
         public int DisplayOrder { get; set; } = 1;
+        public bool IsVillage { get; set; } = false;
+        public ColumnLayout? Layout { get; set; }
+        public string? ReportCode { get; set; }
     }
 }

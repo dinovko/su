@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebServer.Data;
 using WebServer.Dtos;
+using WebServer.Emuns;
 using WebServer.Interfaces;
 using WebServer.Models;
+using static WebServer.Emuns.Enums;
 
 namespace WebServer.Reposotory
 {
@@ -49,7 +51,7 @@ namespace WebServer.Reposotory
                     RefKatoId = form.RefKatoId,
                     RefStatusId = form.RefStatusId,
                     RefStatusLabel = GetStatusLabelById(form.RefStatusId),
-                    ReportMonthId = form.ReportMonthId,
+                    ReportMonthId = 0,
                     ReportYearId = form.ReportYearId,
                 };
                 //await _dbSetForm
@@ -106,7 +108,7 @@ namespace WebServer.Reposotory
                         RefKatoId = x.RefKatoId,
                         RefStatusId = x.RefStatusId,
                         RefStatusLabel = x.RefStatus!= null ? x.RefStatus.NameRu : "статус не определен",
-                        ReportMonthId = x.ReportMonthId,
+                        ReportMonthId = 0,
                         ReportYearId = x.ReportYearId,
                     })
                     .ToListAsync();
@@ -143,8 +145,10 @@ namespace WebServer.Reposotory
                     Id = x.Id,
                     ApprovedFormItemId = x.ApprovedFormItemId,
                     DataType = x.DataType,
-                    ThRu = x.ThRu,
-                    ThKk = x.ThKk,
+                    NameRu = x.NameRu,
+                    NameKk = x.NameKk,
+                    Length = x.Length,
+                    Nullable = x.Nullable,
                     DisplayOrder = x.DisplayOrder
                 })
                 .ToListAsync();
@@ -166,8 +170,8 @@ namespace WebServer.Reposotory
                 .Select(x => new ApprovedFormItemColumnTableDto()
                 {
                     Id = x.Id,
-                    DataType = x.DataType,
-                    Th = x.ThRu,
+                    DataType = (int)x.DataType,
+                    Name = x.NameRu,
                     DisplayOrder = x.DisplayOrder,
                     //Data = x.DataJson
                 })
@@ -175,19 +179,19 @@ namespace WebServer.Reposotory
                 .ToListAsync();
         }
 
-        public async Task<Guid> UpdateApprovedFormItemColumnTable(ApprovedFormItemColumnTableDto model)
-        {
-            var obj = await _dbSetApprovedFormItemColumn.FindAsync(model.Id);
-            if(obj == null) throw new Exception("Объект не найден");
-            obj.DataType = model.DataType;
-            obj.ThRu = model.Th;
-            obj.DisplayOrder = model.DisplayOrder;
-            //obj.DataJson = model.Data;
+        //public async Task<Guid> UpdateApprovedFormItemColumnTable(ApprovedFormItemColumnTableDto model)
+        //{
+        //    var obj = await _dbSetApprovedFormItemColumn.FindAsync(model.Id);
+        //    if(obj == null) throw new Exception("Объект не найден");
+        //    obj.DataType = (Enums.DataTypeEnum)model.DataType;
+        //    obj.Name = model.Name;
+        //    obj.DisplayOrder = model.DisplayOrder;
+        //    //obj.DataJson = model.Data;
 
-            _context.Entry(obj).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return model.Id;
-        }
+        //    _context.Entry(obj).State = EntityState.Modified;
+        //    await _context.SaveChangesAsync();
+        //    return model.Id;
+        //}
 
         public async Task<List<ApprovedFormItem>> GetTabsByServiceID(int id)
         {

@@ -255,15 +255,25 @@ namespace WebServer.Migrations
                         .HasColumnType("boolean")
                         .HasComment("Признак села");
 
-                    b.Property<string>("ThKk")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasComment("Заголовок столбца на Qaz");
+                    b.Property<int>("Length")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("ThRu")
+                    b.Property<string>("NameKk")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasComment("Заголовок столбца на ру");
+                        .HasComment("Заголовок столбца на казахском");
+
+                    b.Property<string>("NameRu")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasComment("Заголовок столбца на русский");
+
+                    b.Property<bool>("Nullable")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ReportCode")
+                        .HasColumnType("text")
+                        .HasComment("уникальный код для отчета внутри формы, может дублироваться в других формах");
 
                     b.HasKey("Id");
 
@@ -314,6 +324,31 @@ namespace WebServer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Business_Dictionary");
+                });
+
+            modelBuilder.Entity("WebServer.Models.ColumnLayout", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ApprovedFormItemColumnId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("Height")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Width")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovedFormItemColumnId");
+
+                    b.ToTable("ColumnLayouts");
                 });
 
             modelBuilder.Entity("WebServer.Models.Data", b =>
@@ -553,6 +588,14 @@ namespace WebServer.Migrations
 
                     b.Property<int>("ParentId")
                         .HasColumnType("integer");
+
+                    b.Property<int?>("ParentObl")
+                        .HasColumnType("integer")
+                        .HasComment("Область Астана,Алматы...сам на себя ссылка, если район код области");
+
+                    b.Property<int?>("ParentRaion")
+                        .HasColumnType("integer")
+                        .HasComment("Если это район, он смотрит сам на себя, если это село, код района,");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
@@ -948,6 +991,17 @@ namespace WebServer.Migrations
                         .IsRequired();
 
                     b.Navigation("ApprovedFormItem");
+                });
+
+            modelBuilder.Entity("WebServer.Models.ColumnLayout", b =>
+                {
+                    b.HasOne("WebServer.Models.ApprovedFormItemColumn", "ApprovedFormItemColumn")
+                        .WithMany()
+                        .HasForeignKey("ApprovedFormItemColumnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApprovedFormItemColumn");
                 });
 
             modelBuilder.Entity("WebServer.Models.Pipeline", b =>

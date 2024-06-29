@@ -30,5 +30,11 @@ namespace WebServer.Models
         public bool IsReportable { get; set; } = false;
         [Comment("Категории населенных пунктов. 1-городские(города республиканского, областного и районного значения,поселки), 2-сельские(все остальные)")]
         public int? KatoLevel { get; set; }
+
+        [Comment("Если это район, он смотрит сам на себя, если это село, код района,")]
+        public int? ParentRaion { get; set; }
+
+        [Comment("Область Астана,Алматы...сам на себя ссылка, если район код области")]
+        public int? ParentObl { get; set; }
     }
 }

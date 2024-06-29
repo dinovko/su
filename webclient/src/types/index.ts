@@ -399,9 +399,22 @@ export interface IApprovedFormItemColumn {
     id: string;
     approvedFormItemId: string;
     dataType: number;
-    thRu: string;
-    thKk: string;
+    name?: string;
+    nameKk?: string;
+    nameRu?: string;
+    length: number;
     displayOrder: number;
+    nullable:boolean;
+    reportCode:string;
+    layout?: IColumnLayout;
+}
+
+export interface IColumnLayout {
+    id: string;
+    approvedFormItemColumnId: string;
+    height: number;
+    width: number;
+    position: string;
 }
 
 export interface IData {
@@ -424,27 +437,27 @@ export interface ITab {
 }
 
 export interface ICols {
-    id:string;
-    approvedFormItemId:string;
-    dataType:number;
-    thRu:string;
-    thKk:string;
-    displayOrder:number;
+    id: string;
+    approvedFormItemId: string;
+    dataType: number;
+    name: string;
+    reportCode:string;
+    displayOrder: number;
 }
 
-export interface IRole{
+export interface IRole {
     id: number,
     label: string
 }
 
-export interface ISignUpDTO{
+export interface ISignUpDTO {
     login: string,
     password: string,
     katoCode: number,
     roles: number[]
 }
 
-export interface ISignUpResponseDTO{
+export interface ISignUpResponseDTO {
     login: string,
     password: string
 }

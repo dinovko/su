@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebServer.Dtos;
 using WebServer.Interfaces;
 using WebServer.Models;
 
@@ -29,7 +30,7 @@ namespace WebServer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(ApprovedFormItemColumn aForm)
+        public async Task<IActionResult> Add(ApprovedFormItemColumnServDto aForm)
         {
             try
             {
@@ -42,7 +43,7 @@ namespace WebServer.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(ApprovedFormItemColumn aForm)
+        public async Task<IActionResult> Update(ApprovedFormItemColumnServDto aForm)
         {
             try
             {
