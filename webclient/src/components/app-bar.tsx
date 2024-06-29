@@ -9,14 +9,17 @@ import { useNavigate } from 'react-router-dom';
 import { Profile } from 'features';
 
 const pages: IMenu[] = [
-    { title: 'Пользователи', navUrl: '/users' },
+    /* { title: 'Пользователи', navUrl: '/users' }, */
+    { title: 'Пользователи', children:[
+        {title: 'Пользователи', navUrl: '/users' },
+        { title: 'Админка', navUrl: '/admin' },
+    ] },
     { title: 'Като', navUrl: '/refs/kato', },
     { title: 'Формы', navUrl: '/reports' },
-    { title: 'Редактирование форм', navUrl: '/uniform/view' },
-    { title: 'Админка', navUrl: '/admin' },
+    { title: 'Редактирование форм', navUrl: '/uniform/view' },    
     { title: 'Справчоники', children: [
-        {title: 'Справ Универсал', navUrl:'/refUniver'},
-        {title: 'Справ Бизнес', navUrl:'/refBusines'}
+        {title: 'Системные справочники', navUrl:'/refUniver'},
+        {title: 'Бизнес справочники', navUrl:'/refBusines'}
     ]}            
 ];
 export const MainBar = () => {
@@ -108,6 +111,9 @@ export const MainBar = () => {
                     </Box>
                     {acc.isAuth && (
                         <div>
+                            <Typography variant="body1" component="div" sx={{ marginRight: 2 }}>
+                                {acc.email}
+                            </Typography>
                             <IconButton
                                 size="large"
                                 aria-label="account of current user"

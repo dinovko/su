@@ -56,7 +56,7 @@ namespace WebServer.Reposotory
 
         public async Task<List<RefBusinesDictDto>> GetBusinesDictList()
         {
-            return await _dbSetUniver.Select(x => new RefBusinesDictDto
+            return await _dbSetBusines.Select(x => new RefBusinesDictDto
             {
                 Id = x.Id,
                 ParentId = x.ParentId,
